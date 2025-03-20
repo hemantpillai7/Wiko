@@ -1,21 +1,21 @@
-import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { useEffect } from 'react';
+import { Dimensions,  StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, {  useState } from 'react';
 
 import Constants from '../constants/Constants';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Colors from '../constants/Colors';
 
 import BackIcon from '../assets/images/ic_CancelIcon.svg';
+import MyValidator from '../utils/MyValidator';
 
-const SignInScreen = ({ navigation , route  }) => {
+const SignInScreen = ({ navigation }) => {
 
-  const { from } = route.params || {}; // Handle cases where params might be undefined
 
-  useEffect(()=>
-  {
-    console.log("from ",from);
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
 
-  },[])
+  const [Error_Email, setError_Email] = useState('');
+  const [Error_Password, setError_Password] = useState('');
 
   const BackPress = () => {
     navigation.goBack();
@@ -26,7 +26,33 @@ const SignInScreen = ({ navigation , route  }) => {
   };
 
   const onSignInScreen = () => {
-    navigation.navigate('SignInScreen');
+    const result = ValidateForm();
+
+    if (result) {
+
+      navigation.navigate('HomeScreen');
+
+    }
+  };
+
+  const ValidateForm = () => {
+
+    var result = true;
+
+    setError_Email('');
+    setError_Password('');
+
+    if (!MyValidator.isEmptyField(Email).isValid) {
+      setError_Email(MyValidator.isEmptyField(Email).Response);
+      result = false;
+    }
+
+    if (!MyValidator.isEmptyField(Password).isValid) {
+      setError_Password(MyValidator.isEmptyField(Password).Response);
+      result = false;
+    }
+
+    return result;
   };
 
 
@@ -37,30 +63,39 @@ const SignInScreen = ({ navigation , route  }) => {
       <BackIcon height={30} width={30} color={Colors.AppSecondaryColor} style={AppStyles.BackIconBg} onPress={() => BackPress()} />
 
 
-      <Text style={AppStyles.TitleOne}>{`Welcome back!\nGlad to see you,\nAgain!`}</Text>
+      <Text style={AppStyles.TitleOne}>{'Welcome back!\nGlad to see you,\nAgain!'}</Text>
 
-      <Text style={AppStyles.InputLabel}>{`Email`}</Text>
+      <Text style={AppStyles.InputLabel}>{'Email'}</Text>
 
       <TextInput
         style={AppStyles.InputBoxBg}
-        placeholder='Email'
-        inputMode='email'
+        placeholder="Email"
+        inputMode="email"
         numberOfLines={1}
+        value={Email}
+        onChangeText={setEmail}
         placeholderTextColor={Colors.InputBoxLayout}
         returnKeyType="next"
         onSubmitEditing={() => this.pass?.focus()} // Moves to password field
       />
+      {Error_Email !== '' && (<Text style={AppStyles.ErrorDisplay}>{Error_Email}</Text>)}
 
-      <Text style={[AppStyles.InputLabel, { marginTop: 20, }]}>{`Password`}</Text>
+
+      <Text style={[AppStyles.InputLabel, { marginTop: 20 }]}>{'Password'}</Text>
 
       <TextInput
         style={AppStyles.InputBoxBg}
-        placeholder='Password'
-        inputMode='text'
+        placeholder="Password"
+        inputMode="text"
         numberOfLines={1}
+        value={Password}
+        onChangeText={setPassword}
         placeholderTextColor={Colors.InputBoxLayout}
         ref={(input) => (input)} // Assigns reference without declaring useRef
       />
+      {Error_Password !== '' && (<Text style={AppStyles.ErrorDisplay}>{Error_Password}</Text>)}
+
+
 
       <TouchableOpacity
         style={AppStyles.ForgetPassTextBg}
@@ -162,5 +197,13 @@ const AppStyles = StyleSheet.create({
     color: 'white',
     alignSelf: 'center',
     marginVertical: 20,
+  },
+  ErrorDisplay:
+  {
+    color: Colors.ErrorMsgColor,
+    paddingHorizontal: 20,
+    fontSize: RFValue(12),
+    marginTop: 3,
+    fontFamily: 'DMSans-Regular',
   },
 });

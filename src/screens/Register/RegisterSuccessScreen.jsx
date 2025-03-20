@@ -11,7 +11,7 @@ import Colors from '../../constants/Colors';
 import SuccessIcon from '../../assets/images/ic_SuccessPagBg.svg';
 import TickIcon from '../../assets/images/ic_SuccessPagTick.svg';
 
-const ForgetPasswordSuccess = ({ navigation }) => {
+const RegisterSuccessScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const rotateAnim = useRef(new Animated.Value(0)).current; // Animated value for rotation
 
@@ -24,14 +24,10 @@ const ForgetPasswordSuccess = ({ navigation }) => {
       })
     ).start();
 
-    setTimeout(() => {
-      setLoading(false);
-      // navigation.reset({
-      //   index: 0,
-      //   routes: [{ name: 'SignInScreen', params: { from: 'OTPVerification' } }]
-      // });
-      navigation.pop(5);
-    }, 2500);
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   navigation.pop(3);
+    // }, 2500);
 
   },);
 
@@ -44,12 +40,14 @@ const ForgetPasswordSuccess = ({ navigation }) => {
     setLoading(true);
 
     setLoading(false);
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{ name: 'SignInScreen', params: { from: 'OTPVerification' } }]
-    // });
-    navigation.pop(5);
+    navigation.pop(3);
+
   };
+
+  const onPressContinue = () => {
+
+      navigation.navigate('ProfileAddScreen');
+  }
 
   return (
     <KeyboardAvoidingView style={AppStyles.ContainerBg}>
@@ -69,24 +67,32 @@ const ForgetPasswordSuccess = ({ navigation }) => {
         </View>
       </View>
 
-      <Text style={AppStyles.Title}>Password Changed!</Text>
+      <Text style={AppStyles.Title}>All done</Text>
 
       <Text style={AppStyles.SubTitle}>
-        Congratulations! Your password has{'\n'}been changed successfully
+        Congratulations! Your account has{'\n'}been successfully added
       </Text>
 
       {/* Back to Sign In Button */}
-      <TouchableOpacity style={AppStyles.BtnBg} onPress={onPressBack}>
+      <TouchableOpacity style={AppStyles.BtnBg} onPress={onPressContinue}>
         <View style={AppStyles.BtnLoaderContainer}>
-          <Text style={AppStyles.BtnTextbg}>Back to Sign in</Text>
+          <Text style={AppStyles.BtnTextbg}>Continue</Text>
         </View>
+      </TouchableOpacity>
+
+
+      <TouchableOpacity style={AppStyles.LinkTextBg}
+        onPress={() => onPressBack()}
+      >
+        <Text style={AppStyles.LinkTextStyle}>{'Back to Sign in'}</Text>
+
       </TouchableOpacity>
 
     </KeyboardAvoidingView>
   );
 };
 
-export default ForgetPasswordSuccess;
+export default RegisterSuccessScreen;
 
 const { width, height } = Dimensions.get(Constants.ScreenType);
 const AppStyles = StyleSheet.create({
@@ -145,5 +151,20 @@ const AppStyles = StyleSheet.create({
     fontSize: RFValue(15),
     fontFamily: 'DMSans-SemiBold',
     color: 'white',
+  },
+  LinkTextBg:
+  {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    marginBottom: height * 0.05,
+    alignContent: 'flex-end',
+    position:'absolute',
+    bottom: 5,
+  },
+  LinkTextStyle:
+  {
+    fontSize: RFValue(15),
+    fontFamily: 'DMSans-Bold',
+    color: Colors.AppSecondaryColor,
   },
 });

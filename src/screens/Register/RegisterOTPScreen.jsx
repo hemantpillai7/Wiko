@@ -10,7 +10,7 @@ import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
 import OTPInputComp from '../../components/OTPInputComp';
 import LoaderButton from '../../components/LoaderButton';
 
-const ForgetPassOTPScreen = ({ navigation }) => {
+const RegisterOTPScreen = ({ navigation, route, }) => {
 
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState("");
@@ -19,6 +19,10 @@ const ForgetPassOTPScreen = ({ navigation }) => {
   const countdownNo = Constants.OTPCountDown;
   const [ResendTimes, setResendTimes] = useState(0);
   const [countdown, setCountdown] = useState(countdownNo);
+
+  const { Email } = route.params;
+  const { MobileNO } = route.params;
+  const { Password } = route.params;
 
 
   const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
@@ -47,7 +51,7 @@ const ForgetPassOTPScreen = ({ navigation }) => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      navigation.navigate('ForgetPassChange'); // Navigate after loading finishes
+      navigation.navigate('RegisterSuccessScreen'); // Navigate after loading finishes
     }, 1000);
   };
 
@@ -65,10 +69,11 @@ const ForgetPassOTPScreen = ({ navigation }) => {
       <BackIcon height={30} width={30} color={Colors.AppSecondaryColor} style={AppStyles.BackIconBg} onPress={() => BackPress()} />
 
 
-      <Text style={AppStyles.Title}>{`OTP Verification`}</Text>
+      <Text style={AppStyles.Title}>{'OTP Verification'}</Text>
 
-      <Text style={AppStyles.SubTitle}>{`Enter the verification code \nwe just sent on your email address.`}</Text>
-
+      <Text style={AppStyles.SubTitle}>
+        {`Enter the 4-digit code \nwe texted to +xx xxxxx xxx${MobileNO.toString().slice(-2)}`}
+      </Text>
 
       <View style={AppStyles.OTPContainerBg}>
 
@@ -86,9 +91,9 @@ const ForgetPassOTPScreen = ({ navigation }) => {
         </View>
       </View>
 
+
+      {/* Verify Btn */}
       <LoaderButton name={'Verify'} onPress={onPressSendCode} loading={loading} style={AppStyles.BtnBg}/>
-
-
 
       {ResendTimes < 3 && countdown === 0 && (
 
@@ -116,7 +121,7 @@ const ForgetPassOTPScreen = ({ navigation }) => {
   );
 };
 
-export default ForgetPassOTPScreen;
+export default RegisterOTPScreen;
 
 const { width, height } = Dimensions.get(Constants.ScreenType);
 const AppStyles = StyleSheet.create({

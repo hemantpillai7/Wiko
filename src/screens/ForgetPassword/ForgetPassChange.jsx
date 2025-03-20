@@ -6,6 +6,7 @@ import Constants from '../../constants/Constants';
 import Colors from '../../constants/Colors';
 
 import BackIcon from '../../assets/images/ic_BackArrow.svg';
+import LoaderButton from '../../components/LoaderButton';
 
 const ForgetPassChange = ({ navigation }) => {
 
@@ -72,12 +73,8 @@ const ForgetPassChange = ({ navigation }) => {
         ref={confirmPassRef} // Assigns reference using useRef
       />
 
-      <TouchableOpacity style={AppStyles.BtnBg} onPress={() => onPressUpdatePass()}>
-        <View style={AppStyles.BtnLoaderContainer}>
-          {/* {loading && <ActivityIndicator size={21} color="#fff" style={AppStyles.loader} />} */}
-          <Text style={AppStyles.BtnTextbg}>Update Password</Text>
-        </View>
-      </TouchableOpacity>
+      <LoaderButton name={'Update Password'} onPress={() => onPressUpdatePass()} loading={loading} style={AppStyles.BtnBg}/>
+
 
     </KeyboardAvoidingView >
   );
@@ -134,34 +131,6 @@ const AppStyles = StyleSheet.create({
     marginHorizontal: '5%',
     marginTop: 10,
     fontSize: RFValue(15),
-  },
-  BtnBg:
-  {
-    width: '90%',
-    backgroundColor: Colors.AppSecondaryColor,
-    borderRadius: 10,
-    alignSelf: 'center',
-    marginTop: height * 0.1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center', // Ensures content is centered
-    paddingVertical: 20, // Adds padding to balance the button
-  },
-  BtnLoaderContainer:
-  {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  BtnTextbg:
-  {
-    fontSize: RFValue(15),
-    fontFamily: 'DMSans-SemiBold',
-    color: 'white',
-  },
-  loader: {
-    marginRight: 8,
   },
 
 });

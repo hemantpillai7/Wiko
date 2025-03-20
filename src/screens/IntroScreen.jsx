@@ -40,9 +40,10 @@ const IntroScreen = ({ navigation }) => {
 
 
         <TouchableOpacity
-          style={AppStyles.RegisterTextBg}>
+          style={AppStyles.RegisterTextBg}
+          onPress={() => navigation.navigate('RegisterScreen')}
+        >
           <Text style={AppStyles.RegisterTextStyle}>Register</Text>
-
         </TouchableOpacity>
 
       </View>

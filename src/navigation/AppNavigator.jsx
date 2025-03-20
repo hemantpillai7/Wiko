@@ -16,6 +16,10 @@ import ForgetPassword from '../screens/ForgetPassword/ForgetPassword';
 import ForgetPassOTPScreen from '../screens/ForgetPassword/ForgetPassOTPScreen';
 import ForgetPassChange from '../screens/ForgetPassword/ForgetPassChange';
 import ForgetPasswordSuccess from '../screens/ForgetPassword/ForgetPasswordSuccess';
+import RegisterScreen from '../screens/Register/RegisterScreen';
+import RegisterOTPScreen from '../screens/Register/RegisterOTPScreen';
+import RegisterSuccessScreen from '../screens/Register/RegisterSuccessScreen';
+import ProfileAddScreen from '../screens/Register/ProfileAddScreen';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -40,6 +44,10 @@ const AppNavigator = () => {
       <Stack.Screen name="ForgetPassOTPScreen" component={ForgetPassOTPScreen} />
       <Stack.Screen name="ForgetPassChange" component={ForgetPassChange} />
       <Stack.Screen name="ForgetPasswordSuccess" component={ForgetPasswordSuccess} />
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+      <Stack.Screen name="RegisterOTPScreen" component={RegisterOTPScreen} />
+      <Stack.Screen name="RegisterSuccessScreen" component={RegisterSuccessScreen} />
+      <Stack.Screen name="ProfileAddScreen" component={ProfileAddScreen} />
 
     </Stack.Navigator>
 

@@ -7,6 +7,7 @@ import Colors from '../../constants/Colors';
 
 import BackIcon from '../../assets/images/ic_BackArrow.svg';
 import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
+import LoaderButton from '../../components/LoaderButton';
 
 const ForgetPassword = ({ navigation }) => {
 
@@ -52,12 +53,7 @@ const ForgetPassword = ({ navigation }) => {
         returnKeyType="next"
       />
 
-      <TouchableOpacity style={AppStyles.BtnBg} onPress={() => onPressSendCode()}>
-        <View style={AppStyles.BtnLoaderContainer}>
-          {loading && <ActivityIndicator size={21} color="#fff" style={AppStyles.loader} />}
-          <Text style={AppStyles.BtnTextbg}>Send Code</Text>
-        </View>
-      </TouchableOpacity>
+      <LoaderButton name={'Send Code'} onPress={onPressSendCode} loading={loading} />
 
       <View style={AppStyles.ViewBg}>
 
@@ -131,34 +127,6 @@ const AppStyles = StyleSheet.create({
     marginHorizontal: '5%',
     marginTop: 10,
     fontSize: RFValue(15),
-  },
-  BtnBg:
-  {
-    width: '90%',
-    backgroundColor: Colors.AppSecondaryColor,
-    borderRadius: 10,
-    alignSelf: 'center',
-    marginTop: height * 0.1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center', // Ensures content is centered
-    paddingVertical: 20, // Adds padding to balance the button
-  },
-  BtnLoaderContainer:
-  {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  BtnTextbg:
-  {
-    fontSize: RFValue(15),
-    fontFamily: 'DMSans-SemiBold',
-    color: 'white',
-  },
-  loader: {
-    marginRight: 8,
   },
   ViewBg:
   {

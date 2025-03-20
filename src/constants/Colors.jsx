@@ -11,4 +11,6 @@ export default {
 
     OTPBoxBorder:'#BBBBBB',
     OTPBoxBg:'#F8F8F8',
+
+    ErrorMsgColor:'#FF0000',
 }
