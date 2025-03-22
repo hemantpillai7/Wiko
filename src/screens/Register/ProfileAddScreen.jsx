@@ -1,4 +1,4 @@
-import { Dimensions, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Dimensions, FlatList, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
@@ -7,6 +7,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Colors from '../../constants/Colors';
 
 import CalenderIcon from '../../assets/images/ic_Calender.svg';
+import CrossIcon from '../../assets/images/ic_CancelIcon.svg';
 import LoaderButton from '../../components/LoaderButton';
 import ProgressBar from '../../components/ProgressBar';
 import EditIcon from '../../assets/images/ic_editIcon.svg';
@@ -16,6 +17,18 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ImagePickerBottomSheet from '../../components/ImagePickerBottomSheet';
 import useBackNavStop from '../../hooks/useBackNavStop';
 
+const countries = [
+  { id: 1, countryName: 'United States' },
+  { id: 2, countryName: 'Canada' },
+  { id: 3, countryName: 'India' },
+  { id: 4, countryName: 'United Kingdom' },
+  { id: 5, countryName: 'Australia' },
+  { id: 6, countryName: 'Germany' },
+  { id: 7, countryName: 'France' },
+  { id: 8, countryName: 'Italy' },
+  { id: 9, countryName: 'Spain' },
+  { id: 10, countryName: 'Brazil' },
+];
 const ProfileAddScreen = ({ navigation }) => {
 
   const [companyName, setCompanyName] = useState('');
@@ -29,6 +42,9 @@ const ProfileAddScreen = ({ navigation }) => {
   const [expDate, setExpDate] = useState('');
   const [dealIn, setDealIn] = useState('');
   const [exportTo, setExportTo] = useState('');
+
+  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [selectedCountries, setSelectedCountries] = useState([]);
 
   const [error_companyName, setError_CompanyName] = useState('');
   const [error_email, setError_Email] = useState('');
@@ -77,17 +93,16 @@ const ProfileAddScreen = ({ navigation }) => {
   useEffect(() => {
     const fields = [
       companyName, email, address, locality, city,
-      state, pincode, propName, expDate, dealIn, exportTo, profileImage,
+      state, pincode, propName, expDate, dealIn, profileImage,
     ];
 
-    const filledFields = fields.filter(value => value && value !== '').length;
-    const totalFields = fields.length;
+    const filledFields = fields.filter(value => value && value !== '').length + (selectedCountries.length > 0 ? 1 : 0);
+    const totalFields = fields.length + 1;
 
     // Calculate progress percentage
     const progress = ((filledFields / totalFields) * 100).toFixed(0);
     setCompletedProgress(progress);
-  }, [companyName, email, address, locality, city, state, pincode, propName, expDate, dealIn, exportTo, profileImage]);
-
+  }, [companyName, email, address, locality, city, state, pincode, propName, expDate, dealIn, profileImage, selectedCountries]);
 
 
   const BackPress = () => {
@@ -190,7 +205,7 @@ const ProfileAddScreen = ({ navigation }) => {
       setError_DealIn('error');
       result = false;
     }
-    if (!MyValidator.isEmptyField(exportTo).isValid) {
+    if (selectedCountries.length === 0) {
       setError_ExportTo('error');
       result = false;
     }
@@ -200,7 +215,40 @@ const ProfileAddScreen = ({ navigation }) => {
     return result;
   };
 
+  const onSearchExportTo = (text) => {
+    setExportTo(text);
+    setError_ExportTo(''); // Clear error on typing
+    let filtered = countries.filter((country) =>
+      country.countryName.toLowerCase().includes(text.toLowerCase())
+    );
+    if (filtered.length < 3) {
+      filtered = [...filtered, ...countries.slice(0, 3 - filtered.length)];
+    }
+    setFilteredCountries(filtered);
+  };
 
+  const onAddCountry = (country) => {
+    if (!selectedCountries.some((c) => c.id === country.id)) {
+      setSelectedCountries([...selectedCountries, country]);
+    }
+    setExportTo('');
+    setFilteredCountries([]);
+  };
+
+  const onRemoveCountry = (id) => {
+    setSelectedCountries(selectedCountries.filter((country) => country.id !== id));
+  };
+
+  const ItemChipDesign = ({ country, onRemove }) => (
+    <View style={AppStyles.chip}>
+      <Text style={AppStyles.chipText}>{country.countryName}</Text>
+
+      <TouchableOpacity onPress={onRemove}>
+        <CrossIcon height={15} width={15} />
+      </TouchableOpacity>
+
+    </View>
+  );
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -208,7 +256,7 @@ const ProfileAddScreen = ({ navigation }) => {
 
         <KeyboardAvoidingView>
 
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
 
             <View style={AppStyles.ProgressStatusInfoBg}>
 
@@ -455,21 +503,42 @@ const ProfileAddScreen = ({ navigation }) => {
 
             <Text style={AppStyles.InputLabel}>{'Export to'}</Text>
 
-            <TextInput
-              style={[AppStyles.InputBoxBg, { borderColor: error_exportTo ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
-              placeholder="Country Name"
-              inputMode="text"
-              numberOfLines={1}
-              placeholderTextColor={Colors.InputBoxLayout}
-              value={exportTo}
-              onChangeText={(text) => {
-                setExportTo(text);
-                setError_ExportTo(''); // Clear error on typing
-              }}
-              returnKeyType="done"
-              ref={exportToRef}
-            />
+            <View>
 
+              {/* Chip */}
+              {selectedCountries.length > 0 &&
+                <View style={AppStyles.chipContainer}>
+                  {selectedCountries.map((country) => (
+                    <ItemChipDesign key={country.id} country={country} onRemove={() => onRemoveCountry(country.id)} />
+                  ))}
+                </View>
+              }
+              <TextInput
+                style={[AppStyles.InputBoxBg, { borderColor: error_exportTo ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+                placeholder="Country Name"
+                inputMode="text"
+                numberOfLines={1}
+                placeholderTextColor={Colors.InputBoxLayout}
+                value={exportTo}
+                onChangeText={onSearchExportTo}
+                returnKeyType="done"
+                ref={exportToRef}
+              />
+              <View style={AppStyles.DropDownContainerBg}>
+                {filteredCountries.length > 0 && (
+                  <FlatList
+                    nestedScrollEnabled={true}
+                    data={filteredCountries.slice(0, 3)}
+                    keyExtractor={(item, index) => `${item.id}-${index}`}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity onPress={() => onAddCountry(item)}>
+                        <Text style={AppStyles.DropDownTextBg}>{item.countryName}</Text>
+                      </TouchableOpacity>
+                    )}
+                  />
+                )}
+              </View>
+            </View>
 
 
 
@@ -650,9 +719,9 @@ const AppStyles = StyleSheet.create({
     alignSelf: 'center',
   },
   ImageContainerBg: {
-    width: width * 0.5,
-    height: width * 0.5,
-    borderRadius: (width * 0.5) / 2,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: (width * 0.4) / 2,
     overflow: 'hidden',
   },
   ImageStyle: {
@@ -678,5 +747,48 @@ const AppStyles = StyleSheet.create({
     marginHorizontal: '5%',
     flex: 1,
     marginTop: 10,
-  }
+  },
+  DropDownContainerBg:
+  {
+    marginHorizontal: '6%',
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    borderColor: '#F8F8F8',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+  },
+  DropDownTextBg: {
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    color: '#8D8D8D',
+    fontSize: RFValue(13),
+    fontFamily: 'DMSans-Medium',
+    borderTopWidth: 1,
+    borderColor: '#F8F8F8',
+  },
+
+  chipContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    flexWrap: 'wrap',
+
+  },
+  chip: {
+    backgroundColor: 'white',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    marginRight: 10,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: '#BBBBBB',
+    marginTop: 10,
+  },
+  chipText: {
+    color: Colors.AppSecondaryColor,
+    fontFamily: 'DMSans-Medium',
+    fontSize: RFValue(14),
+    marginRight: 10,
+    marginLeft: 5,
+  },
 });
