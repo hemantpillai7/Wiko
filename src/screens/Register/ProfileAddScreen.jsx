@@ -1,219 +1,514 @@
-import { ActivityIndicator, Dimensions, Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Dimensions, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import Constants from '../../constants/Constants';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Colors from '../../constants/Colors';
 
-import BackIcon from '../../assets/images/ic_CancelIcon.svg';
-import EyeOpen from '../../assets/images/ic_eyeOpen.svg';
-import EyeClose from '../../assets/images/ic_eyeClose.svg';
-import MyValidator from '../../utils/MyValidator';
+import CalenderIcon from '../../assets/images/ic_Calender.svg';
 import LoaderButton from '../../components/LoaderButton';
 import ProgressBar from '../../components/ProgressBar';
+import EditIcon from '../../assets/images/ic_editIcon.svg';
+import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
+import MyValidator from '../../utils/MyValidator';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import ImagePickerBottomSheet from '../../components/ImagePickerBottomSheet';
+import useBackNavStop from '../../hooks/useBackNavStop';
 
 const ProfileAddScreen = ({ navigation }) => {
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [Email, setEmail] = useState('');
-  const [MobileNO, setMobileNO] = useState('');
-  const [Password, setPassword] = useState('');
-  const [ConfPass, setConfPass] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [locality, setLocality] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [pincode, setPincode] = useState('');
+  const [propName, setPropName] = useState('');
+  const [expDate, setExpDate] = useState('');
+  const [dealIn, setDealIn] = useState('');
+  const [exportTo, setExportTo] = useState('');
 
+  const [error_companyName, setError_CompanyName] = useState('');
+  const [error_email, setError_Email] = useState('');
+  const [error_address, setError_Address] = useState('');
+  const [error_locality, setError_Locality] = useState('');
+  const [error_city, setError_City] = useState('');
+  const [error_state, setError_State] = useState('');
+  const [error_pincode, setError_Pincode] = useState('');
+  const [error_propName, setError_PropName] = useState('');
+  const [error_expDate, setError_ExpDate] = useState('');
+  const [error_dealIn, setError_DealIn] = useState('');
+  const [error_exportTo, setError_ExportTo] = useState('');
 
-  const [Error_Email, setError_Email] = useState('');
-  const [Error_MobileNO, setError_MobileNO] = useState('');
-  const [Error_Password, setError_Password] = useState('');
-  const [Error_ConfPass, setError_ConfPass] = useState('');
+  const companyNameRef = useRef(null); // Create a ref for Confirm Password input
+  const emailRef = useRef(null); // Create a ref for Confirm Password input
+  const addressNoRef = useRef(null); // Create a ref for Confirm Password input
+  const localityRef = useRef(null);
+  const cityRef = useRef(null);
+  const stateRef = useRef(null);
+  const pincodeRef = useRef(null);
+  const propNameRef = useRef(null);
+  const expDateRef = useRef(null);
+  const dealInRef = useRef(null);
+  const exportToRef = useRef(null);
 
-  const mobileNoRef = useRef(null); // Create a ref for Confirm Password input
-  const passRef = useRef(null); // Create a ref for Confirm Password input
-  const confirmPassNoRef = useRef(null); // Create a ref for Confirm Password input
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const [profileImage, setProfileImage] = useState(null);
 
   const [loading, setLoading] = useState(false);
 
-  const [completedProgress, setcompletedProgress] = useState(29);
+  const [completedProgress, setCompletedProgress] = useState(0);
+
+  const refImagePicker = useRef(null);
+
+  const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
+
+  useBackNavStop(); // ✅ Stop Back Navigation
+
+  useEffect(() => {
+    if (companyNameRef.current) {
+      companyNameRef.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    const fields = [
+      companyName, email, address, locality, city,
+      state, pincode, propName, expDate, dealIn, exportTo, profileImage,
+    ];
+
+    const filledFields = fields.filter(value => value && value !== '').length;
+    const totalFields = fields.length;
+
+    // Calculate progress percentage
+    const progress = ((filledFields / totalFields) * 100).toFixed(0);
+    setCompletedProgress(progress);
+  }, [companyName, email, address, locality, city, state, pincode, propName, expDate, dealIn, exportTo, profileImage]);
+
 
 
   const BackPress = () => {
     navigation.goBack();
   };
 
+
+  const onPressImagePicker = () => {
+    const isActive = refImagePicker?.current?.isActive?.();
+
+    if (isActive) {
+      refImagePicker?.current?.scrollTo?.(0);
+    } else {
+      refImagePicker?.current?.scrollTo?.(-400);
+    }
+  };
+
   const onPressSkip = () => {
     navigation.pop(4);
+  };
+
+  const openDatePicker = () => {
+    setShowDatePicker(true);
+  };
+
+  const selectdate = (date) => {
+    setExpDate(date.toLocaleDateString());
+    setError_ExpDate('');
+    setShowDatePicker(false);
+  };
+  const closeDate = () => {
+    setShowDatePicker(false);
+  };
+
+  const handleImageSelected = (uri, base64) => {
+    setProfileImage(uri);
+    console.log("Base64 Image:", base64); // Handle the base64 if needed
   };
 
 
   const onRegister = () => {
 
-    // const result = ValidateForm();
+    const result = ValidateForm();
 
-    // if (result) {
+    if (result) {
 
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigation.navigate('RegisterOTPScreen', { Email: Email, MobileNO: MobileNO, Password: Password }); // Navigate after loading finishes
-    }, 2000);
+      console.log("success");
 
-    // }
+      navigation.pop(4);
+      // setLoading(true);
+      // setTimeout(() => {
+      //   setLoading(false);
+      //   // navigation.navigate('RegisterOTPScreen', { Email: Email, MobileNO: MobileNO, Password: Password }); // Navigate after loading finishes
+      // }, 2000);
+
+    }
   };
-
 
   const ValidateForm = () => {
 
     var result = true;
 
-    setError_Email('');
-    setError_MobileNO('');
-    setError_Password('');
-    setError_ConfPass('');
-
-    if (!MyValidator.isValidEmail(Email).isValid) {
-      setError_Email(MyValidator.isValidEmail(Email).Response);
+    if (!MyValidator.isEmptyField(companyName).isValid) {
+      setError_CompanyName('error');
+      result = false;
+    }
+    if (!MyValidator.isEmptyField(email).isValid) {
+      setError_Email('error');
+      result = false;
+    }
+    if (!MyValidator.isEmptyField(address).isValid) {
+      setError_Address('error');
+      result = false;
+    }
+    if (!MyValidator.isEmptyField(locality).isValid) {
+      setError_Locality('error');
+      result = false;
+    }
+    if (!MyValidator.isEmptyField(city).isValid) {
+      setError_City('error');
+      result = false;
+    }
+    if (!MyValidator.isEmptyField(state).isValid) {
+      setError_State('error');
+      result = false;
+    }
+    if (!MyValidator.isEmptyField(pincode).isValid) {
+      setError_Pincode('error');
+      result = false;
+    }
+    if (!MyValidator.isEmptyField(propName).isValid) {
+      setError_PropName('error');
+      result = false;
+    }
+    if (!MyValidator.isEmptyField(expDate).isValid) {
+      setError_ExpDate('error');
+      result = false;
+    }
+    if (!MyValidator.isEmptyField(dealIn).isValid) {
+      setError_DealIn('error');
+      result = false;
+    }
+    if (!MyValidator.isEmptyField(exportTo).isValid) {
+      setError_ExportTo('error');
       result = false;
     }
 
-    if (!MyValidator.isValidIndianMobile(MobileNO).isValid) {
-      setError_MobileNO(MyValidator.isValidIndianMobile(MobileNO).Response);
-      result = false;
-    }
-
-    if (!MyValidator.isEmptyField(Password).isValid) {
-      setError_Password(MyValidator.isEmptyField(Password).Response);
-      result = false;
-    }
-    if (!MyValidator.isConfirmPassword(Password, ConfPass).isValid) {
-      setError_ConfPass(MyValidator.isConfirmPassword(Password, ConfPass).Response);
-      result = false;
-    }
 
 
     return result;
   };
 
 
+
   return (
-    <View style={AppStyles.ContainerBg}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={AppStyles.ContainerBg}>
 
-      <KeyboardAvoidingView>
+        <KeyboardAvoidingView>
 
-        <ScrollView>
+          <ScrollView>
 
-          <View style={AppStyles.ProgressStatusInfoBg}>
+            <View style={AppStyles.ProgressStatusInfoBg}>
 
-            {/* Skip */}
-            <View style={AppStyles.ProgTextBg}>
+              {/* Skip */}
+              <View style={AppStyles.ProgTextBg}>
 
-              <Text style={AppStyles.YourProgTextStyle}>{'Your Progress'}</Text>
+                <Text style={AppStyles.YourProgTextStyle}>{'Your Progress'}</Text>
 
 
-              <TouchableOpacity onPress={onPressSkip}>
-                <Text style={AppStyles.SkipTextStyle}>{'Skip > >'}</Text>
+                <TouchableOpacity onPress={onPressSkip}>
+                  <Text style={AppStyles.SkipTextStyle}>{'Skip > >'}</Text>
+                </TouchableOpacity>
+
+              </View>
+
+              <Text style={[AppStyles.TitleTwo, { color: themeConfig.AppPrimaryColor }]}>{`${completedProgress}% completed`}</Text>
+
+              {/* Progress Bar */}
+              <ProgressBar completedProgress={completedProgress} />
+
+
+            </View>
+
+            <Text style={AppStyles.TitleOne}>{'Enter Account Information'}</Text>
+            <Text style={AppStyles.SubTitle}>{'Register your business on Wiko India'}</Text>
+
+
+            {/* Profile */}
+            <View style={AppStyles.ImageViewBg}>
+
+              <ImageBackground
+                source={profileImage ? { uri: profileImage } : require('../../assets/images/ic_user_PlaceHolder.png')}// Placeholder image
+                // source={{ uri: profileImage }} // Replace with your image URL
+                style={AppStyles.ImageContainerBg}
+                imageStyle={AppStyles.ImageStyle}
+              />
+
+              <TouchableOpacity
+                style={[AppStyles.EditImageBg, { backgroundColor: themeConfig.AppPrimaryColor }]}
+                onPress={onPressImagePicker}>
+
+                <EditIcon height={20} width={20} color={'white'} />
+
               </TouchableOpacity>
 
             </View>
 
-            <Text style={AppStyles.TitleTwo}>{`${completedProgress}% completed`}</Text>
-
-            {/* Progress Bar */}
-            <ProgressBar completedProgress={completedProgress} />
 
 
-          </View>
-
-          <Text style={AppStyles.TitleOne}>{'Enter Account Information'}</Text>
-          <Text style={AppStyles.SubTitle}>{'Register your business on Wiko India'}</Text>
-
-          <Text style={AppStyles.InputLabel}>{'Email'}</Text>
-
-          <TextInput
-            style={AppStyles.InputBoxBg}
-            placeholder="Email Address"
-            inputMode="email"
-            numberOfLines={1}
-            value={Email}
-            onChangeText={setEmail}
-            placeholderTextColor={Colors.InputBoxLayout}
-            returnKeyType="next"
-            onSubmitEditing={() => mobileNoRef.current?.focus()} // Moves focus to next input
-          />
-          {Error_Email !== '' && (<Text style={AppStyles.ErrorDisplay}>{Error_Email}</Text>)}
-
-          <Text style={[AppStyles.InputLabel, { marginTop: 15 }]}>{'Mobile Number'}</Text>
-
-          <TextInput
-            style={AppStyles.InputBoxBg}
-            placeholder="Mobile Number"
-            inputMode="tel"
-            numberOfLines={1}
-            maxLength={10}
-            placeholderTextColor={Colors.InputBoxLayout}
-            value={MobileNO}
-            onChangeText={setMobileNO}
-            ref={mobileNoRef} // Assigns reference using useRef
-            returnKeyType="next"
-            onSubmitEditing={() => passRef.current?.focus()} // Moves focus to next input
-          />
-          {Error_MobileNO !== '' && (<Text style={AppStyles.ErrorDisplay}>{Error_MobileNO}</Text>)}
-
-
-          <Text style={[AppStyles.InputLabel, { marginTop: 15, }]}>{'Password'}</Text>
-
-          <View style={AppStyles.EyeTextInputBg}>
+            <Text style={AppStyles.InputLabel}>{'Company Name'}</Text>
 
             <TextInput
-              style={AppStyles.EyeTextInputStyle}
-              secureTextEntry={!isPasswordVisible}
-              placeholder="Password"
+              style={[AppStyles.InputBoxBg, { borderColor: error_companyName ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+              placeholder="Company Name"
+              inputMode="text"
+              numberOfLines={1}
+              value={companyName}
+              onChangeText={(text) => {
+                setCompanyName(text);
+                setError_CompanyName(''); // Clear error on typing
+              }}
+              placeholderTextColor={Colors.InputBoxLayout}
+              returnKeyType="next"
+              ref={companyNameRef}
+              onSubmitEditing={() => emailRef.current?.focus()} // Moves focus to next input
+            />
+
+
+            <Text style={AppStyles.InputLabel}>{'Email'}</Text>
+
+            <TextInput
+              style={[AppStyles.InputBoxBg, { borderColor: error_email ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+              placeholder="Email"
+              inputMode="email"
+              numberOfLines={1}
+              value={email}
+              onChangeText={(text) => {
+                setEmail(text);
+                setError_Email(''); // Clear error on typing
+              }}
+              placeholderTextColor={Colors.InputBoxLayout}
+              returnKeyType="next"
+              ref={emailRef}
+              onSubmitEditing={() => addressNoRef.current?.focus()} // Moves focus to next input
+            />
+
+
+            <Text style={AppStyles.InputLabel}>{'Company Address'}</Text>
+
+            <TextInput
+              style={[AppStyles.InputBoxBg, { borderColor: error_address ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+              placeholder="Address"
               inputMode="text"
               numberOfLines={1}
               placeholderTextColor={Colors.InputBoxLayout}
-              value={Password}
-              onChangeText={setPassword}
-              ref={passRef} // Assigns reference using useRef
+              value={address}
+              onChangeText={(text) => {
+                setAddress(text);
+                setError_Address(''); // Clear error on typing
+              }}
               returnKeyType="next"
-              onSubmitEditing={() => confirmPassNoRef.current?.focus()} // Moves focus to next input
+              ref={addressNoRef}
+              onSubmitEditing={() => localityRef.current?.focus()} // Moves focus to next input
             />
 
-            <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+            {/* Locality City */}
+            <View style={AppStyles.ViewBg}>
 
-              {isPasswordVisible ? <EyeOpen width={30} height={30} /> : <EyeClose width={30} height={30} />}
+              <TextInput
+                style={[AppStyles.InputBoxBg2, { borderColor: error_locality ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginRight: 5 }]}
+                placeholder="Locality"
+                inputMode="text"
+                numberOfLines={1}
+                placeholderTextColor={'#999'}
+                value={locality}
+                onChangeText={(text) => {
+                  setLocality(text);
+                  setError_Locality(''); // Clear error on typing
+                }}
+                returnKeyType="next"
+                ref={localityRef}
+                onSubmitEditing={() => cityRef.current?.focus()} // Moves focus to next input
+              />
 
+              <TextInput
+                style={[AppStyles.InputBoxBg2, { borderColor: error_city ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginLeft: 5 }]}
+                placeholder="City"
+                inputMode="text"
+                numberOfLines={1}
+                placeholderTextColor={'#999'}
+                value={city}
+                onChangeText={(text) => {
+                  setCity(text);
+                  setError_City(''); // Clear error on typing
+                }}
+                returnKeyType="next"
+                ref={cityRef}
+                onSubmitEditing={() => stateRef.current?.focus()} // Moves focus to next input
+              />
+
+            </View>
+
+            {/* State Pincode */}
+            <View style={AppStyles.ViewBg}>
+
+              <TextInput
+                style={[AppStyles.InputBoxBg2, { borderColor: error_state ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginRight: 5 }]}
+                placeholder="State"
+                inputMode="text"
+                numberOfLines={1}
+                placeholderTextColor={'#999'}
+                value={state}
+                onChangeText={(text) => {
+                  setState(text);
+                  setError_State(''); // Clear error on typing
+                }}
+                returnKeyType="next"
+                ref={stateRef}
+                onSubmitEditing={() => pincodeRef.current?.focus()} // Moves focus to next input
+              />
+
+              <TextInput
+                style={[AppStyles.InputBoxBg2, { borderColor: error_pincode ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginLeft: 5 }]}
+                placeholder="Pincode"
+                inputMode="text"
+                numberOfLines={1}
+                placeholderTextColor={'#999'}
+                value={pincode}
+                maxLength={6}
+                onChangeText={(text) => {
+                  setPincode(text);
+                  setError_Pincode(''); // Clear error on typing
+                }}
+                returnKeyType="next"
+                ref={pincodeRef}
+                onSubmitEditing={() => propNameRef.current?.focus()} // Moves focus to next input
+              />
+
+            </View>
+
+
+
+
+            <Text style={AppStyles.InputLabel}>{'Proprietor / Partners / Directors'}</Text>
+
+            <TextInput
+              style={[AppStyles.InputBoxBg, { borderColor: error_propName ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+              placeholder="Name"
+              inputMode="text"
+              numberOfLines={1}
+              placeholderTextColor={Colors.InputBoxLayout}
+              value={propName}
+              onChangeText={(text) => {
+                setPropName(text);
+                setError_PropName(''); // Clear error on typing
+              }}
+              returnKeyType="next"
+              ref={propNameRef}
+              onSubmitEditing={() => expDateRef.current?.focus()} // Moves focus to next input
+            />
+
+
+            <Text style={AppStyles.InputLabel}>{'In a Export Business Since'}</Text>
+
+
+            <TouchableOpacity
+              onPress={() => openDatePicker()}
+              style={[AppStyles.EyeTextInputBg, { borderColor: error_expDate ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}>
+
+              <TextInput
+                style={AppStyles.EyeTextInputStyle}
+                placeholder="Select Date"
+                inputMode="text"
+                numberOfLines={1}
+                placeholderTextColor={Colors.InputBoxLayout}
+                value={expDate}
+                editable={false}
+                returnKeyType="next"
+                ref={expDateRef}
+                onSubmitEditing={() => dealInRef.current?.focus()} // Moves focus to next input
+              />
+
+              <CalenderIcon width={30} height={30} color={Colors.AppSecondaryColor} />
             </TouchableOpacity>
-          </View>
-          {Error_Password !== '' && (<Text style={AppStyles.ErrorDisplay}>{Error_Password}</Text>)}
+
+
+            <Text style={AppStyles.InputLabel}>{'Products Deal In'}</Text>
+
+            <TextInput
+              style={[AppStyles.InputBoxBg, { borderColor: error_dealIn ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+              placeholder="Product Name"
+              inputMode="text"
+              numberOfLines={1}
+              placeholderTextColor={Colors.InputBoxLayout}
+              value={dealIn}
+              onChangeText={(text) => {
+                setDealIn(text);
+                setError_DealIn(''); // Clear error on typing
+              }}
+              returnKeyType="next"
+              ref={dealInRef}
+              onSubmitEditing={() => exportToRef.current?.focus()} // Moves focus to next input
+            />
+
+            <Text style={AppStyles.InputLabel}>{'Export to'}</Text>
+
+            <TextInput
+              style={[AppStyles.InputBoxBg, { borderColor: error_exportTo ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+              placeholder="Country Name"
+              inputMode="text"
+              numberOfLines={1}
+              placeholderTextColor={Colors.InputBoxLayout}
+              value={exportTo}
+              onChangeText={(text) => {
+                setExportTo(text);
+                setError_ExportTo(''); // Clear error on typing
+              }}
+              returnKeyType="done"
+              ref={exportToRef}
+            />
 
 
 
-          <Text style={[AppStyles.InputLabel, { marginTop: 15, }]}>{`Confirm Password`}</Text>
 
-          <TextInput
-            style={AppStyles.InputBoxBg}
-            placeholder="Confirm Password"
-            inputMode="text"
-            numberOfLines={1}
-            placeholderTextColor={Colors.InputBoxLayout}
-            value={ConfPass}
-            onChangeText={setConfPass}
-            ref={confirmPassNoRef} // Assigns reference using useRef
-            returnKeyType="done"
+            <LoaderButton name={'Continue'} onPress={onRegister} loading={loading} style={AppStyles.BtnBg} />
+
+
+          </ScrollView>
+
+
+          <DateTimePickerModal
+            isVisible={showDatePicker}
+            mode="date"
+            maximumDate={new Date()}
+            date={new Date()}
+            isDarkModeEnabled={false}
+            // themeVariant={"light"}
+            onConfirm={selectdate}
+            onCancel={closeDate}
+            // display={Platform.OS === "ios" ? "inline" : "default"}
+            themeVariant="dark" // Makes it dark mode on iOS
+            pickerStyleIOS={{ backgroundColor: '#222' }} // Change background for iOS
+            customStyles={{
+              datePicker: { backgroundColor: '#222' }, // Background for Android
+              datePickerText: { color: '#fff' }, // Text color
+              confirmButton: { color: '#4CAF50' }, // Confirm button color
+              cancelButton: { color: '#FF5252' }, // Cancel button color
+            }}
           />
-          {Error_ConfPass !== '' && (<Text style={AppStyles.ErrorDisplay}>{Error_ConfPass}</Text>)}
 
+          <ImagePickerBottomSheet ref={refImagePicker} onImageSelected={handleImageSelected} />
 
-          <LoaderButton name={'Register'} onPress={onRegister} loading={loading} style={AppStyles.BtnBg} />
-
-
-        </ScrollView>
-
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
 
 
 
 
 
-    </View >
+      </View >
+    </GestureHandlerRootView>
   );
 };
 
@@ -260,7 +555,6 @@ const AppStyles = StyleSheet.create({
   {
     fontSize: RFValue(20),
     fontFamily: 'DMSans-Bold',
-    color: Colors.AppPrimaryColor,
     marginTop: 8,
   },
   ProgressStatusInfoBg:
@@ -275,19 +569,31 @@ const AppStyles = StyleSheet.create({
     fontFamily: 'DMSans-ExtraBold',
     color: Colors.AppSecondaryColor,
     marginLeft: '5%',
-    marginTop: height * 0.05,
+    marginTop: 15,
   },
   InputBoxBg:
   {
     borderWidth: 1,
     borderColor: Colors.InputBoxLayout,
     borderRadius: 8,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingVertical: 15,
     backgroundColor: Colors.InputBoxBg,
     marginHorizontal: '5%',
     marginTop: 10,
     fontSize: RFValue(15),
+  },
+
+  InputBoxBg2:
+  {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    paddingVertical: 12, // Adjusted for uniform height
+    backgroundColor: '#f8f8f8',
+    fontSize: RFValue(15),
+    flex: 1, // Ensures both inputs take equal space
   },
 
   EyeTextInputBg:
@@ -338,6 +644,39 @@ const AppStyles = StyleSheet.create({
     fontFamily: 'DMSans-SemiBold',
     color: Colors.AppSecondaryColor,
   },
+  ImageViewBg:
+  {
+    marginTop: 20,
+    alignSelf: 'center',
+  },
+  ImageContainerBg: {
+    width: width * 0.5,
+    height: width * 0.5,
+    borderRadius: (width * 0.5) / 2,
+    overflow: 'hidden',
+  },
+  ImageStyle: {
+    borderRadius: (width * 0.5) / 2,
+    borderWidth: 1,
+    borderColor: '#787',
+  },
+  EditImageBg:
+  {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+  },
 
-
+  ViewBg:
+  {
+    flexDirection: 'row',
+    marginHorizontal: '5%',
+    flex: 1,
+    marginTop: 10,
+  }
 });

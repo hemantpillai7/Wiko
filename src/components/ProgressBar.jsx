@@ -1,19 +1,22 @@
 import React from "react";
-import { View, Dimensions, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Constants from "../constants/Constants";
 import Colors from "../constants/Colors";
+import { appThemeConfiguration } from "../utils/AppThemeConfiguration";
 
 const ProgressBar = ({ completedProgress }) => {
+
+      const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
+    
     return (
         <View style={AppStyles.progressBarContainer}>
-            <View style={[AppStyles.progressBar, { width: `${completedProgress}%` }]} />
+            <View style={[AppStyles.progressBar, { width: `${completedProgress}%` , backgroundColor : themeConfig.AppPrimaryColor}]} />
         </View>
     );
 };
 
 export default ProgressBar;
 
-const { width, height } = Dimensions.get(Constants.ScreenType);
 const AppStyles = StyleSheet.create({
     progressBarContainer: {
         width: '100%',

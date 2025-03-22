@@ -28,8 +28,8 @@ const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   return (
+    // <Stack.Navigator initialRouteName="MainScreen" screenOptions={{ headerShown: false }}>
     <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false }}>
-      {/* <Stack.Navigator initialRouteName="MapScreen" screenOptions={{ headerShown: false }}> */}
 
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />

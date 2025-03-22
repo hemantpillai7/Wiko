@@ -1,6 +1,6 @@
 
 export default {
-    ScreenType: 'window',
+    ScreenType: 'screen',
     OTPCountDown : 45,
 
     CurrentAppTheme: 'Emerald',

@@ -8,10 +8,12 @@ import { persistor, store } from './src/redux/redux';
 import { Provider } from 'react-redux';
 import NoInternetDialog from './src/components/NoInternetDialog';
 import ToastManager, { toastRef }  from './src/components/ToastManager';
+// import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const App = () => {
   return (
     <>
+    {/* <GestureHandlerRootView style={{ flex: 1 }}> */}
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
@@ -22,6 +24,7 @@ const App = () => {
           </NavigationContainer>
         </PersistGate>
       </Provider>
+      {/* </GestureHandlerRootView> */}
     </>
   );
 };
