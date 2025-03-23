@@ -13,4 +13,9 @@ export default {
     OTPBoxBg:'#F8F8F8',
 
     ErrorMsgColor:'#FF0000',
+
+    HomeGreenMsgBorder :'#44E6EA',
+    HomeGreenMsgBg :'#E2FBFF',
+
+    LightBlack : '#585858',
 }

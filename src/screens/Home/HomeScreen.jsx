@@ -1,6 +1,7 @@
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useRef } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import HomeIcon from '../../assets/images/ic_btm_Home.svg';
 import MessageIcon from '../../assets/images/ic_btm_Message.svg';
@@ -15,6 +16,7 @@ import MessageFragment from './MessageFragment';
 import NotificationFragment from './NotificationFragment';
 import OrderFragment from './OrderFragment';
 import InfoFragment from './InfoFragment';
+import ProdFilterBtmNavItem from '../../components/CustomRenderItem/ProdFilterBtmNavItem';
 
 const ICON_SIZE = 25; // Define icon size
 const TAB_BAR_HEIGHT = 70; // Fixed height for proper alignment
@@ -46,11 +48,22 @@ const HomeScreen = () => {
 
   const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
 
+  const refFilterBtmNav = useRef(null);
+
+  const onPressFilterProd = () => {
+    const isActive = refFilterBtmNav?.current?.isActive?.();
+
+    if (isActive) {
+      refFilterBtmNav?.current?.scrollTo?.(0);
+    } else {
+      refFilterBtmNav?.current?.scrollTo?.(-400);
+    }
+  };
 
   return (
-
+    <SafeAreaView style={styles.safeContainer}>
       <View style={styles.container}>
-        
+
         <Tab.Navigator
           screenOptions={({ route }) => ({
             keyboardHidesTabBar: true,
@@ -83,6 +96,7 @@ const HomeScreen = () => {
                 </View>
               );
             },
+
             tabBarShowLabel: true, // Show labels
             tabBarStyle: styles.tabBar, // Custom tab bar style
             tabBarItemStyle: styles.tabBarItem, // Align icons and labels
@@ -90,16 +104,29 @@ const HomeScreen = () => {
             tabBarInactiveTintColor: Colors.BtmDisable, // Gray when not focused
             tabBarLabelStyle: styles.tabBarLabel, // Apply font styles
             headerShown: false, // Hide top bar
-            
+
           })}
         >
-          <Tab.Screen name="Home" component={HomePage} />
+          {/* <Tab.Screen name="Home" component={HomePage} /> */}
+          <Tab.Screen name="Home">
+            {() => <HomeFragment
+              onPressFilterProd={onPressFilterProd}
+            />}
+          </Tab.Screen>
           <Tab.Screen name="Message" component={MessagePage} />
           <Tab.Screen name="Notification" component={NotificationPage} />
           <Tab.Screen name="Order Status" component={OrderPage} />
           <Tab.Screen name="Info" component={InfoPage} />
         </Tab.Navigator>
       </View>
+
+      <ProdFilterBtmNavItem
+        ref={refFilterBtmNav}
+      // onFilterSubmit={onFilterSubmit} 
+      // onFilterCancel={onFilterCancel} 
+      />
+
+    </SafeAreaView>
   );
 };
 
@@ -108,6 +135,10 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  safeContainer: {
+    flex: 1,
+    backgroundColor: 'white', // Ensure background is set
   },
   tabBar: {
     height: TAB_BAR_HEIGHT, // Set fixed height manually

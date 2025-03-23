@@ -98,7 +98,11 @@ const SwipeBanner = ({ item = [], showDotIndicator = true, showArrow = true, New
 
 
                         <View style={AppStyles.container}>
-                            <PanGestureHandler onGestureEvent={gestureHandler}>
+                            <PanGestureHandler
+                                onGestureEvent={gestureHandler}
+                                activeOffsetX={[-10, 10]} // Ensures horizontal swipes are detected
+                                failOffsetY={[-10, 10]} // Allows vertical swipes to pass through
+                            >
                                 <Animated.View style={[AppStyles.bannerContainer, animatedStyle]}>
                                     {item.map((img, i) => (
                                         <Image key={i} source={{ uri: img }} style={AppStyles.image} resizeMode="" />
