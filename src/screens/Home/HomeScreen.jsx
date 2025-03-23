@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -21,23 +21,23 @@ const TAB_BAR_HEIGHT = 70; // Fixed height for proper alignment
 
 // Dummy screens
 const HomePage = () => (
-  <HomeFragment/>
+  <HomeFragment />
 );
 
 const MessagePage = () => (
-  <MessageFragment/>
+  <MessageFragment />
 );
 
 const NotificationPage = () => (
-  <NotificationFragment/>
+  <NotificationFragment />
 );
 
 const OrderPage = () => (
-  <OrderFragment/>
+  <OrderFragment />
 );
 
 const InfoPage = () => (
-  <InfoFragment/>
+  <InfoFragment />
 );
 
 const Tab = createBottomTabNavigator();
@@ -48,54 +48,58 @@ const HomeScreen = () => {
 
 
   return (
-    <View style={styles.container}>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused }) => {
-            let IconComponent;
 
-            switch (route.name) {
-              case 'Home':
-                IconComponent = HomeIcon;
-                break;
-              case 'Message':
-                IconComponent = MessageIcon;
-                break;
-              case 'Notification':
-                IconComponent = NotificationIcon;
-                break;
-              case 'Order Status':
-                IconComponent = OrderStatusIcon;
-                break;
-              case 'Info':
-                IconComponent = InfoIcon;
-                break;
-              default:
-                IconComponent = HomeIcon;
-            }
+      <View style={styles.container}>
+        
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            keyboardHidesTabBar: true,
+            tabBarIcon: ({ focused }) => {
+              let IconComponent;
 
-            return (
-              <View style={styles.iconContainer}>
-                <IconComponent width={ICON_SIZE} height={ICON_SIZE} color={focused ? themeConfig.AppPrimaryColor : Colors.BtmDisable} />
-              </View>
-            );
-          },
-          tabBarShowLabel: true, // Show labels
-          tabBarStyle: styles.tabBar, // Custom tab bar style
-          tabBarItemStyle: styles.tabBarItem, // Align icons and labels
-          tabBarActiveTintColor: themeConfig.AppPrimaryColor, // Orange when focused
-          tabBarInactiveTintColor: Colors.BtmDisable, // Gray when not focused
-          tabBarLabelStyle: styles.tabBarLabel, // Apply font styles
-          headerShown: false, // Hide top bar
-        })}
-      >
-        <Tab.Screen name="Home" component={HomePage} />
-        <Tab.Screen name="Message" component={MessagePage} />
-        <Tab.Screen name="Notification" component={NotificationPage} />
-        <Tab.Screen name="Order Status" component={OrderPage} />
-        <Tab.Screen name="Info" component={InfoPage} />
-      </Tab.Navigator>
-    </View>
+              switch (route.name) {
+                case 'Home':
+                  IconComponent = HomeIcon;
+                  break;
+                case 'Message':
+                  IconComponent = MessageIcon;
+                  break;
+                case 'Notification':
+                  IconComponent = NotificationIcon;
+                  break;
+                case 'Order Status':
+                  IconComponent = OrderStatusIcon;
+                  break;
+                case 'Info':
+                  IconComponent = InfoIcon;
+                  break;
+                default:
+                  IconComponent = HomeIcon;
+              }
+
+              return (
+                <View style={styles.iconContainer}>
+                  <IconComponent width={ICON_SIZE} height={ICON_SIZE} color={focused ? themeConfig.AppPrimaryColor : Colors.BtmDisable} />
+                </View>
+              );
+            },
+            tabBarShowLabel: true, // Show labels
+            tabBarStyle: styles.tabBar, // Custom tab bar style
+            tabBarItemStyle: styles.tabBarItem, // Align icons and labels
+            tabBarActiveTintColor: themeConfig.AppPrimaryColor, // Orange when focused
+            tabBarInactiveTintColor: Colors.BtmDisable, // Gray when not focused
+            tabBarLabelStyle: styles.tabBarLabel, // Apply font styles
+            headerShown: false, // Hide top bar
+            
+          })}
+        >
+          <Tab.Screen name="Home" component={HomePage} />
+          <Tab.Screen name="Message" component={MessagePage} />
+          <Tab.Screen name="Notification" component={NotificationPage} />
+          <Tab.Screen name="Order Status" component={OrderPage} />
+          <Tab.Screen name="Info" component={InfoPage} />
+        </Tab.Navigator>
+      </View>
   );
 };
 
@@ -104,7 +108,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#788887',
   },
   tabBar: {
     height: TAB_BAR_HEIGHT, // Set fixed height manually

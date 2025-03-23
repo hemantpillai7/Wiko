@@ -13,7 +13,6 @@ import ProgressBar from '../../components/ProgressBar';
 import EditIcon from '../../assets/images/ic_editIcon.svg';
 import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
 import MyValidator from '../../utils/MyValidator';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ImagePickerBottomSheet from '../../components/ImagePickerBottomSheet';
 import useBackNavStop from '../../hooks/useBackNavStop';
 
@@ -251,7 +250,6 @@ const ProfileAddScreen = ({ navigation }) => {
   );
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={AppStyles.ContainerBg}>
 
         <KeyboardAvoidingView>
@@ -577,7 +575,6 @@ const ProfileAddScreen = ({ navigation }) => {
 
 
       </View >
-    </GestureHandlerRootView>
   );
 };
 
@@ -591,17 +588,7 @@ const AppStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  BackIconBg:
-  {
-    marginTop: height * 0.08,
-    marginLeft: '5%',
-  },
-  subContainerOne:
-  {
-    flex: 1.5,
-    marginLeft: 20,
-    justifyContent: 'flex-end',
-  },
+
   TitleOne:
   {
     fontSize: RFValue(22),
@@ -687,14 +674,6 @@ const AppStyles = StyleSheet.create({
   {
     marginTop: height * 0.06,
     marginBottom: 20,
-  },
-  ErrorDisplay:
-  {
-    color: Colors.ErrorMsgColor,
-    paddingHorizontal: 20,
-    fontSize: RFValue(12),
-    marginTop: 3,
-    fontFamily: 'DMSans-Regular',
   },
   ProgTextBg:
   {
