@@ -20,6 +20,9 @@ import RegisterScreen from '../screens/Register/RegisterScreen';
 import RegisterOTPScreen from '../screens/Register/RegisterOTPScreen';
 import RegisterSuccessScreen from '../screens/Register/RegisterSuccessScreen';
 import ProfileAddScreen from '../screens/Register/ProfileAddScreen';
+import Main from '../screens/Main';
+import News from '../screens/News/News';
+import NewsDetailScreen from '../screens/News/NewsDetailScreen';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -28,8 +31,12 @@ const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{
+      headerShown: false,
+      sharedElementTransitionsEnabled: true,
+    }}>
 
+      <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="HomeFragment" component={HomeFragment} />
@@ -47,6 +54,8 @@ const AppNavigator = () => {
       <Stack.Screen name="RegisterOTPScreen" component={RegisterOTPScreen} />
       <Stack.Screen name="RegisterSuccessScreen" component={RegisterSuccessScreen} />
       <Stack.Screen name="ProfileAddScreen" component={ProfileAddScreen} />
+      <Stack.Screen name="NewsScreen" component={News} />
+      <Stack.Screen name="NewsDetailScreen" component={NewsDetailScreen} />
 
     </Stack.Navigator>
 

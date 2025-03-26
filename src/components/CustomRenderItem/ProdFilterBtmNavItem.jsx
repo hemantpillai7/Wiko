@@ -1,15 +1,18 @@
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useState, } from 'react';
-import { Dimensions, Image, StyleSheet, Text, Alert, Platform, Linking, TouchableOpacity, View, Pressable } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring, } from 'react-native-reanimated';
-import { RFValue } from 'react-native-responsive-fontsize';
-
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, TouchableWithoutFeedback, Dimensions, Pressable, Text, TouchableOpacity } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+  runOnJS,
+} from 'react-native-reanimated';
+import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Colors from '../../constants/Colors';
-import CrossIcon from '../../assets/images/ic_CancelIcon.svg';
+import { RFValue } from 'react-native-responsive-fontsize';
 import DropDownCustom from '../DropDownCustom';
 import ChipDropDownCustom from '../ChipDropDownCustom';
-
-// const { height: height } = Dimensions.get('screen');
+import CrossIcon from '../../assets/images/ic_CancelIcon.svg';
 
 const dropdownlist = [
   { id: 1, name: 'onion' },
@@ -22,18 +25,79 @@ const dropdownlist = [
   { id: 8, name: 'carrot' },
 ]
 
+const ProdFilterBtmNavItem = (
+  { visible,
+    onClose,
+    children,
+    animationType = 'bounce',
+    animationDuration = 1000,
+    closeOnDragDown = true,
+  }
+) => {
+  const translateY = useSharedValue(500);
+  const opacity = useSharedValue(0);
+  const [sheetHeight, setSheetHeight] = useState(0); // Default height
 
-const ProdFilterBtmNavItem = forwardRef(({ onFilterSubmit, onFilterCancel, ...props }, ref) => {
+  useEffect(() => {
+    if (visible) {
+      console.log("anim");
 
+      switch (animationType) {
+        case "fade":
+          opacity.value = withTiming(1, { duration: animationDuration });
+          translateY.value = withTiming(0, { duration: animationDuration });
+          break;
 
-  const translationY = useSharedValue(0);
-  const translationBackdrop = useSharedValue(0);
-  const context = useSharedValue({ y: 0 });
-  const active = useSharedValue(false);
-  const [viewHeight, setViewHeight] = useState(0);
+        case "slide":
+          opacity.value = withTiming(1);
+          translateY.value = withSpring(0, { damping: 50, stiffness: 30 });
+          break;
 
+        case "bounce":
+          opacity.value = withTiming(1);
+          translateY.value = withSpring(0, { damping: 10, stiffness: 100 }); // Stronger bounce
+          break;
 
+        default:
+          opacity.value = withTiming(1);
+          translateY.value = withTiming(0, { duration: animationDuration });
+          break;
+      }
+    } else {
+      console.log("else")
+      opacity.value = withTiming(0, { duration: animationDuration });
+      translateY.value = withTiming(sheetHeight, {}, () => runOnJS(onClose)());
+    }
+  }, [visible, animationType, animationDuration, sheetHeight]);
 
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+    opacity: opacity.value,
+  }));
+
+  const onGestureEvent = (event) => {
+    if (event.nativeEvent.translationY > 0) {
+      translateY.value = event.nativeEvent.translationY;
+    }
+  };
+
+  const onGestureEnd = (event) => {
+
+    if (closeOnDragDown && event.nativeEvent.translationY > 100) {
+      translateY.value = withTiming(sheetHeight, { duration: animationDuration }, () => runOnJS(onClose)());
+    } else {
+      translateY.value = withSpring(0, { damping: 30, stiffness: 50 });
+    }
+  };
+
+  const onCloseSheet = () => {
+
+    translateY.value = withTiming(sheetHeight, { duration: animationDuration }, () => runOnJS(onClose)());
+    opacity.value = withTiming(0, { duration: animationDuration });
+
+  };
+
+  /////////////////////////////////////////////////////////
 
   const [product, setProduct] = useState('');
   const [variety, setVariety] = useState('');
@@ -43,60 +107,6 @@ const ProdFilterBtmNavItem = forwardRef(({ onFilterSubmit, onFilterCancel, ...pr
   const [packSize, setPackSize] = useState('');
   const [SelectedLocations, setSelectedLocations] = useState([]);
 
-
-  useEffect(() => {
-    console.log("viewHeight ", viewHeight);
-    console.log("height ", height);
-    console.log("height ", height);
-  }, [viewHeight,])
-
-  //------------------Bottom sheet section ------------------------------//
-  const gesture = Gesture.Pan()
-    .onStart(() => {
-      context.value = { y: translationY.value };
-    })
-    .onUpdate(event => {
-      translationY.value = event.translationY + context.value.y;
-      translationY.value = Math.max(translationY.value, -viewHeight + 400); // Calculation of damping in onEnd (50 + 60) + 30 add
-    })
-    .onEnd(() => {
-      if (translationY.value > -height / 2) {
-        active.value = false;
-        translationY.value = withSpring(0, { damping: 50 });
-        translationBackdrop.value = withSpring(0, { damping: 60 });
-      }
-    });
-
-  const bottomSheetStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: translationY.value }],
-      height: height, // Dynamically adjust height
-    };
-  });
-
-  const bottomSheetStyleBackdrop = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: translationBackdrop.value }],
-    };
-  });
-
-  const scrollTo = useCallback((destination) => {
-    active.value = destination !== 0;
-    translationY.value = withSpring(destination, { damping: 50 });
-
-    if (destination === 0) {
-      translationBackdrop.value = withSpring(0, { damping: 60 }); // Hide backdrop
-    } else {
-      translationBackdrop.value = withSpring(-height, { damping: 60 }); // Show backdrop
-    }
-  }, []);
-
-  const isActive = useCallback(() => active.value, []);
-
-  useImperativeHandle(ref, () => ({ scrollTo, isActive }), [scrollTo, isActive]);
-
-
-  /////////////////////////////////////////
 
   const onSelectProduct = (item) => {
     setProduct(item.name);
@@ -136,185 +146,211 @@ const ProdFilterBtmNavItem = forwardRef(({ onFilterSubmit, onFilterCancel, ...pr
 
   };
 
+  const onRenderItem = () => {
+    return (
 
-  return (
-    <Animated.View
-      style={[AppStyles.containerBottomSheet, { backgroundColor: 'rgba(0, 0, 0, 0.2)' }, bottomSheetStyleBackdrop]}>
-      <GestureDetector gesture={gesture}>
-        <Animated.View style={[AppStyles.BottomContainerBg, { top: viewHeight - 200 }, bottomSheetStyle]}>
-          <View style={{ flex: 1, }}
-            onLayout={(event) => {
-              const { height } = event.nativeEvent.layout;
-              setViewHeight(height);
-            }}
-          >
+      <View>
 
-            <Pressable style={AppStyles.CancelStyle}
-              onPress={() => scrollTo(0)}
-            >
+        <Pressable style={styles.CancelStyle}
+          onPress={() => onCloseSheet()}
+        >
 
-              <CrossIcon height={'100%'} width={'100%'} color={Colors.LightBlack} />
+          <CrossIcon height={'100%'} width={'100%'} color={Colors.LightBlack} />
 
 
-            </Pressable>
+        </Pressable>
 
 
-            <Text style={AppStyles.TitleText}>Product Filter</Text>
+        <Text style={styles.TitleText}>Product Filter</Text>
 
-            <View style={AppStyles.LineBg} />
-
-
-            <View style={AppStyles.HorizontalContainer}>
+        <View style={styles.LineBg} />
 
 
-              <View style={AppStyles.VerticalContainer}>
-
-                <Text style={AppStyles.LabelText}>Select Product</Text>
-
-                <DropDownCustom
-                  itemList={dropdownlist}
-                  Value={product}
-                  DropListLabel={'name'}
-                  onSelectItem={onSelectProduct} />
-
-              </View>
+        <View style={styles.HorizontalContainer}>
 
 
-              <View style={AppStyles.VerticalContainer}>
+          <View style={styles.VerticalContainer}>
 
-                <Text style={AppStyles.LabelText}>Varity</Text>
+            <Text style={styles.LabelText}>Select Product</Text>
 
-                <DropDownCustom
-                  itemList={dropdownlist}
-                  Value={variety}
-                  DropListLabel={'name'}
-                  onSelectItem={onSelectVariety} />
-
-              </View>
-
-
-            </View>
-
-            <View style={AppStyles.HorizontalContainer}>
-
-
-              <View style={AppStyles.VerticalContainer}>
-
-                <Text style={AppStyles.LabelText}>Select Size</Text>
-
-                <DropDownCustom
-                  itemList={dropdownlist}
-                  Value={size}
-                  DropListLabel={'name'}
-                  onSelectItem={onSelectSize} />
-
-              </View>
-
-
-              <View style={AppStyles.VerticalContainer}>
-
-                <Text style={AppStyles.LabelText}>Destination Country</Text>
-
-                <DropDownCustom
-                  itemList={dropdownlist}
-                  Value={country}
-                  DropListLabel={'name'}
-                  onSelectItem={onSelectCountry} />
-
-              </View>
-
-
-            </View>
-
-            <View style={AppStyles.HorizontalContainer}>
-
-
-              <View style={AppStyles.VerticalContainer}>
-
-                <Text style={AppStyles.LabelText}>Packaging Material</Text>
-
-                <DropDownCustom
-                  itemList={dropdownlist}
-                  Value={material}
-                  DropListLabel={'name'}
-                  onSelectItem={onSelectMaterial} />
-
-              </View>
-
-
-              <View style={AppStyles.VerticalContainer}>
-
-                <Text style={AppStyles.LabelText}>Packaging Size</Text>
-
-                <DropDownCustom
-                  itemList={dropdownlist}
-                  Value={packSize}
-                  DropListLabel={'name'}
-                  onSelectItem={onSelectPackSize} />
-
-              </View>
-
-
-            </View>
-
-            <View style={AppStyles.MarketLocationBg}>
-
-              <Text style={AppStyles.LabelText}>Market Location</Text>
-
-              <ChipDropDownCustom
-                itemList={dropdownlist}
-                DropListLabel={'name'}
-                selectedChips={SelectedLocations}
-                chipId={'id'}
-                onAddChip={onAddLocation}
-                onRemoveChip={onRemoveLocation}
-
-              />
-
-            </View>
-
-            <View style={[AppStyles.HorizontalContainer, { marginTop: 40, }]}>
-
-
-              <TouchableOpacity style={AppStyles.ClearBtnBg} onPress={onPressClearAll}>
-                <Text style={AppStyles.ClearBtnTxt}>{'Clear All'}</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={AppStyles.SubmitBtnBg} onPress={onPressSubmit}>
-                <Text style={AppStyles.SubmitBtnTxt}>{'Submit'}</Text>
-              </TouchableOpacity>
-
-            </View>
-
+            <DropDownCustom
+              itemList={dropdownlist}
+              Value={product}
+              DropListLabel={'name'}
+              onSelectItem={onSelectProduct} />
 
           </View>
 
-        </Animated.View>
-      </GestureDetector>
-    </Animated.View>
-  );
-});
 
+          <View style={styles.VerticalContainer}>
+
+            <Text style={styles.LabelText}>Varity</Text>
+
+            <DropDownCustom
+              itemList={dropdownlist}
+              Value={variety}
+              DropListLabel={'name'}
+              onSelectItem={onSelectVariety} />
+
+          </View>
+
+
+        </View>
+
+        <View style={styles.HorizontalContainer}>
+
+
+          <View style={styles.VerticalContainer}>
+
+            <Text style={styles.LabelText}>Select Size</Text>
+
+            <DropDownCustom
+              itemList={dropdownlist}
+              Value={size}
+              DropListLabel={'name'}
+              onSelectItem={onSelectSize} />
+
+          </View>
+
+
+          <View style={styles.VerticalContainer}>
+
+            <Text style={styles.LabelText}>Destination Country</Text>
+
+            <DropDownCustom
+              itemList={dropdownlist}
+              Value={country}
+              DropListLabel={'name'}
+              onSelectItem={onSelectCountry} />
+
+          </View>
+
+
+        </View>
+
+        <View style={styles.HorizontalContainer}>
+
+
+          <View style={styles.VerticalContainer}>
+
+            <Text style={styles.LabelText}>Packaging Material</Text>
+
+            <DropDownCustom
+              itemList={dropdownlist}
+              Value={material}
+              DropListLabel={'name'}
+              onSelectItem={onSelectMaterial} />
+
+          </View>
+
+
+          <View style={styles.VerticalContainer}>
+
+            <Text style={styles.LabelText}>Packaging Size</Text>
+
+            <DropDownCustom
+              itemList={dropdownlist}
+              Value={packSize}
+              DropListLabel={'name'}
+              onSelectItem={onSelectPackSize} />
+
+          </View>
+
+
+        </View>
+
+        <View style={styles.MarketLocationBg}>
+
+          <Text style={styles.LabelText}>Market Location</Text>
+
+          <ChipDropDownCustom
+            itemList={dropdownlist}
+            DropListLabel={'name'}
+            selectedChips={SelectedLocations}
+            chipId={'id'}
+            onAddChip={onAddLocation}
+            onRemoveChip={onRemoveLocation}
+
+          />
+
+        </View>
+
+        <View style={[styles.HorizontalContainer, { marginTop: 40, }]}>
+
+
+          <TouchableOpacity style={styles.ClearBtnBg} onPress={onPressClearAll}>
+            <Text style={styles.ClearBtnTxt}>{'Clear All'}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.SubmitBtnBg} onPress={onPressSubmit}>
+            <Text style={styles.SubmitBtnTxt}>{'Submit'}</Text>
+          </TouchableOpacity>
+
+        </View>
+
+
+      </View>
+    )
+  }
+
+
+  return (
+    <GestureHandlerRootView style={{ position: 'absolute', bottom: 0, width: '100%', height: visible ? '100%' : 0 }}>
+      {visible && (
+        <TouchableWithoutFeedback onPress={onClose}>
+          <View style={styles.overlay}
+          >
+            <PanGestureHandler onGestureEvent={onGestureEvent} onEnded={onGestureEnd}>
+              <Animated.View style={[styles.sheet, animatedStyle, { height: sheetHeight + 50 }]} >
+
+                <View
+                  onLayout={(event) => setSheetHeight(event.nativeEvent.layout.height)}
+                >
+                  {/* {children} */}
+
+                  {onRenderItem()}
+
+                </View>
+              </Animated.View>
+            </PanGestureHandler>
+          </View>
+        </TouchableWithoutFeedback>
+      )}
+    </GestureHandlerRootView>
+  );
+};
 
 const { width, height } = Dimensions.get('screen');
 
-const AppStyles = StyleSheet.create({
-  containerBottomSheet: {
-    height: height,
-    width: '100%',
+const styles = StyleSheet.create({
+  overlay: {
     position: 'absolute',
-    top: height,
-    backgroundColor: 'white',
-    zIndex: 3,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
   },
-  BottomContainerBg: {
-    width: '100%',
-    position: 'absolute',
-    top: 800,
+  sheet: {
     backgroundColor: 'white',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+    padding: 16,
+    width: '100%',
   },
+  handle: {
+    width: 50,
+    height: 5,
+    backgroundColor: '#ccc',
+    borderRadius: 3,
+    alignSelf: 'center',
+    marginBottom: 10,
+    marginTop: 4,
+  },
+
+
+
   CancelStyle:
   {
     height: 50,
@@ -324,7 +360,7 @@ const AppStyles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     alignSelf: 'center',
-    marginTop: -70,
+    marginTop: -100,
   },
   TitleText: {
     fontSize: RFValue(18),
@@ -392,8 +428,6 @@ const AppStyles = StyleSheet.create({
     fontFamily: 'DMSans-ExtraBold',
     color: 'white',
   },
-
-
 
 });
 

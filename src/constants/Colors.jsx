@@ -3,6 +3,7 @@ export default {
     AppPrimaryColor: '#FF8B00',
     AppSecondaryColor: '#000000',
     BtmDisable: '#CFCFCF',
+    White: '#FFFFFF',
 
     InputBoxLayout:'#BBBBBB',
     InputBoxBg:'#F8F8F8',

@@ -1,5 +1,5 @@
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
-import React, { useRef } from 'react';
+import { Button, KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
+import React, { useRef, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -17,6 +17,7 @@ import NotificationFragment from './NotificationFragment';
 import OrderFragment from './OrderFragment';
 import InfoFragment from './InfoFragment';
 import ProdFilterBtmNavItem from '../../components/CustomRenderItem/ProdFilterBtmNavItem';
+import { useNavigation } from '@react-navigation/native';
 
 const ICON_SIZE = 25; // Define icon size
 const TAB_BAR_HEIGHT = 70; // Fixed height for proper alignment
@@ -48,16 +49,14 @@ const HomeScreen = () => {
 
   const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
 
-  const refFilterBtmNav = useRef(null);
+  const [isSheetVisible, setSheetVisible] = useState(false);
+
+  const navigation = useNavigation();
+
 
   const onPressFilterProd = () => {
-    const isActive = refFilterBtmNav?.current?.isActive?.();
 
-    if (isActive) {
-      refFilterBtmNav?.current?.scrollTo?.(0);
-    } else {
-      refFilterBtmNav?.current?.scrollTo?.(-400);
-    }
+    setSheetVisible(true);
   };
 
   return (
@@ -111,6 +110,7 @@ const HomeScreen = () => {
           <Tab.Screen name="Home">
             {() => <HomeFragment
               onPressFilterProd={onPressFilterProd}
+              navigation={navigation}
             />}
           </Tab.Screen>
           <Tab.Screen name="Message" component={MessagePage} />
@@ -121,9 +121,10 @@ const HomeScreen = () => {
       </View>
 
       <ProdFilterBtmNavItem
-        ref={refFilterBtmNav}
-      // onFilterSubmit={onFilterSubmit} 
-      // onFilterCancel={onFilterCancel} 
+        visible={isSheetVisible}
+        onClose={() => setSheetVisible(false)}
+        animationType='bounce'
+        closeOnDragDown={false}
       />
 
     </SafeAreaView>

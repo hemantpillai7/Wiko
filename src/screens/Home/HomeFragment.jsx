@@ -15,10 +15,9 @@ import Colors from '../../constants/Colors';
 import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
 import ButtonCustom from '../../components/ButtonCustom';
 import SwipeBanner from '../../components/SwipeBanner';
-import ProdFilterBtmNavItem from '../../components/CustomRenderItem/ProdFilterBtmNavItem';
+import Animated from 'react-native-reanimated';
 
-const HomeFragment = ({onPressFilterProd}) => {
-
+const HomeFragment = ({ onPressFilterProd, navigation }) => {
   const [search, setSearch] = useState('');
 
   const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
@@ -56,12 +55,15 @@ const HomeFragment = ({onPressFilterProd}) => {
   };
 
 
-  
-  const onFilterSubmit = (item) => {
+
+  const onFilterSubmit = () => {
 
   };
-  const onFilterCancel = (item) => {
+  const onFilterCancel = () => {
 
+  };
+  const onPressNewsMenu = () => {
+    navigation.navigate('NewsScreen');
   };
 
   return (
@@ -97,11 +99,13 @@ const HomeFragment = ({onPressFilterProd}) => {
           {/* Option Btn */}
           <View style={AppStyles.OptionBtnParentContainer}>
 
-            <TouchableOpacity style={AppStyles.OptionBtnBg}>
+            <TouchableOpacity style={AppStyles.OptionBtnBg}
+              onPress={onPressNewsMenu}
+            >
 
               <NewsIcon height={40} width={40} color={themeConfig.AppPrimaryColor} />
 
-              <Text style={AppStyles.OptionBtnText}>{'News'}</Text>
+              <Text style={AppStyles.OptionBtnText} >{'News'}</Text>
 
             </TouchableOpacity>
 
