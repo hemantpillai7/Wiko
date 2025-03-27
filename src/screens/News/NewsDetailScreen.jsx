@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming, interpolate, FadeInDown, FadeIn } from "react-native-reanimated";
+import Animated, { SharedTransition ,useAnimatedStyle, useSharedValue, withTiming, interpolate, FadeInDown, FadeIn } from "react-native-reanimated";
 import Constants from "../../constants/Constants";
 import { RFValue } from "react-native-responsive-fontsize";
 import Colors from "../../constants/Colors";
@@ -41,11 +41,16 @@ const NewsDetailScreen = ({ route }) => {
     return (
         <GestureHandlerRootView style={AppStyles.container}>
             {/* Header Image with Smooth Height Reduction */}
-            <Animated.View style={[AppStyles.imageContainer, animatedHeaderStyle]}>
-                <Image
+            <Animated.View
+                style={[AppStyles.imageContainer, animatedHeaderStyle]}
+                // sharedTransitionTag={"news-image"}
+                sharedTransitionTag="tag"
+            >
+                <Animated.Image
                     source={item.image_url ? { uri: item?.image_url } : require("../../assets/images/placeholder.jpg")}
                     style={[AppStyles.image, imageOpacityStyle]}
                     resizeMode="stretch"
+                    sharedTransitionTag="tag"
                 />
 
                 <TouchableOpacity style={AppStyles.imageToolbarIconBg}

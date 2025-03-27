@@ -62,8 +62,8 @@ const AppStyles = StyleSheet.create({
     },
     Title:
     {
-        fontSize: RFValue(22),
-        fontFamily: 'DMSans-ExtraBold',
+        fontSize: RFValue(20),
+        fontFamily: 'DMSans-Regular',
         color: Colors.AppSecondaryColor,
         marginLeft: '5%',
     },

@@ -32,6 +32,7 @@ const ProdFilterBtmNavItem = (
     animationType = 'bounce',
     animationDuration = 1000,
     closeOnDragDown = true,
+    onSubmitFilterProd,
   }
 ) => {
   const translateY = useSharedValue(500);
@@ -40,8 +41,6 @@ const ProdFilterBtmNavItem = (
 
   useEffect(() => {
     if (visible) {
-      console.log("anim");
-
       switch (animationType) {
         case "fade":
           opacity.value = withTiming(1, { duration: animationDuration });
@@ -64,7 +63,6 @@ const ProdFilterBtmNavItem = (
           break;
       }
     } else {
-      console.log("else")
       opacity.value = withTiming(0, { duration: animationDuration });
       translateY.value = withTiming(sheetHeight, {}, () => runOnJS(onClose)());
     }
@@ -140,8 +138,10 @@ const ProdFilterBtmNavItem = (
   };
 
   const onPressSubmit = () => {
-
+    onCloseSheet();
+    onSubmitFilterProd();
   };
+
   const onPressClearAll = () => {
 
   };

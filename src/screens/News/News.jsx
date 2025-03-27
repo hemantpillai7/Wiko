@@ -84,11 +84,12 @@ const News = ({ navigation }) => {
                 onPress={() => navigation.navigate('NewsDetailScreen', { item: item })}
             >
 
-                <View style={AppStyles.ImageContainer}>
+                <Animated.View style={AppStyles.ImageContainer}>
                     
-                    <Image
+                    <Animated.Image
                         source={item.image_url ? { uri: item?.image_url } : require("../../assets/images/placeholder.jpg")}
                         style={AppStyles.image}
+                        sharedTransitionTag="tag"
                         resizeMode="stretch"
                     />
 
@@ -99,7 +100,7 @@ const News = ({ navigation }) => {
                         errorImage={require("../../assets/images/placeholder.jpg")}
                     /> */}
 
-                </View>
+                </Animated.View>
 
                 <Text style={AppStyles.TitleText} numberOfLines={2} >{item.title} </Text>
 

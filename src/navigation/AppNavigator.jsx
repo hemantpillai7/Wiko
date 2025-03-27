@@ -23,6 +23,8 @@ import ProfileAddScreen from '../screens/Register/ProfileAddScreen';
 import Main from '../screens/Main';
 import News from '../screens/News/News';
 import NewsDetailScreen from '../screens/News/NewsDetailScreen';
+import ProductListScreen from '../screens/Products/ProductListScreen';
+import ProductCheckoutScreen from '../screens/Products/ProductCheckoutScreen';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -33,7 +35,8 @@ const AppNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{
       headerShown: false,
-      sharedElementTransitionsEnabled: true,
+      // sharedElementTransitionsEnabled: true,
+      // animation: "fade_from_bottom",
     }}>
 
       <Stack.Screen name="Main" component={Main} />
@@ -56,6 +59,8 @@ const AppNavigator = () => {
       <Stack.Screen name="ProfileAddScreen" component={ProfileAddScreen} />
       <Stack.Screen name="NewsScreen" component={News} />
       <Stack.Screen name="NewsDetailScreen" component={NewsDetailScreen} />
+      <Stack.Screen name="ProductListScreen" component={ProductListScreen} />
+      <Stack.Screen name="ProductCheckoutScreen" component={ProductCheckoutScreen} />
 
     </Stack.Navigator>
 

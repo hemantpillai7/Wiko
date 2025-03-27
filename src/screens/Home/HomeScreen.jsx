@@ -58,6 +58,10 @@ const HomeScreen = () => {
 
     setSheetVisible(true);
   };
+  const onSubmitFilterProd = () => {
+
+    setTimeout(() => navigation.navigate('ProductListScreen'), 1000);
+  };
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -110,6 +114,7 @@ const HomeScreen = () => {
           <Tab.Screen name="Home">
             {() => <HomeFragment
               onPressFilterProd={onPressFilterProd}
+              // onSubmitFilterProd={onSubmitFilterProd}
               navigation={navigation}
             />}
           </Tab.Screen>
@@ -125,6 +130,7 @@ const HomeScreen = () => {
         onClose={() => setSheetVisible(false)}
         animationType='bounce'
         closeOnDragDown={false}
+        onSubmitFilterProd={onSubmitFilterProd}
       />
 
     </SafeAreaView>
