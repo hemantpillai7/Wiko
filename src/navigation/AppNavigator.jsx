@@ -25,6 +25,7 @@ import News from '../screens/News/News';
 import NewsDetailScreen from '../screens/News/NewsDetailScreen';
 import ProductListScreen from '../screens/Products/ProductListScreen';
 import ProductCheckoutScreen from '../screens/Products/ProductCheckoutScreen';
+import ZoomableImage from '../screens/Products/ZoomableImage';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -61,6 +62,7 @@ const AppNavigator = () => {
       <Stack.Screen name="NewsDetailScreen" component={NewsDetailScreen} />
       <Stack.Screen name="ProductListScreen" component={ProductListScreen} />
       <Stack.Screen name="ProductCheckoutScreen" component={ProductCheckoutScreen} />
+      <Stack.Screen name="ZoomableImage" component={ZoomableImage} />
 
     </Stack.Navigator>
 

@@ -15,7 +15,7 @@ import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
 import StarRating from '../../components/StarRating';
 import { FlatList } from 'react-native-gesture-handler';
 import ButtonCustom from '../../components/ButtonCustom';
-const ProductCheckoutScreen = () => {
+const ProductCheckoutScreen = ({ navigation }) => {
 
     const [profileImage, setProfileImage] = useState(null);
 
@@ -41,13 +41,15 @@ const ProductCheckoutScreen = () => {
 
     const ItemProductImages = ({ item }) => {
         return (
-            <View style={AppStyles.ProductImageViewBG}>
+            <TouchableOpacity style={AppStyles.ProductImageViewBG}
+                onPress={() => navigation.navigate('ZoomableImage', { imageUrl: item.imageurl })}
+            >
 
                 <ImageBackground
                     source={item.imageurl ? { uri: item.imageurl } : require('../../assets/images/ic_user_PlaceHolder.png')}// Placeholder image
                     style={AppStyles.ProductImageBG}
                 />
-            </View>
+            </TouchableOpacity>
 
         );
     };
@@ -634,7 +636,7 @@ const AppStyles = StyleSheet.create({
         flexDirection: 'row',
         paddingHorizontal: '3%',
         paddingVertical: width * 0.02,
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
     },
 
     BtnBg:
