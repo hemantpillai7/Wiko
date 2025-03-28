@@ -1,4 +1,4 @@
-import { Dimensions, ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, ImageBackground, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import Toolbar from '../../components/Toolbar';
 import Constants from '../../constants/Constants';
@@ -6,12 +6,15 @@ import AssuredPayIcon from '../../assets/images/ic_BdgPaymentAssured.svg';
 import VerifiedIcon from '../../assets/images/ic_BdgVerified.svg';
 import MessageIcon from '../../assets/images/ic_MessageProf.svg';
 import VideoIcon from '../../assets/images/ic_VideoCalProf.svg';
+import LocationIcon from '../../assets/images/ic_Location.svg';
+import TimeIcon from '../../assets/images/ic_Time.svg';
 import CallIcon from '../../assets/images/ic_CallProf.svg';
 import Colors from '../../constants/Colors';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
 import StarRating from '../../components/StarRating';
 import { FlatList } from 'react-native-gesture-handler';
+import ButtonCustom from '../../components/ButtonCustom';
 const ProductCheckoutScreen = () => {
 
     const [profileImage, setProfileImage] = useState(null);
@@ -49,99 +52,283 @@ const ProductCheckoutScreen = () => {
         );
     };
 
+    const onPressCheckOut = () => {
+
+    };
+
 
     return (
         <KeyboardAvoidingView style={AppStyles.flexOne}>
 
-            <View>
 
-                <Toolbar Title={'Seller Id-mh987'} />
+            <Toolbar Title={'Seller Id-mh987'} />
 
-                <View style={AppStyles.LineBg} />
+            <View style={[AppStyles.LineBg, { marginBottom: 0, }]} />
+
+            <ScrollView>
 
                 <View>
 
-                    {/* Badges */}
-                    <View style={AppStyles.BadgesBg}>
+                    <View>
 
-                        <AssuredPayIcon height={15} />
+                        {/* Badges */}
+                        <View style={AppStyles.BadgesBg}>
 
-                        <VerifiedIcon height={15} style={{ marginTop: 7 }} />
+                            <AssuredPayIcon height={15} />
 
-                    </View>
+                            <VerifiedIcon height={15} style={{ marginTop: 7 }} />
+
+                        </View>
 
 
-                    {/* Rating */}
-                    <View style={AppStyles.RatingBg}>
-                        {/* <RatingIcon height={13} /> */}
-                        <StarRating maxStars={5} starSize={13} />
+                        {/* Rating */}
+                        <View style={AppStyles.RatingBg}>
+                            {/* <RatingIcon height={13} /> */}
+                            <StarRating maxStars={5} starSize={13} />
 
-                        <Text style={AppStyles.Ratingtxt}>321 deals</Text>
-                    </View>
+                            <Text style={AppStyles.Ratingtxt}>321 deals</Text>
+                        </View>
 
-                    {/* Image */}
-                    <View style={AppStyles.ImageViewBg}>
+                        {/* Image */}
+                        <View style={AppStyles.ImageViewBg}>
 
-                        <ImageBackground
-                            source={profileImage ? { uri: profileImage } : require('../../assets/images/ic_user_PlaceHolder.png')}// Placeholder image
-                            // source={{ uri: profileImage }} // Replace with your image URL
-                            style={AppStyles.ImageContainerBg}
-                            imageStyle={AppStyles.ImageStyle}
+                            <ImageBackground
+                                source={profileImage ? { uri: profileImage } : require('../../assets/images/ic_user_PlaceHolder.png')}// Placeholder image
+                                // source={{ uri: profileImage }} // Replace with your image URL
+                                style={AppStyles.ImageContainerBg}
+                                imageStyle={AppStyles.ImageStyle}
+                            />
+                        </View>
+
+                        <Text style={[AppStyles.UserName, { color: themeConfig.AppPrimaryColor }]} numberOfLines={1}>MK Traders Pvt. Ltd.</Text>
+
+                        <Text style={AppStyles.UserAddress} numberOfLines={1}>Pimpalgaon</Text>
+
+                        {/* Profile Btn */}
+                        <TouchableOpacity style={AppStyles.ViewProfBg}
+                            onPress={onPressViewProfile}
+                        >
+                            <Text style={AppStyles.ViewProfTxt}>View Profile</Text>
+                        </TouchableOpacity>
+
+                        <View style={AppStyles.OptionMenuBg}>
+
+                            <View style={AppStyles.OptionMenuSubBg}>
+
+                                <CallIcon height={20} width={20} color={'white'} />
+                                <Text style={AppStyles.OptionMenuText}>Call</Text>
+                            </View>
+
+                            <View style={AppStyles.VerticalLine} />
+
+                            <View style={AppStyles.OptionMenuSubBg}>
+
+                                <VideoIcon height={20} width={20} color={'white'} />
+                                <Text style={AppStyles.OptionMenuText}>Video Call</Text>
+                            </View>
+
+                            <View style={AppStyles.VerticalLine} />
+
+                            <View style={AppStyles.OptionMenuSubBg}>
+
+                                <MessageIcon height={20} width={20} color={'white'} />
+                                <Text style={AppStyles.OptionMenuText}>Message</Text>
+                            </View>
+
+                        </View>
+
+                        <FlatList
+                            data={ProductImagesList}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({ item }) => <ItemProductImages item={item} />}
+                            horizontal={true} // Enables horizontal scrolling
+                            showsHorizontalScrollIndicator={false} // Hides the scrollbar (optional)
+                            style={AppStyles.ProductFlatListBg}
                         />
-                    </View>
 
-                    <Text style={[AppStyles.UserName, { color: themeConfig.AppPrimaryColor }]} numberOfLines={1}>MK Traders Pvt. Ltd.</Text>
-
-                    <Text style={AppStyles.UserAddress} numberOfLines={1}>Pimpalgaon</Text>
-
-                    {/* Profile Btn */}
-                    <TouchableOpacity style={AppStyles.ViewProfBg}
-                        onPress={onPressViewProfile}
-                    >
-                        <Text style={AppStyles.ViewProfTxt}>View Profile</Text>
-                    </TouchableOpacity>
-
-                    <View style={AppStyles.OptionMenuBg}>
-
-                        <View style={AppStyles.OptionMenuSubBg}>
-
-                            <CallIcon height={20} width={20} color={'white'} />
-                            <Text style={AppStyles.OptionMenuText}>Call</Text>
-                        </View>
-
-                        <View style={AppStyles.VerticalLine} />
-
-                        <View style={AppStyles.OptionMenuSubBg}>
-
-                            <VideoIcon height={20} width={20} color={'white'} />
-                            <Text style={AppStyles.OptionMenuText}>Video Call</Text>
-                        </View>
-
-                        <View style={AppStyles.VerticalLine} />
-
-                        <View style={AppStyles.OptionMenuSubBg}>
-
-                            <MessageIcon height={20} width={20} color={'white'} />
-                            <Text style={AppStyles.OptionMenuText}>Message</Text>
-                        </View>
 
                     </View>
 
-                    <FlatList
-                        data={ProductImagesList}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => <ItemProductImages item={item} />}
-                        horizontal={true} // Enables horizontal scrolling
-                        showsHorizontalScrollIndicator={false} // Hides the scrollbar (optional)
-                        style={AppStyles.ProductFlatListBg}
-                    />
+                    <View style={AppStyles.BlackParentContainer}>
 
+
+                        <Text style={AppStyles.WhiteTitle}>Details</Text>
+
+                        <View style={AppStyles.LineBg2} />
+
+                        <Text style={[AppStyles.ProdName, { color: themeConfig.AppPrimaryColor }]}>{`Onion | Red`}</Text>
+
+                        {/* Prod Info */}
+                        <View style={AppStyles.AlignInRow}>
+
+                            <View style={AppStyles.DestBg}>
+                                <Text style={AppStyles.Destxt}>55-65 mm</Text>
+                            </View>
+
+                            <View style={AppStyles.DestBg}>
+                                <Text style={AppStyles.Destxt}>Mesh Bag</Text>
+                            </View>
+
+                            <View style={AppStyles.DestBg}>
+                                <Text style={AppStyles.Destxt}>20 kg</Text>
+                            </View>
+
+
+                        </View>
+
+                        <View style={AppStyles.DestBg}>
+                            <Text style={AppStyles.Destxt}>$385/MT CIF Dubai</Text>
+                        </View>
+
+                        {/* Date & Time  , Location*/}
+                        <View style={AppStyles.AlignInRow}>
+
+                            {/* Time */}
+                            <View style={AppStyles.ProdInfoBg}>
+
+                                <TimeIcon height={14} width={14} color={'#FFFFFF'} />
+
+                                <Text style={AppStyles.ProdInfo} numberOfLines={1} >{`3 April 2023 | 2:30pm`}</Text>
+
+                            </View>
+
+                            {/* Location */}
+                            <View style={AppStyles.ProdInfoBg}>
+
+                                <LocationIcon height={14} width={14} color={'#FFFFFF'} />
+
+                                <Text style={AppStyles.ProdInfo}>Nampur, Nashik</Text>
+
+                            </View>
+
+
+                        </View>
+
+                        <View style={AppStyles.LineBg2} />
+
+                        {/* Badges */}
+                        <View style={AppStyles.BadgeRow}>
+
+                            <View style={AppStyles.RecommBadgeBg}>
+                                <Text style={AppStyles.BadgeText}>Recommended by Wiko</Text>
+                            </View>
+
+                            <View style={AppStyles.NegotiableBg}>
+                                <Text style={AppStyles.BadgeText}>Negotiable</Text>
+                            </View>
+
+                        </View>
+
+                        <View style={AppStyles.LineBg2} />
+
+
+                        {/* Qty & containerSize */}
+                        <View style={AppStyles.AlignInRow2}>
+
+                            <View style={AppStyles.InputBoxVerticalBG}>
+
+                                <Text style={AppStyles.WhiteTitle}>Quantity to buy</Text>
+
+                                <View style={AppStyles.TextInputViewBg}>
+
+                                    <TextInput
+                                        style={AppStyles.InputBoxBg}
+                                        placeholder="Weight"
+                                        inputMode="text"
+                                        numberOfLines={1}
+                                        placeholderTextColor={'#464646'}
+                                        // value={Value}
+                                        // onChangeText={onSearch}
+                                        returnKeyType="done"
+                                    />
+
+                                    <Text style={AppStyles.TextinputInfo}>Kg</Text>
+
+                                </View>
+
+                            </View>
+
+
+                            <View style={AppStyles.InputBoxVerticalBG}>
+
+                                <Text style={AppStyles.WhiteTitle}>No. of Containers</Text>
+
+                                <View style={AppStyles.TextInputViewBg}>
+
+                                    <TextInput
+                                        style={AppStyles.InputBoxBg}
+                                        placeholder="Quantity"
+                                        inputMode="text"
+                                        numberOfLines={1}
+                                        placeholderTextColor={'#464646'}
+                                        // value={Value}
+                                        // onChangeText={onSearch}
+                                        returnKeyType="done"
+                                    />
+
+                                </View>
+
+                            </View>
+
+                        </View>
+
+
+                        <View style={AppStyles.LineBg2} />
+
+
+                        {/* Rate Amount */}
+                        <View style={AppStyles.AlignInRow2}>
+
+
+                            <View>
+
+                                <Text style={AppStyles.QtyLabel}>Rate</Text>
+
+                                <Text style={AppStyles.Qtyinfo}>₹ 9/kg</Text>
+
+                            </View>
+
+                            <View>
+
+                                <Text style={AppStyles.QtyLabel}>Quantity</Text>
+
+                                <Text style={AppStyles.Qtyinfo}>58,000kg</Text>
+
+                            </View>
+
+
+                            <View>
+
+                                <Text style={AppStyles.QtyLabel}>Amount</Text>
+
+                                <Text style={AppStyles.Qtyinfo}>₹ 3,20,000</Text>
+
+                            </View>
+
+                        </View>
+
+                        <View style={AppStyles.LineBg2} />
+
+                    </View>
 
                 </View>
 
+            </ScrollView>
 
+
+            <View style={AppStyles.BtnCollectionBg}>
+
+                <TouchableOpacity style={[AppStyles.BtnBg, { backgroundColor: '#89D373' }]} onPress={onPressCheckOut}>
+                    <Text style={AppStyles.BtnTextbg}>{'Negotiate'}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[AppStyles.BtnBg, { backgroundColor: themeConfig.AppPrimaryColor }]} onPress={onPressCheckOut}>
+                    <Text style={AppStyles.BtnTextbg}>{'Check Out'}</Text>
+                </TouchableOpacity>
 
             </View>
+
+
 
         </KeyboardAvoidingView>
 
@@ -188,7 +375,8 @@ const AppStyles = StyleSheet.create({
     BadgesBg:
     {
         position: 'absolute',
-        marginLeft: '5%'
+        marginLeft: '5%',
+        marginTop: 10,
     },
     RatingBg:
     {
@@ -197,6 +385,7 @@ const AppStyles = StyleSheet.create({
         position: 'absolute',
         right: 0,
         marginHorizontal: '5%',
+        marginTop: 10,
     },
     Ratingtxt:
     {
@@ -274,8 +463,8 @@ const AppStyles = StyleSheet.create({
         alignSelf: 'center',
         borderColor: '#6576',
         borderRadius: 10,
-        margin:8,
-        borderWidth:1,
+        margin: 8,
+        borderWidth: 1,
     },
     ProductImageBG: {
         width: 70,
@@ -285,7 +474,186 @@ const AppStyles = StyleSheet.create({
     },
     ProductFlatListBg:
     {
-        marginVertical:10,
-        marginHorizontal:'5%',
-    }
+        marginVertical: 10,
+        marginHorizontal: '5%',
+    },
+    BlackParentContainer:
+    {
+        backgroundColor: Colors.AppSecondaryColor,
+        padding: '5%',
+    },
+    WhiteTitle:
+    {
+        fontFamily: 'DMSans-Bold',
+        fontSize: RFValue(16),
+        color: 'white',
+        marginTop: 6,
+    },
+    LineBg2:
+    {
+        width: '100%',
+        height: 1,
+        alignSelf: 'center',
+        backgroundColor: '#636363',
+        marginVertical: 10,
+    },
+    ProdName:
+    {
+        fontFamily: 'DMSans-Bold',
+        fontSize: RFValue(22),
+        color: Colors.AppSecondaryColor,
+        marginTop: 10,
+    },
+
+    DestBg:
+    {
+        backgroundColor: '#202020',
+        paddingVertical: 7,
+        borderRadius: 6,
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        marginRight: 5,
+        marginTop: 5,
+        alignSelf: 'flex-start',
+    },
+    Destxt:
+    {
+        fontFamily: 'DMSans-Bold',
+        fontSize: RFValue(13),
+        color: 'white',
+    },
+    AlignInRow:
+    {
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+
+    ProdInfoBg:
+    {
+        flexDirection: 'row',
+        marginRight: '10%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    ProdInfo:
+    {
+        fontFamily: 'DMSans-Medium',
+        fontSize: RFValue(13),
+        color: 'white',
+        marginLeft: 5,
+    },
+    RecommBadgeBg:
+    {
+        backgroundColor: '#F9C233',
+        paddingVertical: 4,
+        borderRadius: 6,
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+    },
+    NegotiableBg:
+    {
+        backgroundColor: '#89D373',
+        paddingVertical: 5,
+        borderRadius: 6,
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+    },
+    BadgeText:
+    {
+        fontFamily: 'DMSans-Bold',
+        fontSize: RFValue(11),
+        color: Colors.AppSecondaryColor,
+    },
+    BadgeRow:
+    {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
+
+
+    InputBoxBg:
+    {
+        fontSize: RFValue(15),
+        flex: 1,
+        marginVertical: 5,
+        color: 'white',
+        fontFamily: 'DMSans-SemiBold',
+    },
+
+    TextInputViewBg:
+    {
+        backgroundColor: '#202020',
+        borderRadius: 10,
+        borderColor: '#BBBBBB',
+        borderWidth: 1,
+        marginTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 15,
+    },
+    TextinputInfo:
+    {
+        fontFamily: 'DMSans-SemiBold',
+        fontSize: RFValue(15),
+        color: '#BBBBBB',
+    },
+
+    AlignInRow2:
+    {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+        flex: 1,
+    },
+    InputBoxVerticalBG:
+    {
+        width: '48%',
+
+    },
+    QtyLabel:
+    {
+        fontFamily: 'DMSans-Regular',
+        fontSize: RFValue(10),
+        color: 'white',
+        marginTop: 10,
+    },
+    Qtyinfo:
+    {
+        fontFamily: 'DMSans-ExtraBold',
+        fontSize: RFValue(16),
+        color: 'white',
+    },
+
+    BtnCollectionBg:
+    {
+        backgroundColor: Colors.AppSecondaryColor,
+        flexDirection: 'row',
+        paddingHorizontal: '3%',
+        paddingVertical: width * 0.02,
+        justifyContent:'space-between',
+    },
+
+    BtnBg:
+    {
+        flex: 1,
+        backgroundColor: Colors.AppSecondaryColor,
+        borderRadius: 10,
+        alignSelf: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center', // Ensures content is centered
+        paddingVertical: 20, // Adds padding to balance the button
+        marginHorizontal: '2%',
+
+    },
+    BtnTextbg:
+    {
+        fontSize: RFValue(15),
+        fontFamily: 'DMSans-SemiBold',
+        color: 'white',
+    },
 })

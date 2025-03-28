@@ -16,6 +16,8 @@ const AppStyles = StyleSheet.create({
     BtnBg:
     {
         width: '90%',
+        // flex:1,
+        // marginHorizontal:'5%',
         backgroundColor: Colors.AppSecondaryColor,
         borderRadius: 10,
         alignSelf: 'center',
