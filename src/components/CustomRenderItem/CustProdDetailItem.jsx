@@ -12,14 +12,14 @@ import RatingIcon from '../../assets/images/ic_BdgRating.svg';
 import Constants from '../../constants/Constants';
 // { id: 1,   price: '10', unit: 'Kg', recommended: 1, nogitable: 1, paymentAssured: 1, verified: 1, rating: 3.5 },
 
-const ProductList = ({ item, navigation }) => {
+const CustProdDetailItem = ({ item, onPress }) => {
 
 
     return (
 
         <TouchableOpacity
             style={AppStyles.ProductInfoMainBg}
-            onPress={() => navigation.navigate('ProductCheckoutScreen')}
+            onPress={() => onPress()}
         >
 
             {/* Badge Recommended */}
@@ -95,7 +95,7 @@ const ProductList = ({ item, navigation }) => {
 
                 {/* Rating */}
                 <View style={AppStyles.ViewContainerRow}>
-                    <RatingIcon height={13} color={'#FF8B00'}/>
+                    <RatingIcon height={13} color={'#FF8B00'} />
 
                     <Text style={AppStyles.Ratingtxt}>3.5</Text>
                 </View>
@@ -106,7 +106,7 @@ const ProductList = ({ item, navigation }) => {
     );
 };
 
-export default ProductList;
+export default CustProdDetailItem;
 const { width, height } = Dimensions.get(Constants.ScreenType);
 
 const AppStyles = StyleSheet.create({

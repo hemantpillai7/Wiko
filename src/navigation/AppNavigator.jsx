@@ -26,6 +26,8 @@ import NewsDetailScreen from '../screens/News/NewsDetailScreen';
 import ProductListScreen from '../screens/Products/ProductListScreen';
 import ProductCheckoutScreen from '../screens/Products/ProductCheckoutScreen';
 import ZoomableImage from '../screens/Products/ZoomableImage';
+import CompanyProfile from '../screens/Profile/CompanyProfile';
+import CheckOutScreen from '../screens/Products/CheckOutScreen';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -34,7 +36,7 @@ const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{
+    <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{
       headerShown: false,
       // sharedElementTransitionsEnabled: true,
       // animation: "fade_from_bottom",
@@ -63,6 +65,8 @@ const AppNavigator = () => {
       <Stack.Screen name="ProductListScreen" component={ProductListScreen} />
       <Stack.Screen name="ProductCheckoutScreen" component={ProductCheckoutScreen} />
       <Stack.Screen name="ZoomableImage" component={ZoomableImage} />
+      <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
+      <Stack.Screen name="CheckOutScreen" component={CheckOutScreen} />
 
     </Stack.Navigator>
 

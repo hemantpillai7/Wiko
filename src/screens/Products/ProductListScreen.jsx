@@ -9,8 +9,8 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Toolbar from '../../components/Toolbar';
 import Constants from '../../constants/Constants';
 import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
-import ProductList from '../../components/CustomRenderItem/ProductList';
 import ProdFilterBtmNavItem from '../../components/CustomRenderItem/ProdFilterBtmNavItem';
+import CustProdDetailItem from '../../components/CustomRenderItem/CustProdDetailItem';
 
 const ProductListScreen = ({ navigation }) => {
 
@@ -65,6 +65,9 @@ const ProductListScreen = ({ navigation }) => {
     );
   };
 
+  const onPressProductDetail = () => {
+    navigation.navigate('ProductCheckoutScreen');
+  };
 
   return (
 
@@ -129,8 +132,8 @@ const ProductListScreen = ({ navigation }) => {
         <FlatList
           data={ProdRecordList}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <ProductList item={item} navigation={navigation}/>}
-          contentContainerStyle={{ paddingBottom: 20 }} // Ensures full scroll
+          renderItem={({ item }) => <CustProdDetailItem item={item} onPress={onPressProductDetail} />}
+          contentContainerStyle={{ paddingBottom: 20, }} // Ensures full scroll
           showsVerticalScrollIndicator={false} // Optional: Hides scrollbar
         />
       </View>
@@ -157,7 +160,7 @@ const AppStyles = StyleSheet.create({
 
   flexOne:
   {
-    flex:1,
+    flex: 1,
   },
   HeaderBg:
   {

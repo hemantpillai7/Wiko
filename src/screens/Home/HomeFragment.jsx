@@ -16,6 +16,7 @@ import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
 import ButtonCustom from '../../components/ButtonCustom';
 import SwipeBanner from '../../components/SwipeBanner';
 import Animated from 'react-native-reanimated';
+import CustProdTypeItem from '../../components/CustomRenderItem/CustProdTypeItem';
 
 const HomeFragment = ({ onPressFilterProd, navigation }) => {
   const [search, setSearch] = useState('');
@@ -46,7 +47,7 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
 
   };
 
-  const ItemProduct = ({ item }) => {
+  const ItemProducts = ({ item }) => {
     return (
       <View style={AppStyles.productContainer}>
         <Image source={item.image} style={AppStyles.productImage} />
@@ -153,7 +154,7 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
           <FlatList
             data={ProductList}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <ItemProduct item={item} />}
+            renderItem={({ item }) => <CustProdTypeItem item={item} />}
             horizontal={true} // Enables horizontal scrolling
             style={AppStyles.ProductFlatListBg}
             showsHorizontalScrollIndicator={false} // Hides the scrollbar (optional)
@@ -263,22 +264,6 @@ const AppStyles = StyleSheet.create({
     marginHorizontal: '4%',
     marginTop: height * 0.03,
     marginBottom: 2,
-  },
-  productContainer: {
-    borderWidth: 1,
-    borderColor: '#E3E3E3',
-    borderRadius: 8,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    height: 60,
-    width: 60,
-    padding: 10,
-    marginHorizontal: 5,
-  },
-  productImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
   },
   FilterParContainer:
   {

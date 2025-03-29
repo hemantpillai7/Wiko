@@ -35,7 +35,7 @@ const ProductCheckoutScreen = ({ navigation }) => {
     ];
 
     const onPressViewProfile = () => {
-
+        navigation.navigate("CompanyProfile");
     };
 
 
