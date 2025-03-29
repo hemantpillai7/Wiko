@@ -28,6 +28,8 @@ import ProductCheckoutScreen from '../screens/Products/ProductCheckoutScreen';
 import ZoomableImage from '../screens/Products/ZoomableImage';
 import CompanyProfile from '../screens/Profile/CompanyProfile';
 import CheckOutScreen from '../screens/Products/CheckOutScreen';
+import OrderConfirmScreen from '../screens/Products/OrderConfirmScreen';
+import SearchFreightScreen from '../screens/Freight/SearchFreightScreen';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -67,6 +69,8 @@ const AppNavigator = () => {
       <Stack.Screen name="ZoomableImage" component={ZoomableImage} />
       <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
       <Stack.Screen name="CheckOutScreen" component={CheckOutScreen} />
+      <Stack.Screen name="OrderConfirmScreen" component={OrderConfirmScreen} />
+      <Stack.Screen name="SearchFreightScreen" component={SearchFreightScreen} />
 
     </Stack.Navigator>
 

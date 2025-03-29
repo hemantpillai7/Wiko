@@ -14,7 +14,6 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
 import StarRating from '../../components/StarRating';
 import { FlatList } from 'react-native-gesture-handler';
-import ButtonCustom from '../../components/ButtonCustom';
 const ProductCheckoutScreen = ({ navigation }) => {
 
     const [profileImage, setProfileImage] = useState(null);
@@ -55,7 +54,7 @@ const ProductCheckoutScreen = ({ navigation }) => {
     };
 
     const onPressCheckOut = () => {
-
+        navigation.navigate("CheckOutScreen");
     };
 
 
