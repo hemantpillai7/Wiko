@@ -29,7 +29,10 @@ import ZoomableImage from '../screens/Products/ZoomableImage';
 import CompanyProfile from '../screens/Profile/CompanyProfile';
 import CheckOutScreen from '../screens/Products/CheckOutScreen';
 import OrderConfirmScreen from '../screens/Products/OrderConfirmScreen';
-import SearchFreightScreen from '../screens/Freight/SearchFreightScreen';
+import ConfirmationDonePage from '../screens/Products/ConfirmationDonePage';
+import PaymentConfirmPage from '../screens/Products/PaymentConfirmPage';
+import ChaSearchScreen from '../screens/CHA/ChaSearchScreen';
+import FreightScreen from '../screens/Freight/FreightScreen';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -38,7 +41,7 @@ const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{
+    <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{
       headerShown: false,
       // sharedElementTransitionsEnabled: true,
       // animation: "fade_from_bottom",
@@ -70,7 +73,10 @@ const AppNavigator = () => {
       <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
       <Stack.Screen name="CheckOutScreen" component={CheckOutScreen} />
       <Stack.Screen name="OrderConfirmScreen" component={OrderConfirmScreen} />
-      <Stack.Screen name="SearchFreightScreen" component={SearchFreightScreen} />
+      <Stack.Screen name="ConfirmationDonePage" component={ConfirmationDonePage} />
+      <Stack.Screen name="PaymentConfirmPage" component={PaymentConfirmPage} />
+      <Stack.Screen name="FreightScreen" component={FreightScreen} />
+      <Stack.Screen name="ChaSearchScreen" component={ChaSearchScreen} />
 
     </Stack.Navigator>
 

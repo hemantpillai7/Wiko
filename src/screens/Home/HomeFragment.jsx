@@ -67,6 +67,14 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
     navigation.navigate('NewsScreen');
   };
 
+  const onPressChaMenu = () => {
+    navigation.navigate('ChaSearchScreen');
+  };
+
+  const onPressFreightMenu = () => {
+    navigation.navigate('FreightScreen');
+  };
+
   return (
     <View style={AppStyles.MainContainer}>
 
@@ -119,7 +127,9 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
             </TouchableOpacity>
 
 
-            <TouchableOpacity style={AppStyles.OptionBtnBg}>
+            <TouchableOpacity style={AppStyles.OptionBtnBg}
+              onPress={onPressFreightMenu}
+            >
 
               <FreightIcon height={40} width={40} color={themeConfig.AppPrimaryColor} />
 
@@ -127,7 +137,8 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
 
             </TouchableOpacity>
 
-            <TouchableOpacity style={AppStyles.OptionBtnBg}>
+            <TouchableOpacity style={AppStyles.OptionBtnBg}
+              onPress={onPressChaMenu}>
 
               <ChaIcon height={40} width={40} color={themeConfig.AppPrimaryColor} />
 

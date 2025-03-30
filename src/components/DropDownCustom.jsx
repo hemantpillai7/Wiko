@@ -17,9 +17,9 @@ const DropDownCustom = ({ itemList = [], Value = '', DropListLabel, onSelectItem
 
 
     return (
-        <View style={[style]}>
+        <View>
 
-            <Pressable style={AppStyles.InputContainerBg}
+            <Pressable style={[AppStyles.InputContainerBg, style]}
                 onLayout={(event) => {
                     const { height } = event.nativeEvent.layout;
                     setViewHeight(height);
