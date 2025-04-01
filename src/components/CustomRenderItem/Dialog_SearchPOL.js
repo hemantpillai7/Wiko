@@ -1,7 +1,7 @@
 import React, { useState, } from 'react';
 import Modal from 'react-native-modal';
 
-import { View, TouchableOpacity, Text, StyleSheet, TextInput, FlatList } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet, TextInput, FlatList } from 'react-native';
 import SearchIcon from '../../assets/images/ic_Search.svg';
 import CancelIcon from '../../assets/images/ic_CancelIcon.svg';
 import Colors from '../../constants/Colors';
@@ -53,8 +53,8 @@ export function Dialog_SearchPOL(isVisible, closeDialog, onPressApply) {
                 </View>
             </View>
 
-        )
-    }
+        );
+    };
 
     return (
 
@@ -101,7 +101,7 @@ export function Dialog_SearchPOL(isVisible, closeDialog, onPressApply) {
                     showsVerticalScrollIndicator={false}
                     keyExtractor={(item, index) => `POL-${item.id}-${index}`}
                     renderItem={({ item }) => (ItemRender(item))}
-                    
+
                 />
 
             </View>
@@ -117,7 +117,7 @@ const AppStyles = StyleSheet.create({
         padding: 20,
         borderRadius: 8,
         backgroundColor: 'white',
-        height: '90%'
+        height: '90%',
     },
     IconBg:
     {

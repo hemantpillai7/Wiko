@@ -11,6 +11,7 @@ import ButtonCustom from '../../components/ButtonCustom';
 import { Dialog_SearchPOL } from '../../components/CustomRenderItem/Dialog_SearchPOL';
 import { Dialog_SearchPOD } from '../../components/CustomRenderItem/Dialog_SearchPOD';
 import { Dialog_SelectCommodity } from '../../components/CustomRenderItem/Dialog_SelectCommodity';
+import { Dialog_SelectContainer } from '../../components/CustomRenderItem/Dialog_SelectContainer';
 
 const FreightScreen = ({ navigation }) => {
 
@@ -21,18 +22,20 @@ const FreightScreen = ({ navigation }) => {
     const [isVisiblePolDialog, setIsVisiblePolDialog] = useState(false);
     const [isVisiblePodDialog, setIsVisiblePodDialog] = useState(false);
     const [isVisibleCommodityDialog, setIsVisibleCommodityDialog] = useState(false);
+    const [isVisibleContainerDialog, setIsVisibleContainerDialog] = useState(false);
 
     const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
 
     const dropdownlist = [];
 
     const onPressSearch = () => {
-
+        navigation.navigate('FreightListScreen');
     };
     const closeDialog = () => {
         setIsVisiblePolDialog(false);
         setIsVisiblePodDialog(false);
         setIsVisibleCommodityDialog(false);
+        setIsVisibleContainerDialog(false);
     };
     const onPressApply = () => {
 
@@ -123,7 +126,8 @@ const FreightScreen = ({ navigation }) => {
 
 
                             {/* No. of Container */}
-                            <View style={AppStyles.BoxBg}>
+                            <Pressable style={AppStyles.BoxBg}
+                                onPress={() => setIsVisibleContainerDialog(true)}>
 
                                 <View style={AppStyles.BoxLeftStyle}>
                                     <Text style={AppStyles.InfoTitle} >{'No. of Container'}</Text>
@@ -135,7 +139,7 @@ const FreightScreen = ({ navigation }) => {
 
                                 </View>
 
-                            </View>
+                            </Pressable>
 
 
                             {/* Stuffing Location */}
@@ -209,6 +213,9 @@ const FreightScreen = ({ navigation }) => {
             }
             {
                 Dialog_SelectCommodity(isVisibleCommodityDialog, closeDialog, onPressApply)
+            }
+            {
+                Dialog_SelectContainer(isVisibleContainerDialog, closeDialog, onPressApply)
             }
 
         </KeyboardAvoidingView>

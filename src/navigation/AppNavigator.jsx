@@ -33,6 +33,7 @@ import ConfirmationDonePage from '../screens/Products/ConfirmationDonePage';
 import PaymentConfirmPage from '../screens/Products/PaymentConfirmPage';
 import ChaSearchScreen from '../screens/CHA/ChaSearchScreen';
 import FreightScreen from '../screens/Freight/FreightScreen';
+import FreightListScreen from '../screens/Freight/FreightListScreen';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -76,6 +77,7 @@ const AppNavigator = () => {
       <Stack.Screen name="ConfirmationDonePage" component={ConfirmationDonePage} />
       <Stack.Screen name="PaymentConfirmPage" component={PaymentConfirmPage} />
       <Stack.Screen name="FreightScreen" component={FreightScreen} />
+      <Stack.Screen name="FreightListScreen" component={FreightListScreen} />
       <Stack.Screen name="ChaSearchScreen" component={ChaSearchScreen} />
 
     </Stack.Navigator>
