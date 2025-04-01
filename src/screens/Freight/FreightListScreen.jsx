@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, Image, ImageBackground, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, FlatList, Image, ImageBackground, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import Toolbar from '../../components/Toolbar';
 import Constants from '../../constants/Constants';
@@ -6,7 +6,7 @@ import Colors from '../../constants/Colors';
 import DirectIcon from '../../assets/images/ic_Direction.svg';
 import { RFValue } from 'react-native-responsive-fontsize';
 
-const FreightListScreen = () => {
+const FreightListScreen = ({ navigation }) => {
 
   const List = [
     {
@@ -121,7 +121,9 @@ const FreightListScreen = () => {
         resizeMode='stretch'
       >
 
-        <View style={AppStyles.CardParentContainer}>
+        <TouchableOpacity style={AppStyles.CardParentContainer}
+          onPress={() => navigation.navigate('FreightDetailScreen')}
+        >
 
           <View style={AppStyles.CardSubTopContainer}>
 
@@ -148,8 +150,8 @@ const FreightListScreen = () => {
             <Image
               // source={require('../../assets/temp/ic_Container.png')}
               source={{ uri: item?.logo }}
-            style={AppStyles.ConatinerLogoBg}
-            resizeMode='center'
+              style={AppStyles.ConatinerLogoBg}
+              resizeMode='center'
             />
 
           </View>
@@ -170,7 +172,7 @@ const FreightListScreen = () => {
 
           </View>
 
-        </View>
+        </TouchableOpacity>
 
       </ImageBackground>
     )
