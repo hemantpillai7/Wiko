@@ -32,9 +32,17 @@ const InfoFragment = () => {
   );
 
 
+  const onPressCompanyDetails = () => {
+    navigation.navigate('CompanyDetails');
+  };
+
+  const onPressPersonalDetails = () => {
+    navigation.navigate('PersonalDetails');
+  };
   const onPressPrivacy = () => {
 
   };
+
 
   const onPressKYC = () => {
     // navigation.navigate('FavoriteScreen');
@@ -68,7 +76,9 @@ const InfoFragment = () => {
   return (
     <KeyboardAvoidingView style={AppStyles.flexOne}>
 
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
 
         <View>
 
@@ -170,9 +180,9 @@ const InfoFragment = () => {
           <View style={AppStyles.LineBg} />
 
 
-          <OptionItem label={'Company Details'} onPress={onPressPrivacy} />
+          <OptionItem label={'Company Details'} onPress={onPressCompanyDetails} />
 
-          <OptionItem label={'Personal Details'} onPress={onPressPrivacy} />
+          <OptionItem label={'Personal Details'} onPress={onPressPersonalDetails} />
 
 
           <View style={AppStyles.LineBg} />

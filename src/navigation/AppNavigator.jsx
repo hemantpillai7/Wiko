@@ -39,6 +39,8 @@ import OrderStatusDetailScreen from '../screens/OrderStatus/OrderStatusDetailScr
 import FavoriteScreen from '../screens/Info/FavoriteScreen';
 import SettingScreen from '../screens/Info/SettingScreen';
 import ChangePasswordScreen from '../screens/Info/ChangePasswordScreen';
+import CompanyDetails from '../screens/Info/CompanyDetails';
+import PersonalDetails from '../screens/Info/PersonalDetails';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -89,6 +91,8 @@ const AppNavigator = () => {
       <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
       <Stack.Screen name="SettingScreen" component={SettingScreen} />
       <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
+      <Stack.Screen name="CompanyDetails" component={CompanyDetails} />
+      <Stack.Screen name="PersonalDetails" component={PersonalDetails} />
 
     </Stack.Navigator>
 
