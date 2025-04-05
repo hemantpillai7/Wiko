@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import RatingIcon from '../assets/images/ic_BdgRating.svg';
 
-const StarRating = ({ maxStars = 5, starSize = 20, activeColor = "#FF8B00", inactiveColor = "#D3D3D3", onRatingChange }) => {
-   
-    const [rating, setRating] = useState(3.5);
+const StarRating = ({ maxStars = 5, starSize = 20, activeColor = "#FF8B00", inactiveColor = "#D3D3D3", onRatingChange, curRating = 3.5 }) => {
+
+    const [rating, setRating] = useState(curRating);
 
     const handleRating = (newRating) => {
         setRating(newRating);

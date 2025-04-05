@@ -9,6 +9,7 @@ import StarRating from '../../components/StarRating';
 
 import AssuredPayIcon from '../../assets/images/ic_BdgPaymentAssured.svg';
 import VerifiedIcon from '../../assets/images/ic_BdgVerified.svg';
+import SavedIcon from '../../assets/images/ic_Saved.svg';
 import CustProdTypeItem from '../../components/CustomRenderItem/CustProdTypeItem';
 import CustProdDetailItem from '../../components/CustomRenderItem/CustProdDetailItem';
 
@@ -65,6 +66,7 @@ const CompanyProfile = ({ navigation }) => {
 
     const [profileImage, setProfileImage] = useState(null);
     const [MenuBtnList, setMenuBtnList] = useState(MenuBtnLists);
+    const [Saved, setSaved] = useState(false);
 
     const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
 
@@ -103,7 +105,7 @@ const CompanyProfile = ({ navigation }) => {
     const onPressProductDetail = () => {
         navigation.pop(2);
         navigation.navigate('ProductCheckoutScreen');
-      
+
 
     };
 
@@ -168,6 +170,18 @@ const CompanyProfile = ({ navigation }) => {
                             <Text style={AppStyles.Destxt}>5 yrs</Text>
                         </View>
 
+
+                        <TouchableOpacity
+                            onPress={() => setSaved((prev) => !prev)}
+                            style={{marginTop: 15,}}
+                        >
+
+                            <SavedIcon height={25} width={25} color={Saved ? themeConfig.AppPrimaryColor : '#ECECEC'}/>
+
+
+                        </TouchableOpacity>
+
+
                         <View style={AppStyles.ProfileBadgeBg}>
 
                             <AssuredPayIcon height={15} />
@@ -176,6 +190,10 @@ const CompanyProfile = ({ navigation }) => {
                         </View>
 
                     </View>
+
+
+
+
 
                 </View>
 

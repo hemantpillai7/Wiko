@@ -17,15 +17,10 @@ import NotificationFragment from './NotificationFragment';
 import OrderFragment from './OrderFragment';
 import InfoFragment from './InfoFragment';
 import ProdFilterBtmNavItem from '../../components/CustomRenderItem/ProdFilterBtmNavItem';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const ICON_SIZE = 25; // Define icon size
 const TAB_BAR_HEIGHT = 70; // Fixed height for proper alignment
-
-// Dummy screens
-const HomePage = () => (
-  <HomeFragment />
-);
 
 const MessagePage = () => (
   <MessageFragment />
@@ -33,10 +28,6 @@ const MessagePage = () => (
 
 const NotificationPage = () => (
   <NotificationFragment />
-);
-
-const OrderPage = () => (
-  <OrderFragment />
 );
 
 const InfoPage = () => (
@@ -47,11 +38,19 @@ const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
 
-  const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
+  const [themeName, setThemeName] = useState(Constants.CurrentAppTheme);
+    const themeConfig = appThemeConfiguration(themeName);
 
   const [isSheetVisible, setSheetVisible] = useState(false);
 
   const navigation = useNavigation();
+
+
+    useFocusEffect(
+      React.useCallback(() => {
+        setThemeName(Constants.CurrentAppTheme);
+      }, [])
+    );
 
 
   const onPressFilterProd = () => {
@@ -111,16 +110,22 @@ const HomeScreen = () => {
           })}
         >
           {/* <Tab.Screen name="Home" component={HomePage} /> */}
+          {/* <Tab.Screen name="Order Status" component={OrderPage(navigation)} /> */}
+
           <Tab.Screen name="Home">
             {() => <HomeFragment
               onPressFilterProd={onPressFilterProd}
-              // onSubmitFilterProd={onSubmitFilterProd}
               navigation={navigation}
             />}
           </Tab.Screen>
           <Tab.Screen name="Message" component={MessagePage} />
           <Tab.Screen name="Notification" component={NotificationPage} />
-          <Tab.Screen name="Order Status" component={OrderPage} />
+
+          <Tab.Screen name="Order Status">
+            {() => <OrderFragment
+              navigation={navigation}
+            />}
+          </Tab.Screen>
           <Tab.Screen name="Info" component={InfoPage} />
         </Tab.Navigator>
       </View>

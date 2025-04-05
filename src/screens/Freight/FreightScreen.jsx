@@ -16,7 +16,6 @@ import { Dialog_SelectContainer } from '../../components/CustomRenderItem/Dialog
 const FreightScreen = ({ navigation }) => {
 
 
-    const [rotation, setRotation] = useState(new Animated.Value(90)); // Start at 90 degrees
     const [isRotated, setIsRotated] = useState(false);
 
     const [isVisiblePolDialog, setIsVisiblePolDialog] = useState(false);

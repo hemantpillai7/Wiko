@@ -17,13 +17,18 @@ import ButtonCustom from '../../components/ButtonCustom';
 import SwipeBanner from '../../components/SwipeBanner';
 import Animated from 'react-native-reanimated';
 import CustProdTypeItem from '../../components/CustomRenderItem/CustProdTypeItem';
+import { useFocusEffect } from '@react-navigation/native';
 
 const HomeFragment = ({ onPressFilterProd, navigation }) => {
   const [search, setSearch] = useState('');
+  const [themeName, setThemeName] = useState(Constants.CurrentAppTheme);
+  const themeConfig = appThemeConfiguration(themeName);
 
-  const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
-
-
+  useFocusEffect(
+    React.useCallback(() => {
+      setThemeName(Constants.CurrentAppTheme);
+    }, [])
+  );
 
   const Item = [
     "https://www.shutterstock.com/shutterstock/photos/2124818198/display_1500/stock-vector-smoothie-maker-ad-template-household-appliance-mock-up-full-of-fresh-sliced-fruits-and-ice-on-2124818198.jpg",

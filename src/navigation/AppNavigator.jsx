@@ -35,6 +35,10 @@ import ChaSearchScreen from '../screens/CHA/ChaSearchScreen';
 import FreightScreen from '../screens/Freight/FreightScreen';
 import FreightListScreen from '../screens/Freight/FreightListScreen';
 import FreightDetailScreen from '../screens/Freight/FreightDetailScreen';
+import OrderStatusDetailScreen from '../screens/OrderStatus/OrderStatusDetailScreen';
+import FavoriteScreen from '../screens/Info/FavoriteScreen';
+import SettingScreen from '../screens/Info/SettingScreen';
+import ChangePasswordScreen from '../screens/Info/ChangePasswordScreen';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -81,6 +85,10 @@ const AppNavigator = () => {
       <Stack.Screen name="FreightListScreen" component={FreightListScreen} />
       <Stack.Screen name="ChaSearchScreen" component={ChaSearchScreen} />
       <Stack.Screen name="FreightDetailScreen" component={FreightDetailScreen} />
+      <Stack.Screen name="OrderStatusDetailScreen" component={OrderStatusDetailScreen} />
+      <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
+      <Stack.Screen name="SettingScreen" component={SettingScreen} />
+      <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
 
     </Stack.Navigator>
 

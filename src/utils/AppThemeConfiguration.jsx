@@ -5,20 +5,20 @@ export const appThemeConfiguration = (Theme) => {
     const themeColors = {
         [Constants.ThemeOne]: {
             AppPrimaryColor: Colors.AppPrimaryColor,
-            AppSecondaryColor: Colors.SecondaryColorOne,
+            AppSecondaryColor: Colors.AppSecondaryColor,
         },
         [Constants.ThemeTwo]: {
-            AppPrimaryColor: "#888888", // Corrected hex value
-            AppSecondaryColor: "#555555", // Example secondary color
+            AppPrimaryColor: "#d10404", // Corrected hex value
+            AppSecondaryColor: Colors.AppSecondaryColor,
         },
         [Constants.ThemeThree]: {
-            AppPrimaryColor: "#188988", // Corrected hex value
-            AppSecondaryColor: "#166666", // Example secondary color
+            AppPrimaryColor: "#008cff", // Corrected hex value
+            AppSecondaryColor: Colors.AppSecondaryColor,
         }
     };
 
     return themeColors[Theme] || {
         AppPrimaryColor: Colors.AppPrimaryColor,
-        AppSecondaryColor: Colors.DefaultSecondaryColor,
+        AppSecondaryColor: Colors.AppSecondaryColor,
     };
 };
