@@ -41,6 +41,13 @@ import SettingScreen from '../screens/Info/SettingScreen';
 import ChangePasswordScreen from '../screens/Info/ChangePasswordScreen';
 import CompanyDetails from '../screens/Info/CompanyDetails';
 import PersonalDetails from '../screens/Info/PersonalDetails';
+import RequestFeature from '../screens/Info/RequestFeature';
+import KYCScreen from '../screens/Info/KYC/KYCScreen';
+import SubscriptionPackScreen from '../screens/Info/SubscriptionPackScreen';
+import AboutUsScreen from '../screens/Info/AboutusScreen';
+import PrivacyPolicyScreen from '../screens/Info/PrivacyPolicyScreen';
+import TermsConditionScreen from '../screens/Info/TermsConditionScreen';
+import NegotiateScreen from '../screens/Products/NegotiateScreen';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -93,6 +100,13 @@ const AppNavigator = () => {
       <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
       <Stack.Screen name="CompanyDetails" component={CompanyDetails} />
       <Stack.Screen name="PersonalDetails" component={PersonalDetails} />
+      <Stack.Screen name="RequestFeature" component={RequestFeature} />
+      <Stack.Screen name="KYCScreen" component={KYCScreen} />
+      <Stack.Screen name="SubscriptionPackScreen" component={SubscriptionPackScreen} />
+      <Stack.Screen name="AboutUsScreen" component={AboutUsScreen} />
+      <Stack.Screen name="TermsConditionScreen" component={TermsConditionScreen} />
+      <Stack.Screen name="PrivacyPolicyScreen" component={PrivacyPolicyScreen} />
+      <Stack.Screen name="NegotiateScreen" component={NegotiateScreen} />
 
     </Stack.Navigator>
 

@@ -446,5 +446,5 @@ const AppStyles = StyleSheet.create({
     ProductImgListBg:
     {
         marginTop: 10,
-    }
+    },
 })

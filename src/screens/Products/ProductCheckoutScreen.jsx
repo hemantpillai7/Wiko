@@ -56,6 +56,9 @@ const ProductCheckoutScreen = ({ navigation }) => {
     const onPressCheckOut = () => {
         navigation.navigate("CheckOutScreen");
     };
+    const onPressNegotiate = () => {
+        navigation.navigate("NegotiateScreen");
+    };
 
 
     return (
@@ -319,7 +322,7 @@ const ProductCheckoutScreen = ({ navigation }) => {
 
             <View style={AppStyles.BtnCollectionBg}>
 
-                <TouchableOpacity style={[AppStyles.BtnBg, { backgroundColor: '#89D373' }]} onPress={onPressCheckOut}>
+                <TouchableOpacity style={[AppStyles.BtnBg, { backgroundColor: '#89D373' }]} onPress={onPressNegotiate}>
                     <Text style={AppStyles.BtnTextbg}>{'Negotiate'}</Text>
                 </TouchableOpacity>
 

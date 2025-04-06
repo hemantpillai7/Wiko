@@ -31,22 +31,10 @@ const InfoFragment = () => {
     }, [])
   );
 
-
-  const onPressCompanyDetails = () => {
-    navigation.navigate('CompanyDetails');
-  };
-
-  const onPressPersonalDetails = () => {
-    navigation.navigate('PersonalDetails');
-  };
-  const onPressPrivacy = () => {
-
-  };
-
-
   const onPressKYC = () => {
-    // navigation.navigate('FavoriteScreen');
+    navigation.navigate('KYCScreen');
   };
+  
   const onPressWikoPay = () => {
     // navigation.navigate('FavoriteScreen');
   };
@@ -58,6 +46,39 @@ const InfoFragment = () => {
   const onPressSetting = () => {
     navigation.navigate('SettingScreen');
   };
+
+
+
+
+  const onPressCompanyDetails = () => {
+    navigation.navigate('CompanyDetails');
+  };
+
+  const onPressPersonalDetails = () => {
+    navigation.navigate('PersonalDetails');
+  };
+
+  const onPressSubscription = () => {
+    navigation.navigate('SubscriptionPackScreen');
+  };
+
+  const onPressAboutUs = () => {
+    navigation.navigate('AboutUsScreen');
+  };
+  const onPressTerms = () => {
+    navigation.navigate('TermsConditionScreen');
+  };
+  const onPressPrivacy = () => {
+    navigation.navigate('PrivacyPolicyScreen');
+  };
+  const onPressRateUs = () => {
+
+  };
+
+  const onPressRequestFeature = () => {
+    navigation.navigate('RequestFeature');
+  };
+
 
   const OptionItem = ({ label, onPress }) => {
     return (
@@ -188,17 +209,17 @@ const InfoFragment = () => {
           <View style={AppStyles.LineBg} />
 
 
-          <OptionItem label={'Subscription Package'} onPress={onPressPrivacy} />
+          <OptionItem label={'Subscription Package'} onPress={onPressSubscription} />
 
-          <OptionItem label={'About Us'} onPress={onPressPrivacy} />
+          <OptionItem label={'About Us'} onPress={onPressAboutUs} />
 
-          <OptionItem label={'Terms & Conditions'} onPress={onPressPrivacy} />
+          <OptionItem label={'Terms & Conditions'} onPress={onPressTerms} />
 
           <OptionItem label={'Privacy Policy'} onPress={onPressPrivacy} />
 
-          <OptionItem label={'Rate Us'} onPress={onPressPrivacy} />
+          <OptionItem label={'Rate Us'} onPress={onPressRateUs} />
 
-          <OptionItem label={'Request a Feature'} onPress={onPressPrivacy} />
+          <OptionItem label={'Request a Feature'} onPress={onPressRequestFeature} />
 
 
 
@@ -209,8 +230,8 @@ const InfoFragment = () => {
       </ScrollView>
 
     </KeyboardAvoidingView>
-  )
-}
+  );
+};
 
 export default InfoFragment;
 const { width, height } = Dimensions.get(Constants.ScreenType);
