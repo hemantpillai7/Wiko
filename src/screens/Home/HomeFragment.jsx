@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, Image, KeyboardAvoidingView, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { Dimensions, FlatList, Image, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize';
 
@@ -24,6 +24,9 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
   const [themeName, setThemeName] = useState(Constants.CurrentAppTheme);
   const themeConfig = appThemeConfiguration(themeName);
 
+  const debounceTimer = useRef(null);
+  const [filterMsgShow, setfilterMsgShow] = useState(true);
+
   useFocusEffect(
     React.useCallback(() => {
       setThemeName(Constants.CurrentAppTheme);
@@ -48,10 +51,6 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
     { id: 9, image: require('../../assets/temp/ic_fruit_3.png') },
   ];
 
-  const onPressWhyWiko = () => {
-
-  };
-
   const ItemProducts = ({ item }) => {
     return (
       <View style={AppStyles.productContainer}>
@@ -68,6 +67,18 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
   const onFilterCancel = () => {
 
   };
+  const onPressCustomQuote = () => {
+    navigation.navigate('CustomQuoteScreen');
+  };
+
+  const onPressWhyWiko = () => {
+    navigation.navigate('AboutUsScreen');
+  };
+
+  const onPressGetVerified = () => {
+    navigation.navigate('KYCScreen');
+  };
+
   const onPressNewsMenu = () => {
     navigation.navigate('NewsScreen');
   };
@@ -79,6 +90,26 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
   const onPressFreightMenu = () => {
     navigation.navigate('FreightScreen');
   };
+
+  const onPressProductList = () => {
+    navigation.navigate('ProductListScreen');
+  }
+
+
+  const handleSearch = (text) => {
+    setSearch(text);
+
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(() => {
+      setSearch('');
+      navigation.navigate('ProductListScreen', { type: 'search', text: text });
+    }, 500);
+  };
+
+
 
   return (
     <View style={AppStyles.MainContainer}>
@@ -101,7 +132,7 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
               inputMode="search"
               numberOfLines={1}
               placeholderTextColor={Colors.InputBoxLayout}
-              onChangeText={setSearch}
+              onChangeText={handleSearch}
               value={search}
             // returnKeyType=""
 
@@ -123,7 +154,9 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
 
             </TouchableOpacity>
 
-            <TouchableOpacity style={AppStyles.OptionBtnBg}>
+            <TouchableOpacity style={AppStyles.OptionBtnBg}
+              onPress={onPressCustomQuote}
+            >
 
               <QuoteIcon height={40} width={40} color={themeConfig.AppPrimaryColor} />
 
@@ -165,12 +198,12 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
             />
           </SafeAreaView>
 
-          <ButtonCustom name={'Get Verified'} onPress={onPressWhyWiko} style={AppStyles.ButtonBg} />
+          <ButtonCustom name={'Get Verified'} onPress={onPressGetVerified} style={AppStyles.ButtonBg} />
 
           <FlatList
             data={ProductList}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <CustProdTypeItem item={item} />}
+            renderItem={({ item }) => <CustProdTypeItem item={item} onPress={onPressProductList} />}
             horizontal={true} // Enables horizontal scrolling
             style={AppStyles.ProductFlatListBg}
             showsHorizontalScrollIndicator={false} // Hides the scrollbar (optional)
@@ -188,19 +221,26 @@ const HomeFragment = ({ onPressFilterProd, navigation }) => {
               <Text style={AppStyles.FilterText}>{'Filter Specific Product'}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[AppStyles.FilterBg, { flex: 1 }]}>
+            {/* <TouchableOpacity style={[AppStyles.FilterBg, { flex: 1 }]}>
               <Text style={AppStyles.FilterText}>{'Sort by'}</Text>
               <DropdownIcon height={15} width={15} color={Colors.AppSecondaryColor} style={AppStyles.FilterIcon} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
 
           </View>
 
           {/* Use Filter */}
-          <TouchableOpacity style={AppStyles.GreenMsgBg}>
-            <Text style={AppStyles.GreenMsgText}>{'Use filter to get specific products list'}</Text>
-            <CrossIcon height={15} width={15} color={Colors.HomeGreenMsgBorder} style={AppStyles.GreenMsgIcon} />
-          </TouchableOpacity>
+
+          {filterMsgShow &&
+            <View style={AppStyles.GreenMsgBg}>
+              <Text style={AppStyles.GreenMsgText}>{'Use filter to get specific products list'}</Text>
+              <Pressable
+                onPress={() => setfilterMsgShow(false)}
+              >
+                <CrossIcon height={15} width={15} color={Colors.HomeGreenMsgBorder} style={AppStyles.GreenMsgIcon} />
+              </Pressable>
+            </View>
+          }
 
 
 
@@ -286,7 +326,7 @@ const AppStyles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: '3%',
     marginTop: height * 0.01,
-    marginBottom: 2,
+    marginBottom: height * 0.02,
   },
   FilterBg:
   {
@@ -326,7 +366,6 @@ const AppStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    marginTop: height * 0.02,
     marginBottom: height * 0.04,
   },
   GreenMsgText:

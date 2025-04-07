@@ -17,7 +17,7 @@ const App = () => {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
-            <StatusBar translucent backgroundColor='transparent' barStyle="dark-content" />
+            <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
             <AppNavigator />
             <NoInternetDialog />
             <ToastManager ref={toastRef} />

@@ -1,5 +1,5 @@
-import { Dimensions, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { Dimensions, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
 import Constants from '../../constants/Constants';
 import Toolbar from '../../components/Toolbar';
 import MessageIcon from '../../assets/images/ic_MessageProf.svg';
@@ -12,8 +12,14 @@ import VerifiedIcon from '../../assets/images/ic_BdgVerified.svg';
 import RatingIcon from '../../assets/images/ic_BdgRating.svg';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Colors from '../../constants/Colors';
+import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
 
 const OrderStatusDetailScreen = () => {
+
+    const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
+
+    const [PackingStatus, setPackingStatus] = useState(false);
+
     return (
         <KeyboardAvoidingView style={AppStyles.MainContainer}>
 
@@ -23,10 +29,10 @@ const OrderStatusDetailScreen = () => {
 
                 <Toolbar Title={'Order Status (Id-mh125)'} />
 
-                <ScrollView>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}>
 
-                    <View style={{ padding: 20, backgroundColor: '#F5F5F5', margin: 5 }}>
-
+                    <View style={AppStyles.DetailBg}>
 
                         {/* Badges List */}
                         <View style={AppStyles.ViewContainerRow}>
@@ -146,7 +152,7 @@ const OrderStatusDetailScreen = () => {
                         </View>
 
 
-
+                        {/* Call Message */}
                         <View style={AppStyles.OptionMenuBg}>
 
                             <View style={AppStyles.OptionMenuSubBg}>
@@ -174,7 +180,272 @@ const OrderStatusDetailScreen = () => {
                         </View>
 
 
+
+
+
+
+
                     </View>
+
+
+                    <View style={AppStyles.TrackParentBg}>
+
+                        {/* Order Placed */}
+                        <View style={AppStyles.TrackSubContainer}>
+
+                            <View style={AppStyles.TrackSubLeftContainer}>
+                                <Text style={AppStyles.TracklightText}>12.07.2023</Text>
+                                <Text style={AppStyles.TrackBlackText}>1:15 pm</Text>
+                            </View>
+
+                            <View style={AppStyles.TrackSubMiddleContainer}>
+
+                                <View style={[AppStyles.TrackcircleBg, { backgroundColor: themeConfig.AppPrimaryColor }]} />
+
+                                <View style={[AppStyles.TrackLineBg, { backgroundColor: themeConfig.AppPrimaryColor }]} />
+
+                            </View>
+
+                            <View style={AppStyles.TrackSubRightContainer}>
+                                <Text style={AppStyles.TrackBlackText}>Order placed</Text>
+                                <Text style={AppStyles.TracklightText}>Pimpalgaon, Nashik</Text>
+                            </View>
+
+                        </View>
+
+                        {/* Payment */}
+                        <View style={AppStyles.TrackSubContainer}>
+
+                            <View style={AppStyles.TrackSubLeftContainer}>
+                                <Text style={AppStyles.TracklightText}>12.07.2023</Text>
+                                <Text style={AppStyles.TrackBlackText}>1:15 pm</Text>
+                            </View>
+
+                            <View style={AppStyles.TrackSubMiddleContainer}>
+
+                                <View style={[AppStyles.TrackcircleBg, { backgroundColor: themeConfig.AppPrimaryColor }]} />
+
+                                <View style={[AppStyles.TrackLineBg, { backgroundColor: themeConfig.AppPrimaryColor }]} />
+
+                            </View>
+
+                            <View style={AppStyles.TrackSubRightContainer}>
+                                <Text style={AppStyles.TrackBlackText}>Payment</Text>
+
+                                <TextInput
+                                    style={AppStyles.InputBoxBg}
+                                    placeholder="Payment Sent"
+                                    inputMode="text"
+                                    numberOfLines={1}
+                                    editable={false}
+                                    // value={companyName}
+                                    // onChangeText={(text) => {
+                                    //     setCompanyName(text);
+                                    // }}
+                                    placeholderTextColor={Colors.InputBoxLayout}
+                                    returnKeyType="next"
+                                />
+
+                                <TextInput
+                                    style={AppStyles.InputBoxBg}
+                                    placeholder="Payment Pending"
+                                    inputMode="text"
+                                    numberOfLines={1}
+                                    editable={false}
+                                    // value={companyName}
+                                    // onChangeText={(text) => {
+                                    //     setCompanyName(text);
+                                    // }}
+                                    placeholderTextColor={Colors.InputBoxLayout}
+                                    returnKeyType="next"
+                                />
+
+
+                                <TouchableOpacity style={AppStyles.BtnBg}>
+                                    <Text style={AppStyles.BtnTextbg}>Done</Text>
+                                </TouchableOpacity>
+
+
+                            </View>
+
+                        </View>
+
+
+                        {/* Packaging */}
+                        <View style={AppStyles.TrackSubContainer}>
+
+                            <View style={AppStyles.TrackSubLeftContainer}>
+                                <Text style={AppStyles.TracklightText}>12.07.2023</Text>
+                                <Text style={AppStyles.TrackBlackText}>1:15 pm</Text>
+                            </View>
+
+                            <View style={AppStyles.TrackSubMiddleContainer}>
+
+                                <View style={[AppStyles.TrackcircleBg, { backgroundColor: themeConfig.AppPrimaryColor }]} />
+
+                                <View style={[AppStyles.TrackLineBg, { backgroundColor: PackingStatus ? themeConfig.AppPrimaryColor : Colors.TrackDisableColor }]} />
+
+                            </View>
+
+                            <View style={AppStyles.TrackSubRightContainer}>
+                                <Text style={AppStyles.TrackBlackText}>Packaging</Text>
+                                <Text style={AppStyles.TracklightText}>Pimpalgaon, Nashik</Text>
+
+                                <TouchableOpacity style={AppStyles.BtnBg}>
+                                    <Text style={AppStyles.BtnTextbg}>Request Image</Text>
+                                </TouchableOpacity>
+
+
+                            </View>
+
+                        </View>
+
+
+
+                        {/* Container on the way */}
+                        <View style={AppStyles.TrackSubContainer}>
+
+                            <View style={AppStyles.TrackSubLeftContainer}>
+                                <Text style={AppStyles.TracklightText}>12.07.2023</Text>
+                                <Text style={AppStyles.TrackBlackText}>1:15 pm</Text>
+                            </View>
+
+                            <View style={AppStyles.TrackSubMiddleContainer}>
+
+                                <View style={[AppStyles.TrackcircleBg, { backgroundColor: PackingStatus ? themeConfig.AppPrimaryColor : Colors.TrackDisableColor }]} />
+
+                                <View style={[AppStyles.TrackLineBg, { backgroundColor: PackingStatus ? themeConfig.AppPrimaryColor : Colors.TrackDisableColor }]} />
+
+                            </View>
+
+                            <View style={AppStyles.TrackSubRightContainer}>
+                                <Text style={AppStyles.TrackBlackText}>Container on the way</Text>
+
+                                <TextInput
+                                    style={AppStyles.InputBoxBg}
+                                    placeholder="Driver name"
+                                    inputMode="text"
+                                    numberOfLines={1}
+                                    editable={false}
+                                    // value={companyName}
+                                    // onChangeText={(text) => {
+                                    //     setCompanyName(text);
+                                    // }}
+                                    placeholderTextColor={Colors.InputBoxLayout}
+                                    returnKeyType="next"
+                                />
+
+                                <TextInput
+                                    style={AppStyles.InputBoxBg}
+                                    placeholder="Driver number"
+                                    inputMode="text"
+                                    numberOfLines={1}
+                                    editable={false}
+                                    // value={companyName}
+                                    // onChangeText={(text) => {
+                                    //     setCompanyName(text);
+                                    // }}
+                                    placeholderTextColor={Colors.InputBoxLayout}
+                                    returnKeyType="next"
+                                />
+
+
+                                <TouchableOpacity style={AppStyles.BtnBg}>
+                                    <Text style={AppStyles.BtnTextbg}>Done</Text>
+                                </TouchableOpacity>
+
+
+                            </View>
+
+                        </View>
+
+
+
+                        {/* Loading */}
+                        <View style={AppStyles.TrackSubContainer}>
+
+                            <View style={AppStyles.TrackSubLeftContainer}>
+                                <Text style={AppStyles.TracklightText}>12.07.2023</Text>
+                                <Text style={AppStyles.TrackBlackText}>1:15 pm</Text>
+                            </View>
+
+                            <View style={AppStyles.TrackSubMiddleContainer}>
+
+                                <View style={[AppStyles.TrackcircleBg, { backgroundColor: PackingStatus ? themeConfig.AppPrimaryColor : Colors.TrackDisableColor }]} />
+
+                                <View style={[AppStyles.TrackLineBg, { backgroundColor: PackingStatus ? themeConfig.AppPrimaryColor : Colors.TrackDisableColor }]} />
+
+                            </View>
+
+                            <View style={AppStyles.TrackSubRightContainer}>
+                                <Text style={AppStyles.TrackBlackText}>Loading</Text>
+                                <Text style={AppStyles.TracklightText}>Pimpalgaon, Nashik</Text>
+
+                                <TouchableOpacity style={AppStyles.BtnBg}>
+                                    <Text style={AppStyles.BtnTextbg}>Request Image</Text>
+                                </TouchableOpacity>
+
+
+                            </View>
+
+                        </View>
+
+
+
+
+                        {/* Container Left */}
+                        <View style={AppStyles.TrackSubContainer}>
+
+                            <View style={AppStyles.TrackSubLeftContainer}>
+                                <Text style={AppStyles.TracklightText}>12.07.2023</Text>
+                                <Text style={AppStyles.TrackBlackText}>1:15 pm</Text>
+                            </View>
+
+                            <View style={AppStyles.TrackSubMiddleContainer}>
+
+                                <View style={[AppStyles.TrackcircleBg, { backgroundColor: PackingStatus ? themeConfig.AppPrimaryColor : Colors.TrackDisableColor }]} />
+
+                                <View style={[AppStyles.TrackLineBg, { backgroundColor: PackingStatus ? themeConfig.AppPrimaryColor : Colors.TrackDisableColor }]} />
+
+                            </View>
+
+                            <View style={AppStyles.TrackSubRightContainer}>
+                                <Text style={AppStyles.TrackBlackText}>Container Left</Text>
+                                <Text style={AppStyles.TracklightText}>Pimpalgaon, Nashik</Text>
+
+                            </View>
+
+                        </View>
+
+
+
+                        {/* Order Complete */}
+                        <View style={AppStyles.TrackSubContainer}>
+
+                            <View style={AppStyles.TrackSubLeftContainer}>
+                                <Text style={AppStyles.TracklightText}>12.07.2023</Text>
+                                <Text style={AppStyles.TrackBlackText}>1:15 pm</Text>
+                            </View>
+
+                            <View style={AppStyles.TrackSubMiddleContainer}>
+
+                                <View style={[AppStyles.TrackcircleBg, { backgroundColor: PackingStatus ? themeConfig.AppPrimaryColor : Colors.TrackDisableColor }]} />
+                            </View>
+
+                            <View style={AppStyles.TrackSubRightContainer}>
+                                <Text style={AppStyles.TrackBlackText}>Order Complete</Text>
+
+                                <TouchableOpacity style={[AppStyles.BtnBg, { backgroundColor: '#89D373' }]}>
+                                    <Text style={AppStyles.BtnTextbg}>Request Image</Text>
+                                </TouchableOpacity>
+
+                            </View>
+
+                        </View>
+
+
+                    </View>
+
 
                 </ScrollView>
 
@@ -188,14 +459,12 @@ const OrderStatusDetailScreen = () => {
 
 export default OrderStatusDetailScreen;
 const { width, height } = Dimensions.get(Constants.ScreenType);
-const TAB_BAR_HEIGHT = 70;
 
 const AppStyles = StyleSheet.create({
 
     MainContainer:
     {
         flex: 1,
-        paddingBottom: TAB_BAR_HEIGHT,
         backgroundColor: 'white',
     },
     flexOne:
@@ -212,6 +481,12 @@ const AppStyles = StyleSheet.create({
     {
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    DetailBg:
+    {
+        padding: 20,
+        backgroundColor: '#F5F5F5',
+        margin: 5,
     },
     DestBg:
     {
@@ -335,5 +610,97 @@ const AppStyles = StyleSheet.create({
     {
         width: 1,
         backgroundColor: 'white',
+    },
+
+
+
+
+    TracklightText:
+    {
+        fontFamily: 'DMSans-Medium',
+        fontSize: RFValue(12),
+        color: '#A3A3A3',
+    },
+
+    TrackBlackText:
+    {
+        fontFamily: 'DMSans-Bold',
+        fontSize: RFValue(14),
+        color: Colors.TextColor1,
+        marginTop: 2,
+    },
+    TrackParentBg:
+    {
+        marginBottom: 30,
+        marginTop: 15,
+    },
+    TrackSubContainer:
+    {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: -2,
+        marginHorizontal: '5%',
+    },
+    TrackSubLeftContainer:
+    {
+        flex: 0.6,
+        alignItems: 'flex-end',
+    },
+    TrackSubMiddleContainer:
+    {
+        marginHorizontal: 15,
+    },
+    TrackSubRightContainer:
+    {
+        flex: 1.4,
+        alignItems: 'flex-start',
+    },
+    TrackcircleBg:
+    {
+        height: 22,
+        width: 22,
+        borderRadius: 11,
+
+    },
+    TrackLineBg:
+    {
+        minHeight: height * 0.09,
+        width: 4,
+        alignSelf: 'center',
+        flex: 1,
+    },
+
+
+    InputBoxBg:
+    {
+        borderWidth: 1,
+        borderColor: Colors.InputBoxLayout,
+        borderRadius: 4,
+        width: '80%',
+        paddingVertical: 10,
+        backgroundColor: Colors.InputBoxBg,
+        fontSize: RFValue(12),
+        paddingLeft: 15,
+        justifyContent: 'center',
+        marginTop: 5,
+        fontFamily: 'DMSans-SemiBold',
+    },
+
+    BtnBg:
+    {
+        backgroundColor: Colors.AppSecondaryColor,
+        borderRadius: 4,
+        // alignSelf: 'center',
+        paddingVertical: 12, // Adds padding to balance the button
+        paddingHorizontal: 20,
+        marginTop: 5,
+        marginBottom: 30,
+    },
+    BtnTextbg:
+    {
+        fontSize: RFValue(15),
+        fontFamily: 'DMSans-SemiBold',
+        color: 'white',
     },
 });

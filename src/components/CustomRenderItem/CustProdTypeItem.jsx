@@ -1,11 +1,13 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 
-const CustProdTypeItem = ({ item }) => {
+const CustProdTypeItem = ({ item, onPress }) => {
     return (
-        <View style={AppStyles.productContainer}>
+        <TouchableOpacity style={AppStyles.productContainer}
+            onPress={onPress}
+        >
             <Image source={item.image} style={AppStyles.productImage} />
-        </View>
+        </TouchableOpacity>
     );
 };
 

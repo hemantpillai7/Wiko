@@ -11,6 +11,7 @@ import Constants from '../../constants/Constants';
 import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
 import ProdFilterBtmNavItem from '../../components/CustomRenderItem/ProdFilterBtmNavItem';
 import CustProdDetailItem from '../../components/CustomRenderItem/CustProdDetailItem';
+import FilterByBtmNavItem from '../../components/CustomRenderItem/FilterByBtmNavItem';
 
 const ProductListScreen = ({ navigation }) => {
 
@@ -22,6 +23,7 @@ const ProductListScreen = ({ navigation }) => {
   const [PackingSize, setPackingSize] = useState('20 Kg');
 
   const [isSheetVisible, setSheetVisible] = useState(false);
+  const [isShortByVisible, setShortByVisible] = useState(false);
 
 
   const themeConfig = appThemeConfiguration(Constants.CurrentAppTheme);
@@ -49,6 +51,10 @@ const ProductListScreen = ({ navigation }) => {
   const onPressFilterProd = () => {
 
     setSheetVisible(true);
+  };
+  const onPressShortBy = () => {
+
+    setShortByVisible(true);
   };
   const onSubmitFilterProd = () => {
 
@@ -108,7 +114,9 @@ const ProductListScreen = ({ navigation }) => {
             <Text style={AppStyles.FilterText}>{'Filter Specific Product'}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[AppStyles.FilterBg, { flex: 1 }]}>
+          <TouchableOpacity style={[AppStyles.FilterBg, { flex: 1 }]}
+          onPress={onPressShortBy}
+          >
             <Text style={AppStyles.FilterText}>{'Sort by'}</Text>
             <DropdownIcon height={15} width={15} color={Colors.AppSecondaryColor} style={AppStyles.FilterIcon} />
           </TouchableOpacity>
@@ -145,6 +153,14 @@ const ProductListScreen = ({ navigation }) => {
         animationType='bounce'
         closeOnDragDown={false}
         onSubmitFilterProd={onSubmitFilterProd}
+      />
+
+
+      <FilterByBtmNavItem
+        visible={isShortByVisible}
+        onClose={() => setShortByVisible(false)}
+        animationType='bounce'
+        closeOnDragDown={false}
       />
 
 

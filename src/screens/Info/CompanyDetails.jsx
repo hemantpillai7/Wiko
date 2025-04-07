@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Dimensions, FlatList, ImageBackground, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
@@ -16,6 +16,7 @@ import ImagePickerBottomSheet from '../../components/ImagePickerBottomSheet';
 import { useFocusEffect } from '@react-navigation/native';
 import Toolbar from '../../components/Toolbar';
 import ButtonCustom from '../../components/ButtonCustom';
+import { styles } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetScrollable/BottomSheetFlashList';
 
 const countries = [
     { id: 1, countryName: 'United States' },
@@ -38,7 +39,8 @@ const CompanyDetails = ({ navigation }) => {
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [pincode, setPincode] = useState('');
-    const [propName, setPropName] = useState('');
+    // const [propName, setPropName] = useState('');
+    const [propName, setPropName] = useState([{ value: '', error_propName: '' }]);
     const [expDate, setExpDate] = useState('');
     const [dealIn, setDealIn] = useState('');
     const [exportTo, setExportTo] = useState('');
@@ -53,7 +55,7 @@ const CompanyDetails = ({ navigation }) => {
     const [error_city, setError_City] = useState('');
     const [error_state, setError_State] = useState('');
     const [error_pincode, setError_Pincode] = useState('');
-    const [error_propName, setError_PropName] = useState('');
+    // const [error_propName, setError_PropName] = useState('');
     const [error_expDate, setError_ExpDate] = useState('');
     const [error_dealIn, setError_DealIn] = useState('');
     const [error_exportTo, setError_ExportTo] = useState('');
@@ -65,7 +67,8 @@ const CompanyDetails = ({ navigation }) => {
     const cityRef = useRef(null);
     const stateRef = useRef(null);
     const pincodeRef = useRef(null);
-    const propNameRef = useRef(null);
+    // const propNameRef = useRef(null);
+    const propNameRef = useRef([]);
     const expDateRef = useRef(null);
     const dealInRef = useRef(null);
     const exportToRef = useRef(null);
@@ -81,6 +84,21 @@ const CompanyDetails = ({ navigation }) => {
     const [themeName, setThemeName] = useState(Constants.CurrentAppTheme);
     const themeConfig = appThemeConfiguration(themeName);
 
+
+    const handleAddInput = () => {
+        if (propName.length >= 5) {
+            // Alert.alert('Limit Reached', `You can only add up to ${MAX_INPUTS} inputs.`);
+            return;
+        }
+        setPropName([...propName, { value: '', error_propName: '' }]);
+    };
+
+    const handleInputChange = (text, index) => {
+        const updatedPropName = [...propName];
+        updatedPropName[index].value = text;
+        updatedPropName[index].error_propName = '';
+        setPropName(updatedPropName);
+    };
 
     useEffect(() => {
         if (companyNameRef.current) {
@@ -178,10 +196,10 @@ const CompanyDetails = ({ navigation }) => {
             setError_Pincode('error');
             result = false;
         }
-        if (!MyValidator.isEmptyField(propName).isValid) {
-            setError_PropName('error');
-            result = false;
-        }
+        // if (!MyValidator.isEmptyField(propName).isValid) {
+        //     setError_PropName('error');
+        //     result = false;
+        // }
         if (!MyValidator.isEmptyField(expDate).isValid) {
             setError_ExpDate('error');
             result = false;
@@ -194,8 +212,14 @@ const CompanyDetails = ({ navigation }) => {
             setError_ExportTo('error');
             result = false;
         }
-
-
+        const updatedPropName = propName.map((item, index) => {
+            if (!MyValidator.isEmptyField(item.value).isValid) {
+                result = false;
+                return { ...item, error_propName: 'Required field' };
+            }
+            return { ...item, error_propName: '' };
+        });
+        setPropName(updatedPropName);
 
         return result;
     };
@@ -234,6 +258,11 @@ const CompanyDetails = ({ navigation }) => {
 
         </View>
     );
+
+    const ItemAddMore = () => {
+
+    }
+
 
     return (
 
@@ -422,7 +451,7 @@ const CompanyDetails = ({ navigation }) => {
 
                 <Text style={AppStyles.InputLabel}>{'Proprietor / Partners / Directors'}</Text>
 
-                <TextInput
+                {/* <TextInput
                     style={[AppStyles.InputBoxBg, { borderColor: error_propName ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
                     placeholder="Name"
                     inputMode="text"
@@ -436,10 +465,37 @@ const CompanyDetails = ({ navigation }) => {
                     returnKeyType="next"
                     ref={propNameRef}
                     onSubmitEditing={() => expDateRef.current?.focus()} // Moves focus to next input
-                />
-                <Text style={AppStyles.AddMoreTxt}>{'Add more +'}</Text>
+                /> */}
 
 
+                {propName.map((input, index) => (
+                    <TextInput
+                        key={index}
+                        ref={(ref) => (propNameRef.current[index] = ref)}
+                        style={[AppStyles.InputBoxBg, { borderColor: input.error_propName ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+                        placeholder={`Name ${index + 1}`}
+                        placeholderTextColor="gray"
+                        value={input.value}
+                        onChangeText={(text) => handleInputChange(text, index)}
+                        returnKeyType="next"
+                        onSubmitEditing={() => {
+                            if (index < propName.length - 1) {
+                                propNameRef.current[index + 1]?.focus();
+                            }
+                        }}
+                    />
+                ))}
+
+
+
+                {propName.length < 5 && (
+                    <Pressable
+                        style={AppStyles.AddMoreBG}
+                        onPress={handleAddInput}
+                    >
+                        <Text style={AppStyles.AddMoreTxt}>{'Add more +'}</Text>
+                    </Pressable>
+                )}
 
                 <Text style={AppStyles.InputLabel}>{'In a Export Business Since'}</Text>
 
@@ -584,14 +640,18 @@ const AppStyles = StyleSheet.create({
         backgroundColor: '#CBCBCB',
     },
 
+    AddMoreBG:
+    {
+        marginHorizontal: '5%',
+        marginTop: 5,
+        alignSelf: 'flex-end',
+
+    },
     AddMoreTxt:
     {
         fontSize: RFValue(15),
         fontFamily: 'DMSans-SemiBold',
         color: '#408BFC',
-        marginHorizontal: '5%',
-        marginTop: 5,
-        alignSelf: 'flex-end'
 
     },
     InputLabel:

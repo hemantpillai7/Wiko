@@ -44,10 +44,11 @@ import PersonalDetails from '../screens/Info/PersonalDetails';
 import RequestFeature from '../screens/Info/RequestFeature';
 import KYCScreen from '../screens/Info/KYC/KYCScreen';
 import SubscriptionPackScreen from '../screens/Info/SubscriptionPackScreen';
-import AboutUsScreen from '../screens/Info/AboutusScreen';
+import AboutUsScreen from '../screens/Info/AboutUsScreen';
 import PrivacyPolicyScreen from '../screens/Info/PrivacyPolicyScreen';
 import TermsConditionScreen from '../screens/Info/TermsConditionScreen';
 import NegotiateScreen from '../screens/Products/NegotiateScreen';
+import CustomQuoteScreen from '../screens/CustomQuote/CustomQuoteScreen';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -107,6 +108,7 @@ const AppNavigator = () => {
       <Stack.Screen name="TermsConditionScreen" component={TermsConditionScreen} />
       <Stack.Screen name="PrivacyPolicyScreen" component={PrivacyPolicyScreen} />
       <Stack.Screen name="NegotiateScreen" component={NegotiateScreen} />
+      <Stack.Screen name="CustomQuoteScreen" component={CustomQuoteScreen} />
 
     </Stack.Navigator>
 

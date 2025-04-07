@@ -24,6 +24,13 @@ const dropdownlist = [
   { id: 7, name: 'Potato' },
   { id: 8, name: 'carrot' },
 ]
+const categorylist = [
+  { id: 1, name: 'Food' },
+  { id: 2, name: 'Electronic' },
+  { id: 3, name: 'Parma' },
+  { id: 4, name: 'Cloths' },
+  { id: 5, name: 'Raw Material' },
+]
 
 const ProdFilterBtmNavItem = (
   { visible,
@@ -97,6 +104,7 @@ const ProdFilterBtmNavItem = (
 
   /////////////////////////////////////////////////////////
 
+  const [catergory, setCatergory] = useState('');
   const [product, setProduct] = useState('');
   const [variety, setVariety] = useState('');
   const [size, setSize] = useState('');
@@ -105,6 +113,10 @@ const ProdFilterBtmNavItem = (
   const [packSize, setPackSize] = useState('');
   const [SelectedLocations, setSelectedLocations] = useState([]);
 
+
+  const onSelectCategory = (item) => {
+    setCatergory(item.name);
+  };
 
   const onSelectProduct = (item) => {
     setProduct(item.name);
@@ -166,6 +178,24 @@ const ProdFilterBtmNavItem = (
         <View style={styles.LineBg} />
 
 
+
+
+        <View style={styles.VerticalSingleContainer}>
+
+          <Text style={styles.LabelText}>Select Category</Text>
+
+          <DropDownCustom
+            itemList={categorylist}
+            Value={catergory}
+            DropListLabel={'name'}
+            onSelectItem={onSelectCategory} />
+
+        </View>
+
+
+
+
+
         <View style={styles.HorizontalContainer}>
 
 
@@ -197,6 +227,8 @@ const ProdFilterBtmNavItem = (
 
         </View>
 
+
+
         <View style={styles.HorizontalContainer}>
 
 
@@ -227,6 +259,9 @@ const ProdFilterBtmNavItem = (
 
 
         </View>
+
+
+
 
         <View style={styles.HorizontalContainer}>
 
@@ -297,7 +332,7 @@ const ProdFilterBtmNavItem = (
   return (
     <GestureHandlerRootView style={{ position: 'absolute', bottom: 0, width: '100%', height: visible ? '100%' : 0 }}>
       {visible && (
-        <TouchableWithoutFeedback onPress={onClose}>
+        // <TouchableWithoutFeedback onPress={onClose}>
           <View style={styles.overlay}
           >
             <PanGestureHandler onGestureEvent={onGestureEvent} onEnded={onGestureEnd}>
@@ -314,7 +349,7 @@ const ProdFilterBtmNavItem = (
               </Animated.View>
             </PanGestureHandler>
           </View>
-        </TouchableWithoutFeedback>
+        // </TouchableWithoutFeedback>
       )}
     </GestureHandlerRootView>
   );
@@ -390,6 +425,10 @@ const styles = StyleSheet.create({
   },
   VerticalContainer: {
     width: '48%',
+  },
+  VerticalSingleContainer: {
+    width: '90%',
+    alignSelf:'center',
   },
   MarketLocationBg:
   {
