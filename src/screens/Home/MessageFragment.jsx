@@ -1,20 +1,22 @@
-import { Dimensions, FlatList, Image, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Dimensions, FlatList, Image, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import Constants from '../../constants/Constants';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Colors from '../../constants/Colors';
 import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
-import { useFocusEffect } from '@react-navigation/native';
 import SearchIcon from '../../assets/images/ic_Search.svg';
 import MessageIcon from '../../assets/images/ic_ChatMessage.svg';
 import CallIcon from '../../assets/images/ic_ChatCall.svg';
 import moment from 'moment';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const MessageFragment = () => {
 
   const [search, setSearch] = useState('');
   const [themeName, setThemeName] = useState(Constants.CurrentAppTheme);
   const themeConfig = appThemeConfiguration(themeName);
+
+   const navigation = useNavigation();
 
   const [isChatSelected, setIsChatSelected] = useState(true);
 
@@ -162,7 +164,6 @@ const MessageFragment = () => {
   ];
 
 
-
   useFocusEffect(
     React.useCallback(() => {
       setThemeName(Constants.CurrentAppTheme);
@@ -182,7 +183,9 @@ const MessageFragment = () => {
 
   const RenderItem = ({ item }) => {
     return (
-      <View style={AppStyles.ChatContainer}>
+      <TouchableOpacity style={AppStyles.ChatContainer}
+        onPress={onPressChat}
+      >
 
         <Image
           source={item.profile_image ? { uri: item.profile_image } : require('../../assets/images/ic_user_PlaceHolder.png')}// Placeholder image
@@ -216,13 +219,19 @@ const MessageFragment = () => {
 
         </View>
 
-      </View>
+      </TouchableOpacity>
     )
   }
 
   const ItemSeparator = () => (
     <View style={AppStyles.separator} />
   );
+
+
+  const onPressChat = () => {
+    navigation.navigate('ChatScreen');
+  };
+
 
   return (
 

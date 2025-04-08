@@ -57,7 +57,7 @@ const CheckOutScreen = ({ navigation }) => {
                     <Toolbar Title={'Check Out'} />
 
                 </View>
-
+image
                 <ScrollView style={AppStyles.flexOne}>
 
                     <View style={AppStyles.ParentContainer}>

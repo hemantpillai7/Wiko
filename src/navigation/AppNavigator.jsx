@@ -49,6 +49,8 @@ import PrivacyPolicyScreen from '../screens/Info/PrivacyPolicyScreen';
 import TermsConditionScreen from '../screens/Info/TermsConditionScreen';
 import NegotiateScreen from '../screens/Products/NegotiateScreen';
 import CustomQuoteScreen from '../screens/CustomQuote/CustomQuoteScreen';
+import ChatScreen from '../screens/Message/ChatScreen';
+import DocumentUpload from '../screens/Info/KYC/DocumentUpload';
 
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
@@ -109,6 +111,8 @@ const AppNavigator = () => {
       <Stack.Screen name="PrivacyPolicyScreen" component={PrivacyPolicyScreen} />
       <Stack.Screen name="NegotiateScreen" component={NegotiateScreen} />
       <Stack.Screen name="CustomQuoteScreen" component={CustomQuoteScreen} />
+      <Stack.Screen name="ChatScreen" component={ChatScreen} />
+      <Stack.Screen name="DocumentUpload" component={DocumentUpload} />
 
     </Stack.Navigator>
 

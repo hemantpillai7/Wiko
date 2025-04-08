@@ -10,7 +10,7 @@ import Colors from '../../../constants/Colors';
 import ArrowRight from '../../../assets/images/ic_arrowRight.svg';
 import CheckedIcon from '../../../assets/images/ic_checked.svg';
 
-const KYCScreen = () => {
+const KYCScreen = ({ navigation }) => {
 
     const [themeName, setThemeName] = useState(Constants.CurrentAppTheme);
     const themeConfig = appThemeConfiguration(themeName);
@@ -40,7 +40,7 @@ const KYCScreen = () => {
         return (
 
             < TouchableOpacity style={AppStyles.OptionMenuBg}
-            // onPress={onPress}
+                onPress={() => onPressDocumentScreen(item)}
             >
                 <View style={AppStyles.OptionLeftMenu}>
 
@@ -64,6 +64,12 @@ const KYCScreen = () => {
             </TouchableOpacity>
 
         );
+    };
+
+
+    const onPressDocumentScreen = (item) => {
+        console.log("item ", item);
+        navigation.navigate('DocumentUpload', { name: item.label });
     };
 
     return (
@@ -98,7 +104,7 @@ const KYCScreen = () => {
                         keyExtractor={(item) => `Doc-${item.id}`} // Ensures unique keys
                         renderItem={({ item }) => <DocumentItem item={item} />}
                         showsVerticalScrollIndicator={false} // Optional: Hides scrollbar
-                        style={{marginBottom: 30,}}
+                        style={{ marginBottom: 30, }}
                     />
 
 

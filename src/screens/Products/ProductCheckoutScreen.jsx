@@ -57,7 +57,7 @@ const ProductCheckoutScreen = ({ navigation }) => {
         navigation.navigate("CheckOutScreen");
     };
     const onPressNegotiate = () => {
-        navigation.navigate("NegotiateScreen");
+        navigation.navigate("ChatScreen");
     };
 
 

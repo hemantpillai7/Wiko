@@ -18,7 +18,7 @@ const NegotiateScreen = () => {
 
                 <View style={AppStyles.LineBg} />
 
-  
+
             </View>
 
         </KeyboardAvoidingView>
@@ -41,5 +41,5 @@ const AppStyles = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: '#CBCBCB',
     },
-  
+
 });
