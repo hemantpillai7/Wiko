@@ -4,6 +4,7 @@ import Toolbar from '../../components/Toolbar';
 import Colors from '../../constants/Colors';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Constants from '../../constants/Constants';
+import { WebView } from 'react-native-webview';
 
 const AboutUsScreen = () => {
 
@@ -15,13 +16,18 @@ const AboutUsScreen = () => {
 
                 <Toolbar Title={'About Us'} />
 
-
                 <View style={AppStyles.LineBg} />
 
-  
+                <View style={AppStyles.flexOne}>
+                    <WebView source={{ uri: 'https://wikoindia.com/about-us/' }} />
+                </View>
+
+
             </View>
 
         </KeyboardAvoidingView>
+
+   
     );
 };
 
@@ -41,5 +47,5 @@ const AppStyles = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: '#CBCBCB',
     },
-  
+
 });

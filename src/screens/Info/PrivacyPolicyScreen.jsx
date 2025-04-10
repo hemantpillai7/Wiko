@@ -4,6 +4,7 @@ import Toolbar from '../../components/Toolbar';
 import Colors from '../../constants/Colors';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Constants from '../../constants/Constants';
+import WebView from 'react-native-webview';
 
 const PrivacyPolicyScreen = () => {
 
@@ -17,6 +18,10 @@ const PrivacyPolicyScreen = () => {
 
 
                 <View style={AppStyles.LineBg} />
+
+                <View style={AppStyles.flexOne}>
+                    <WebView source={{ uri: 'https://wikoindia.com/privacy-policy/' }} />
+                </View>
 
   
             </View>

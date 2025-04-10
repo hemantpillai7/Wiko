@@ -1,4 +1,4 @@
-import { Dimensions, ImageBackground, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Constants from '../../constants/Constants';
 import AssuredPayIcon from '../../assets/images/ic_BdgPaymentAssured.svg';
@@ -34,7 +34,7 @@ const InfoFragment = () => {
   const onPressKYC = () => {
     navigation.navigate('KYCScreen');
   };
-  
+
   const onPressWikoPay = () => {
     // navigation.navigate('FavoriteScreen');
   };
@@ -72,6 +72,18 @@ const InfoFragment = () => {
     navigation.navigate('PrivacyPolicyScreen');
   };
   const onPressRateUs = () => {
+
+    const packageName = 'com.example.app'; // Android package name
+    const appStoreId = 'id123456789';      // iOS App Store ID
+
+    const url = Platform.select({
+      ios: `https://apps.apple.com/app/${appStoreId}`,
+      android: `https://play.google.com/store/apps/details?id=${packageName}`,
+    });
+
+    Linking.openURL(url).catch((err) => {
+      console.error('Failed to open store link:', err);
+    });
 
   };
 
