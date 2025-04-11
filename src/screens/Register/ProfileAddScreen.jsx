@@ -13,7 +13,6 @@ import ProgressBar from '../../components/ProgressBar';
 import EditIcon from '../../assets/images/ic_editIcon.svg';
 import { appThemeConfiguration } from '../../utils/AppThemeConfiguration';
 import MyValidator from '../../utils/MyValidator';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ImagePickerBottomSheet from '../../components/ImagePickerBottomSheet';
 import useBackNavStop from '../../hooks/useBackNavStop';
 
@@ -244,340 +243,337 @@ const ProfileAddScreen = ({ navigation }) => {
       <Text style={AppStyles.chipText}>{country.countryName}</Text>
 
       <TouchableOpacity onPress={onRemove}>
-        <CrossIcon height={15} width={15} />
+        <CrossIcon height={15} width={15} color={Colors.AppSecondaryColor} />
       </TouchableOpacity>
 
     </View>
   );
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <View style={AppStyles.ContainerBg}>
+    <View style={AppStyles.ContainerBg}>
 
-        <KeyboardAvoidingView>
+      <KeyboardAvoidingView>
 
-          <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false}>
 
-            <View style={AppStyles.ProgressStatusInfoBg}>
+          <View style={AppStyles.ProgressStatusInfoBg}>
 
-              {/* Skip */}
-              <View style={AppStyles.ProgTextBg}>
+            {/* Skip */}
+            <View style={AppStyles.ProgTextBg}>
 
-                <Text style={AppStyles.YourProgTextStyle}>{'Your Progress'}</Text>
-
-
-                <TouchableOpacity onPress={onPressSkip}>
-                  <Text style={AppStyles.SkipTextStyle}>{'Skip > >'}</Text>
-                </TouchableOpacity>
-
-              </View>
-
-              <Text style={[AppStyles.TitleTwo, { color: themeConfig.AppPrimaryColor }]}>{`${completedProgress}% completed`}</Text>
-
-              {/* Progress Bar */}
-              <ProgressBar completedProgress={completedProgress} />
+              <Text style={AppStyles.YourProgTextStyle}>{'Your Progress'}</Text>
 
 
-            </View>
-
-            <Text style={AppStyles.TitleOne}>{'Enter Account Information'}</Text>
-            <Text style={AppStyles.SubTitle}>{'Register your business on Wiko India'}</Text>
-
-
-            {/* Profile */}
-            <View style={AppStyles.ImageViewBg}>
-
-              <ImageBackground
-                source={profileImage ? { uri: profileImage } : require('../../assets/images/ic_user_PlaceHolder.png')}// Placeholder image
-                // source={{ uri: profileImage }} // Replace with your image URL
-                style={AppStyles.ImageContainerBg}
-                imageStyle={AppStyles.ImageStyle}
-              />
-
-              <TouchableOpacity
-                style={[AppStyles.EditImageBg, { backgroundColor: themeConfig.AppPrimaryColor }]}
-                onPress={onPressImagePicker}>
-
-                <EditIcon height={20} width={20} color={'white'} />
-
+              <TouchableOpacity onPress={onPressSkip}>
+                <Text style={AppStyles.SkipTextStyle}>{'Skip > >'}</Text>
               </TouchableOpacity>
 
             </View>
 
+            <Text style={[AppStyles.TitleTwo, { color: themeConfig.AppPrimaryColor }]}>{`${completedProgress}% completed`}</Text>
+
+            {/* Progress Bar */}
+            <ProgressBar completedProgress={completedProgress} />
 
 
-            <Text style={AppStyles.InputLabel}>{'Company Name'}</Text>
+          </View>
 
-            <TextInput
-              style={[AppStyles.InputBoxBg, { borderColor: error_companyName ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
-              placeholder="Company Name"
-              inputMode="text"
-              numberOfLines={1}
-              value={companyName}
-              onChangeText={(text) => {
-                setCompanyName(text);
-                setError_CompanyName(''); // Clear error on typing
-              }}
-              placeholderTextColor={Colors.InputBoxLayout}
-              returnKeyType="next"
-              ref={companyNameRef}
-              onSubmitEditing={() => emailRef.current?.focus()} // Moves focus to next input
+          <Text style={AppStyles.TitleOne}>{'Enter Account Information'}</Text>
+          <Text style={AppStyles.SubTitle}>{'Register your business on Wiko India'}</Text>
+
+
+          {/* Profile */}
+          <View style={AppStyles.ImageViewBg}>
+
+            <ImageBackground
+              source={profileImage ? { uri: profileImage } : require('../../assets/images/ic_user_PlaceHolder.png')}// Placeholder image
+              // source={{ uri: profileImage }} // Replace with your image URL
+              style={AppStyles.ImageContainerBg}
+              imageStyle={AppStyles.ImageStyle}
             />
-
-
-            <Text style={AppStyles.InputLabel}>{'Email'}</Text>
-
-            <TextInput
-              style={[AppStyles.InputBoxBg, { borderColor: error_email ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
-              placeholder="Email"
-              inputMode="email"
-              numberOfLines={1}
-              value={email}
-              onChangeText={(text) => {
-                setEmail(text);
-                setError_Email(''); // Clear error on typing
-              }}
-              placeholderTextColor={Colors.InputBoxLayout}
-              returnKeyType="next"
-              ref={emailRef}
-              onSubmitEditing={() => addressNoRef.current?.focus()} // Moves focus to next input
-            />
-
-
-            <Text style={AppStyles.InputLabel}>{'Company Address'}</Text>
-
-            <TextInput
-              style={[AppStyles.InputBoxBg, { borderColor: error_address ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
-              placeholder="Address"
-              inputMode="text"
-              numberOfLines={1}
-              placeholderTextColor={Colors.InputBoxLayout}
-              value={address}
-              onChangeText={(text) => {
-                setAddress(text);
-                setError_Address(''); // Clear error on typing
-              }}
-              returnKeyType="next"
-              ref={addressNoRef}
-              onSubmitEditing={() => localityRef.current?.focus()} // Moves focus to next input
-            />
-
-            {/* Locality City */}
-            <View style={AppStyles.ViewBg}>
-
-              <TextInput
-                style={[AppStyles.InputBoxBg2, { borderColor: error_locality ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginRight: 5 }]}
-                placeholder="Locality"
-                inputMode="text"
-                numberOfLines={1}
-                placeholderTextColor={'#999'}
-                value={locality}
-                onChangeText={(text) => {
-                  setLocality(text);
-                  setError_Locality(''); // Clear error on typing
-                }}
-                returnKeyType="next"
-                ref={localityRef}
-                onSubmitEditing={() => cityRef.current?.focus()} // Moves focus to next input
-              />
-
-              <TextInput
-                style={[AppStyles.InputBoxBg2, { borderColor: error_city ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginLeft: 5 }]}
-                placeholder="City"
-                inputMode="text"
-                numberOfLines={1}
-                placeholderTextColor={'#999'}
-                value={city}
-                onChangeText={(text) => {
-                  setCity(text);
-                  setError_City(''); // Clear error on typing
-                }}
-                returnKeyType="next"
-                ref={cityRef}
-                onSubmitEditing={() => stateRef.current?.focus()} // Moves focus to next input
-              />
-
-            </View>
-
-            {/* State Pincode */}
-            <View style={AppStyles.ViewBg}>
-
-              <TextInput
-                style={[AppStyles.InputBoxBg2, { borderColor: error_state ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginRight: 5 }]}
-                placeholder="State"
-                inputMode="text"
-                numberOfLines={1}
-                placeholderTextColor={'#999'}
-                value={state}
-                onChangeText={(text) => {
-                  setState(text);
-                  setError_State(''); // Clear error on typing
-                }}
-                returnKeyType="next"
-                ref={stateRef}
-                onSubmitEditing={() => pincodeRef.current?.focus()} // Moves focus to next input
-              />
-
-              <TextInput
-                style={[AppStyles.InputBoxBg2, { borderColor: error_pincode ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginLeft: 5 }]}
-                placeholder="Pincode"
-                inputMode="text"
-                numberOfLines={1}
-                placeholderTextColor={'#999'}
-                value={pincode}
-                maxLength={6}
-                onChangeText={(text) => {
-                  setPincode(text);
-                  setError_Pincode(''); // Clear error on typing
-                }}
-                returnKeyType="next"
-                ref={pincodeRef}
-                onSubmitEditing={() => propNameRef.current?.focus()} // Moves focus to next input
-              />
-
-            </View>
-
-
-
-
-            <Text style={AppStyles.InputLabel}>{'Proprietor / Partners / Directors'}</Text>
-
-            <TextInput
-              style={[AppStyles.InputBoxBg, { borderColor: error_propName ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
-              placeholder="Name"
-              inputMode="text"
-              numberOfLines={1}
-              placeholderTextColor={Colors.InputBoxLayout}
-              value={propName}
-              onChangeText={(text) => {
-                setPropName(text);
-                setError_PropName(''); // Clear error on typing
-              }}
-              returnKeyType="next"
-              ref={propNameRef}
-              onSubmitEditing={() => expDateRef.current?.focus()} // Moves focus to next input
-            />
-
-
-            <Text style={AppStyles.InputLabel}>{'In a Export Business Since'}</Text>
-
 
             <TouchableOpacity
-              onPress={() => openDatePicker()}
-              style={[AppStyles.EyeTextInputBg, { borderColor: error_expDate ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}>
+              style={[AppStyles.EditImageBg, { backgroundColor: themeConfig.AppPrimaryColor }]}
+              onPress={onPressImagePicker}>
 
-              <TextInput
-                style={AppStyles.EyeTextInputStyle}
-                placeholder="Select Date"
-                inputMode="text"
-                numberOfLines={1}
-                placeholderTextColor={Colors.InputBoxLayout}
-                value={expDate}
-                editable={false}
-                returnKeyType="next"
-                ref={expDateRef}
-                onSubmitEditing={() => dealInRef.current?.focus()} // Moves focus to next input
-              />
+              <EditIcon height={20} width={20} color={'white'} />
 
-              <CalenderIcon width={30} height={30} color={Colors.AppSecondaryColor} />
             </TouchableOpacity>
 
+          </View>
 
-            <Text style={AppStyles.InputLabel}>{'Products Deal In'}</Text>
+
+
+          <Text style={AppStyles.InputLabel}>{'Company Name'}</Text>
+
+          <TextInput
+            style={[AppStyles.InputBoxBg, { borderColor: error_companyName ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+            placeholder="Company Name"
+            inputMode="text"
+            numberOfLines={1}
+            value={companyName}
+            onChangeText={(text) => {
+              setCompanyName(text);
+              setError_CompanyName(''); // Clear error on typing
+            }}
+            placeholderTextColor={Colors.InputBoxLayout}
+            returnKeyType="next"
+            ref={companyNameRef}
+            onSubmitEditing={() => emailRef.current?.focus()} // Moves focus to next input
+          />
+
+
+          <Text style={AppStyles.InputLabel}>{'Email'}</Text>
+
+          <TextInput
+            style={[AppStyles.InputBoxBg, { borderColor: error_email ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+            placeholder="Email"
+            inputMode="email"
+            numberOfLines={1}
+            value={email}
+            onChangeText={(text) => {
+              setEmail(text);
+              setError_Email(''); // Clear error on typing
+            }}
+            placeholderTextColor={Colors.InputBoxLayout}
+            returnKeyType="next"
+            ref={emailRef}
+            onSubmitEditing={() => addressNoRef.current?.focus()} // Moves focus to next input
+          />
+
+
+          <Text style={AppStyles.InputLabel}>{'Company Address'}</Text>
+
+          <TextInput
+            style={[AppStyles.InputBoxBg, { borderColor: error_address ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+            placeholder="Address"
+            inputMode="text"
+            numberOfLines={1}
+            placeholderTextColor={Colors.InputBoxLayout}
+            value={address}
+            onChangeText={(text) => {
+              setAddress(text);
+              setError_Address(''); // Clear error on typing
+            }}
+            returnKeyType="next"
+            ref={addressNoRef}
+            onSubmitEditing={() => localityRef.current?.focus()} // Moves focus to next input
+          />
+
+          {/* Locality City */}
+          <View style={AppStyles.ViewBg}>
 
             <TextInput
-              style={[AppStyles.InputBoxBg, { borderColor: error_dealIn ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
-              placeholder="Product Name"
+              style={[AppStyles.InputBoxBg2, { borderColor: error_locality ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginRight: 5 }]}
+              placeholder="Locality"
+              inputMode="text"
+              numberOfLines={1}
+              placeholderTextColor={'#999'}
+              value={locality}
+              onChangeText={(text) => {
+                setLocality(text);
+                setError_Locality(''); // Clear error on typing
+              }}
+              returnKeyType="next"
+              ref={localityRef}
+              onSubmitEditing={() => cityRef.current?.focus()} // Moves focus to next input
+            />
+
+            <TextInput
+              style={[AppStyles.InputBoxBg2, { borderColor: error_city ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginLeft: 5 }]}
+              placeholder="City"
+              inputMode="text"
+              numberOfLines={1}
+              placeholderTextColor={'#999'}
+              value={city}
+              onChangeText={(text) => {
+                setCity(text);
+                setError_City(''); // Clear error on typing
+              }}
+              returnKeyType="next"
+              ref={cityRef}
+              onSubmitEditing={() => stateRef.current?.focus()} // Moves focus to next input
+            />
+
+          </View>
+
+          {/* State Pincode */}
+          <View style={AppStyles.ViewBg}>
+
+            <TextInput
+              style={[AppStyles.InputBoxBg2, { borderColor: error_state ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginRight: 5 }]}
+              placeholder="State"
+              inputMode="text"
+              numberOfLines={1}
+              placeholderTextColor={'#999'}
+              value={state}
+              onChangeText={(text) => {
+                setState(text);
+                setError_State(''); // Clear error on typing
+              }}
+              returnKeyType="next"
+              ref={stateRef}
+              onSubmitEditing={() => pincodeRef.current?.focus()} // Moves focus to next input
+            />
+
+            <TextInput
+              style={[AppStyles.InputBoxBg2, { borderColor: error_pincode ? Colors.ErrorMsgColor : Colors.InputBoxLayout, marginLeft: 5 }]}
+              placeholder="Pincode"
+              inputMode="text"
+              numberOfLines={1}
+              placeholderTextColor={'#999'}
+              value={pincode}
+              maxLength={6}
+              onChangeText={(text) => {
+                setPincode(text);
+                setError_Pincode(''); // Clear error on typing
+              }}
+              returnKeyType="next"
+              ref={pincodeRef}
+              onSubmitEditing={() => propNameRef.current?.focus()} // Moves focus to next input
+            />
+
+          </View>
+
+
+
+
+          <Text style={AppStyles.InputLabel}>{'Proprietor / Partners / Directors'}</Text>
+
+          <TextInput
+            style={[AppStyles.InputBoxBg, { borderColor: error_propName ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+            placeholder="Name"
+            inputMode="text"
+            numberOfLines={1}
+            placeholderTextColor={Colors.InputBoxLayout}
+            value={propName}
+            onChangeText={(text) => {
+              setPropName(text);
+              setError_PropName(''); // Clear error on typing
+            }}
+            returnKeyType="next"
+            ref={propNameRef}
+            onSubmitEditing={() => expDateRef.current?.focus()} // Moves focus to next input
+          />
+
+
+          <Text style={AppStyles.InputLabel}>{'In a Export Business Since'}</Text>
+
+
+          <TouchableOpacity
+            onPress={() => openDatePicker()}
+            style={[AppStyles.EyeTextInputBg, { borderColor: error_expDate ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}>
+
+            <TextInput
+              style={AppStyles.EyeTextInputStyle}
+              placeholder="Select Date"
               inputMode="text"
               numberOfLines={1}
               placeholderTextColor={Colors.InputBoxLayout}
-              value={dealIn}
-              onChangeText={(text) => {
-                setDealIn(text);
-                setError_DealIn(''); // Clear error on typing
-              }}
+              value={expDate}
+              editable={false}
               returnKeyType="next"
-              ref={dealInRef}
-              onSubmitEditing={() => exportToRef.current?.focus()} // Moves focus to next input
+              ref={expDateRef}
+              onSubmitEditing={() => dealInRef.current?.focus()} // Moves focus to next input
             />
 
-            <Text style={AppStyles.InputLabel}>{'Export to'}</Text>
-
-            <View>
-
-              {/* Chip */}
-              {selectedCountries.length > 0 &&
-                <View style={AppStyles.chipContainer}>
-                  {selectedCountries.map((country) => (
-                    <ItemChipDesign key={country.id} country={country} onRemove={() => onRemoveCountry(country.id)} />
-                  ))}
-                </View>
-              }
-              <TextInput
-                style={[AppStyles.InputBoxBg, { borderColor: error_exportTo ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
-                placeholder="Country Name"
-                inputMode="text"
-                numberOfLines={1}
-                placeholderTextColor={Colors.InputBoxLayout}
-                value={exportTo}
-                onChangeText={onSearchExportTo}
-                returnKeyType="done"
-                ref={exportToRef}
-              />
-              <View style={AppStyles.DropDownContainerBg}>
-                {filteredCountries.length > 0 && (
-                  <FlatList
-                    nestedScrollEnabled={true}
-                    data={filteredCountries.slice(0, 3)}
-                    keyExtractor={(item, index) => `${item.id}-${index}`}
-                    renderItem={({ item }) => (
-                      <TouchableOpacity onPress={() => onAddCountry(item)}>
-                        <Text style={AppStyles.DropDownTextBg}>{item.countryName}</Text>
-                      </TouchableOpacity>
-                    )}
-                  />
-                )}
-              </View>
-            </View>
+            <CalenderIcon width={30} height={30} color={Colors.AppSecondaryColor} />
+          </TouchableOpacity>
 
 
+          <Text style={AppStyles.InputLabel}>{'Products Deal In'}</Text>
 
-            <LoaderButton name={'Continue'} onPress={onRegister} loading={loading} style={AppStyles.BtnBg} />
-
-
-          </ScrollView>
-
-
-          <DateTimePickerModal
-            isVisible={showDatePicker}
-            mode="date"
-            maximumDate={new Date()}
-            date={new Date()}
-            isDarkModeEnabled={false}
-            // themeVariant={"light"}
-            onConfirm={selectdate}
-            onCancel={closeDate}
-            // display={Platform.OS === "ios" ? "inline" : "default"}
-            themeVariant="dark" // Makes it dark mode on iOS
-            pickerStyleIOS={{ backgroundColor: '#222' }} // Change background for iOS
-            customStyles={{
-              datePicker: { backgroundColor: '#222' }, // Background for Android
-              datePickerText: { color: '#fff' }, // Text color
-              confirmButton: { color: '#4CAF50' }, // Confirm button color
-              cancelButton: { color: '#FF5252' }, // Cancel button color
+          <TextInput
+            style={[AppStyles.InputBoxBg, { borderColor: error_dealIn ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+            placeholder="Product Name"
+            inputMode="text"
+            numberOfLines={1}
+            placeholderTextColor={Colors.InputBoxLayout}
+            value={dealIn}
+            onChangeText={(text) => {
+              setDealIn(text);
+              setError_DealIn(''); // Clear error on typing
             }}
+            returnKeyType="next"
+            ref={dealInRef}
+            onSubmitEditing={() => exportToRef.current?.focus()} // Moves focus to next input
           />
 
-          <ImagePickerBottomSheet ref={refImagePicker} onImageSelected={handleImageSelected} />
+          <Text style={AppStyles.InputLabel}>{'Export to'}</Text>
 
-        </KeyboardAvoidingView>
+          {/* Chip */}
+          <View>
+            {selectedCountries.length > 0 &&
+              <View style={AppStyles.chipContainer}>
+                {selectedCountries.map((country) => (
+                  <ItemChipDesign key={country.id} country={country} onRemove={() => onRemoveCountry(country.id)} />
+                ))}
+              </View>
+            }
+            <TextInput
+              style={[AppStyles.InputBoxBg, { borderColor: error_exportTo ? Colors.ErrorMsgColor : Colors.InputBoxLayout, }]}
+              placeholder="Country Name"
+              inputMode="text"
+              numberOfLines={1}
+              placeholderTextColor={Colors.InputBoxLayout}
+              value={exportTo}
+              onChangeText={onSearchExportTo}
+              returnKeyType="done"
+              ref={exportToRef}
+            />
+            <View style={AppStyles.DropDownContainerBg}>
+              {filteredCountries.length > 0 && (
+                <FlatList
+                  nestedScrollEnabled={true}
+                  data={filteredCountries.slice(0, 3)}
+                  keyExtractor={(item, index) => `${item.id}-${index}`}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity onPress={() => onAddCountry(item)}>
+                      <Text style={AppStyles.DropDownTextBg}>{item.countryName}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              )}
+            </View>
+          </View>
+
+
+
+          <LoaderButton name={'Continue'} onPress={onRegister} loading={loading} style={AppStyles.BtnBg} />
+
+
+        </ScrollView>
+
+
+        <DateTimePickerModal
+          isVisible={showDatePicker}
+          mode="date"
+          maximumDate={new Date()}
+          date={new Date()}
+          isDarkModeEnabled={false}
+          // themeVariant={"light"}
+          onConfirm={selectdate}
+          onCancel={closeDate}
+          // display={Platform.OS === "ios" ? "inline" : "default"}
+          themeVariant="dark" // Makes it dark mode on iOS
+          pickerStyleIOS={{ backgroundColor: '#222' }} // Change background for iOS
+          customStyles={{
+            datePicker: { backgroundColor: '#222' }, // Background for Android
+            datePickerText: { color: '#fff' }, // Text color
+            confirmButton: { color: '#4CAF50' }, // Confirm button color
+            cancelButton: { color: '#FF5252' }, // Cancel button color
+          }}
+        />
+
+        <ImagePickerBottomSheet ref={refImagePicker} onImageSelected={handleImageSelected} />
+
+      </KeyboardAvoidingView>
 
 
 
 
 
-      </View >
-    </GestureHandlerRootView>
+    </View >
   );
 };
 
@@ -591,17 +587,7 @@ const AppStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  BackIconBg:
-  {
-    marginTop: height * 0.08,
-    marginLeft: '5%',
-  },
-  subContainerOne:
-  {
-    flex: 1.5,
-    marginLeft: 20,
-    justifyContent: 'flex-end',
-  },
+
   TitleOne:
   {
     fontSize: RFValue(22),
@@ -682,19 +668,12 @@ const AppStyles = StyleSheet.create({
   {
     fontSize: RFValue(15),
     flex: 1,
+    color: Colors.AppSecondaryColor,
   },
   BtnBg:
   {
     marginTop: height * 0.06,
     marginBottom: 20,
-  },
-  ErrorDisplay:
-  {
-    color: Colors.ErrorMsgColor,
-    paddingHorizontal: 20,
-    fontSize: RFValue(12),
-    marginTop: 3,
-    fontFamily: 'DMSans-Regular',
   },
   ProgTextBg:
   {

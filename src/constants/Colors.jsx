@@ -2,15 +2,25 @@
 export default {
     AppPrimaryColor: '#FF8B00',
     AppSecondaryColor: '#000000',
+
+
     BtmDisable: '#CFCFCF',
+    White: '#FFFFFF',
 
-    InputBoxLayout:'#BBBBBB',
-    InputBoxBg:'#F8F8F8',
+    InputBoxLayout: '#BBBBBB',
+    InputBoxBg: '#F8F8F8',
 
-    TextColor1:'#000000',
+    TextColor1: '#000000',
 
-    OTPBoxBorder:'#BBBBBB',
-    OTPBoxBg:'#F8F8F8',
+    OTPBoxBorder: '#BBBBBB',
+    OTPBoxBg: '#F8F8F8',
 
-    ErrorMsgColor:'#FF0000',
+    ErrorMsgColor: '#FF0000',
+
+    HomeGreenMsgBorder: '#44E6EA',
+    HomeGreenMsgBg: '#E2FBFF',
+
+    LightBlack: '#585858',
+
+    TrackDisableColor: '#ECECEC',
 }
