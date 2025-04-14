@@ -1,10 +1,9 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useState, } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useState, } from 'react';
 import { Dimensions, Image, StyleSheet, Text, Alert, Platform, Linking, TouchableOpacity, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, } from 'react-native-reanimated';
-import { launchImageLibrary, launchCamera } from "react-native-image-picker";
-import { readFile } from "react-native-fs";
 import { check, request, PERMISSIONS, RESULTS } from "react-native-permissions";
+import ImagePicker from 'react-native-image-crop-picker';
 
 import Colors from '../constants/Colors';
 
@@ -69,64 +68,70 @@ const ImagePickerBottomSheet = forwardRef(({ onImageSelected, ...props }, ref) =
   //------------------Image Picker section ------------------------------//
 
 
-  
+  useEffect(() => {
+    return () => {
+      ImagePicker.clean()
+        .then(() => console.log('Temporary images cleaned up'))
+        .catch(err => console.warn('Cleanup error:', err));
+    };
+  }, []);
 
-  const handleImageResponse = async (response) => {
-    if (!response.didCancel && !response.errorCode && response.assets?.length) {
-      const uri = response.assets[0].uri;
-      try {
-        const base64 = await readFile(uri, "base64");
-        onImageSelected(uri, base64);
-      } catch (error) {
-        console.error("Error converting to base64:", error);
-      }
-    }
-    scrollTo(0);
-  };
 
-  // const openCamera = () => launchCamera({ mediaType: "photo", quality: 0.5 }, handleImageResponse);
-  // const openGallery = () => launchImageLibrary({ mediaType: "photo", quality: 0.5 }, handleImageResponse);
+
   const openCamera = async () => {
     const hasPermission = await checkAndRequestPermissions();
     if (!hasPermission) return;
-
-    launchCamera(
-      { mediaType: "photo", quality: 0.5, saveToPhotos: true },
-      async (response) => {
-        if (response.didCancel) {
-          console.log("User cancelled image picker");
-          return;
-        }
-        if (response.errorCode) {
-          console.error("Camera Error: ", response.errorMessage);
-          Alert.alert("Error", "Failed to open camera.");
-          return;
-        }
-        if (response.assets?.length) {
-          const uri = response.assets[0].uri;
-          if (!uri) {
-            Alert.alert("Error", "Image URI not found.");
-            return;
-          }
-
-          try {
-            const base64 = await readFile(uri, "base64");
-            onImageSelected(uri, base64);
-          } catch (error) {
-            console.error("Error converting to base64:", error);
-            Alert.alert("Error", "Failed to process image.");
-          }
-        }
+    try {
+      scrollTo(0);
+      const result = await ImagePicker.openCamera({
+        cropping: true,
+        freeStyleCropEnabled: true,
+        mediaType: 'photo',
+        cropperToolbarTitle: 'Edit Photo',
+        cropperToolbarColor: '#222831',
+        cropperToolbarWidgetColor: '#ffffff',
+        cropperActiveWidgetColor: '#00adb5',
+        cropperStatusBarColor: '#222831',
+        includeBase64: true,
+        useFrontCamera:false,
+        compressImageQuality: 0.7, // lowest quality (max compression)
+      });
+      onImageSelected(result.path, result.data);
+    } catch (error) {
+      if (error.code !== 'E_PICKER_CANCELLED') {
+        Alert.alert('Gallery Error', error.message);
       }
-    );
+    }
+   
+
   };
 
   const openGallery = async () => {
     const hasPermission = await checkAndRequestPermissions();
     if (!hasPermission) return;
-
-    launchImageLibrary({ mediaType: "photo", quality: 0.5 }, handleImageResponse);
+    scrollTo(0);
+    try {
+      const result = await ImagePicker.openPicker({
+        cropping: true,
+        freeStyleCropEnabled: true,
+        mediaType: 'photo',
+        cropperToolbarTitle: 'Edit Photo',
+        cropperToolbarColor: '#222831',
+        cropperToolbarWidgetColor: '#ffffff',
+        cropperActiveWidgetColor: '#00adb5',
+        cropperStatusBarColor: '#222831',
+        includeBase64: true,
+        compressImageQuality: 1, // lowest quality (max compression)
+      });
+      onImageSelected(result.path, result.data);
+    } catch (error) {
+      if (error.code !== 'E_PICKER_CANCELLED') {
+        Alert.alert('Gallery Error', error.message);
+      }
+    }
+    
   };
+
 
   return (
     <Animated.View

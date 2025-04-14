@@ -593,8 +593,6 @@ const CompanyDetails = ({ navigation }) => {
             </View>
 
 
-
-
             <DateTimePickerModal
                 isVisible={showDatePicker}
                 mode="date"

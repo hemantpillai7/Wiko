@@ -10,6 +10,7 @@ import Colors from '../../constants/Colors';
 import { RFValue } from 'react-native-responsive-fontsize';
 import ButtonCustom from '../../components/ButtonCustom';
 import MyValidator from '../../utils/MyValidator';
+import ImagePickerBottomSheet from '../../components/ImagePickerBottomSheet';
 
 const PersonalDetails = () => {
 
@@ -56,6 +57,7 @@ const PersonalDetails = () => {
     const stateRef = useRef(null);
     const pincodeRef = useRef(null);
 
+    const refImagePicker = useRef(null);
 
 
 
@@ -125,6 +127,21 @@ const PersonalDetails = () => {
         return result;
     };
 
+    const onPressImagePicker = () => {
+        const isActive = refImagePicker?.current?.isActive?.();
+
+        if (isActive) {
+            refImagePicker?.current?.scrollTo?.(0);
+        } else {
+            refImagePicker?.current?.scrollTo?.(-400);
+        }
+    };
+
+    const handleImageSelected = (uri, base64) => {
+        setProfileImage(uri);
+        console.log("Base64 Image:", base64); // Handle the base64 if needed
+    };
+
 
     const onPressSubmit = () => {
         const result = ValidateForm();
@@ -164,7 +181,7 @@ const PersonalDetails = () => {
 
                         <TouchableOpacity
                             style={[AppStyles.EditImageBg, { backgroundColor: themeConfig.AppPrimaryColor }]}
-                        // onPress={onPressImagePicker}
+                            onPress={onPressImagePicker}
                         >
 
                             <EditIcon height={'100%'} width={'100%'} color={'white'} />
@@ -400,6 +417,9 @@ const PersonalDetails = () => {
 
 
             </View>
+
+            <ImagePickerBottomSheet ref={refImagePicker} onImageSelected={handleImageSelected} />
+
 
 
         </KeyboardAvoidingView>

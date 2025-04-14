@@ -276,7 +276,7 @@ const AppStyles = StyleSheet.create({
     ProdName:
     {
         fontFamily: 'DMSans-Bold',
-        fontSize: RFValue(22),
+        fontSize: RFValue(18),
         color: Colors.AppSecondaryColor,
         marginTop: 5,
     },
