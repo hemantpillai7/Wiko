@@ -107,7 +107,7 @@ const OrderStatusDetailScreen = () => {
                             {/* Time */}
                             <View style={AppStyles.ProdInfoBg}>
 
-                                <TimeIcon height={14} width={14} color={Constants.AppSecondaryColor} />
+                                <TimeIcon height={14} width={14} color={Colors.AppSecondaryColor} />
 
                                 <Text style={AppStyles.ProdInfo}
                                     numberOfLines={1}
@@ -118,7 +118,7 @@ const OrderStatusDetailScreen = () => {
                             {/* Location */}
                             <View style={AppStyles.ProdInfoBg}>
 
-                                <LocationIcon height={14} width={14} color={Constants.AppSecondaryColor} />
+                                <LocationIcon height={14} width={14} color={Colors.AppSecondaryColor} />
 
                                 <Text style={AppStyles.ProdInfo}>{'Nampur, Nashik'}</Text>
 

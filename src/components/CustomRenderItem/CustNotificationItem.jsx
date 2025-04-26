@@ -12,9 +12,10 @@ import RatingIcon from '../../assets/images/ic_BdgRating.svg';
 import Constants from '../../constants/Constants';
 
 import moment from 'moment';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
 
-const CustNotificationItem = ({ item, }) => {
+const CustNotificationItem = ({ item, index }) => {
 
 
     const ColorType = {
@@ -40,7 +41,8 @@ const CustNotificationItem = ({ item, }) => {
 
     return (
 
-        <View
+        <Animated.View
+            entering={FadeInDown.delay(200 * index)}
             style={AppStyles.ProductInfoMainBg}
         >
             {item.orderStatus !== 'requested' && <View>
@@ -190,7 +192,7 @@ const CustNotificationItem = ({ item, }) => {
             />
 
 
-        </View>
+        </Animated.View>
 
     );
 };

@@ -55,9 +55,12 @@ import DocumentUpload from '../screens/Info/KYC/DocumentUpload';
 // const Stack = createStackNavigator();
 // const { Navigator, Screen } = createStackNavigator();
 
-const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
+
+  const Stack = createNativeStackNavigator();
+
+
   return (
     <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{
       headerShown: false,

@@ -53,7 +53,7 @@ const NotificationFragment = () => {
           <FlatList
             data={ProdRecordList}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <CustNotificationItem item={item} />}
+            renderItem={({ item ,index }) => <CustNotificationItem item={item} index={index}/>}
             contentContainerStyle={{ paddingBottom: 20, }} // Ensures full scroll
             showsVerticalScrollIndicator={false} // Optional: Hides scrollbar
           />

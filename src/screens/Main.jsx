@@ -21,6 +21,40 @@ const Main = () => {
     };
 
 
+
+    // let items = [
+    //     { type: "fruit", name: "apple" },
+    //     { type: "vegetable", name: "carrot" },
+    //     { type: "fruit", name: "banana" },
+    //     { type: "vegetable", name: "broccoli" },
+    //     { type: "fruit", name: "orange" },
+    //     { type: "vegetable", name: "spinach" }
+    // ];
+
+    // // Group by type
+    // let grouped = items.group(item => item.type);
+
+    // console.log(grouped);
+    // // Output:
+    // // {
+    // //   fruit: [
+    // //     { type: "fruit", name: "apple" },
+    // //     { type: "fruit", name: "banana" },
+    // //     { type: "fruit", name: "orange" }
+    // //   ],
+    // //   vegetable: [
+    // //     { type: "vegetable", name: "carrot" },
+    // //     { type: "vegetable", name: "broccoli" },
+    // //     { type: "vegetable", name: "spinach" }
+    // //   ]
+    // // }
+
+
+
+
+
+
+
     return (
         <View style={{ backgroundColor: '#fff', flex: 1, }}>
 

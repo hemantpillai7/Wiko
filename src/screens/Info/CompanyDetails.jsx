@@ -17,6 +17,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import Toolbar from '../../components/Toolbar';
 import ButtonCustom from '../../components/ButtonCustom';
 import { styles } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetScrollable/BottomSheetFlashList';
+import Notification from '../../utils/Notification';
 
 const countries = [
     { id: 1, countryName: 'United States' },
@@ -151,6 +152,12 @@ const CompanyDetails = ({ navigation }) => {
     const handleImageSelected = (uri, base64) => {
         setProfileImage(uri);
         console.log("Base64 Image:", base64); // Handle the base64 if needed
+        Notification.sendMessage({
+            id: 'msg1',
+            title: 'Wiko',
+            message: 'Profile Updated successfully',
+
+        });
     };
 
 
